@@ -1,0 +1,1240 @@
+{
+  "companies": [
+    {
+      "id": "co_demo_maelk",
+      "name": "Mælk Demo Company",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:00:00Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "usr_ops_lead",
+      "companyId": "co_demo_maelk",
+      "name": "Launch lead",
+      "role": "commerce_operator",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:01:00Z"
+    },
+    {
+      "id": "usr_compliance_reviewer",
+      "companyId": "co_demo_maelk",
+      "name": "Compliance reviewer",
+      "role": "commerce_reviewer",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:02:00Z"
+    },
+    {
+      "id": "usr_channel_manager",
+      "companyId": "co_demo_maelk",
+      "name": "Channel manager",
+      "role": "channel_operator",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:03:00Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prd_oat_barista",
+      "companyId": "co_demo_maelk",
+      "name": "Oat Barista 1L",
+      "status": "draft",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:05:00Z"
+    },
+    {
+      "id": "prd_cloudberry_yogurt",
+      "companyId": "co_demo_maelk",
+      "name": "Cloudberry Yogurt 500g",
+      "status": "ready_for_launch_review",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:06:00Z"
+    },
+    {
+      "id": "prd_nordic_granola",
+      "companyId": "co_demo_maelk",
+      "name": "Nordic Granola 350g",
+      "status": "draft",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:07:00Z"
+    }
+  ],
+  "skus": [
+    {
+      "id": "sku_oat_barista_1l",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_oat_barista",
+      "code": "OAT-BARISTA-1L",
+      "variantName": "1L carton",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:08:00Z"
+    },
+    {
+      "id": "sku_cloudberry_yogurt_500g",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_cloudberry_yogurt",
+      "code": "CLOUDBERRY-YOG-500G",
+      "variantName": "500g cup",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:09:00Z"
+    },
+    {
+      "id": "sku_nordic_granola_350g",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_nordic_granola",
+      "code": "NORDIC-GRANOLA-350G",
+      "variantName": "350g pouch",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:10:00Z"
+    }
+  ],
+  "suppliers": [
+    {
+      "id": "sup_nordic_demo",
+      "companyId": "co_demo_maelk",
+      "name": "Nordic Demo Supplier",
+      "status": "review_needed",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:11:00Z"
+    },
+    {
+      "id": "sup_fjord_demo",
+      "companyId": "co_demo_maelk",
+      "name": "Fjord Demo Foods",
+      "status": "approved_for_fake_launch",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:12:00Z"
+    },
+    {
+      "id": "sup_grain_demo",
+      "companyId": "co_demo_maelk",
+      "name": "Grain Demo Collective",
+      "status": "review_needed",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:13:00Z"
+    }
+  ],
+  "supplierTerms": [
+    {
+      "id": "st_oat_barista_initial",
+      "companyId": "co_demo_maelk",
+      "supplierId": "sup_nordic_demo",
+      "productId": "prd_oat_barista",
+      "currency": "DKK",
+      "unitCost": 11.2,
+      "moq": 480,
+      "leadTimeDays": 21,
+      "status": "draft",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:14:00Z"
+    },
+    {
+      "id": "st_cloudberry_confirmed",
+      "companyId": "co_demo_maelk",
+      "supplierId": "sup_fjord_demo",
+      "productId": "prd_cloudberry_yogurt",
+      "currency": "DKK",
+      "unitCost": 8.4,
+      "moq": 360,
+      "leadTimeDays": 14,
+      "status": "ready",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:15:00Z"
+    },
+    {
+      "id": "st_granola_missing_contract",
+      "companyId": "co_demo_maelk",
+      "supplierId": "sup_grain_demo",
+      "productId": "prd_nordic_granola",
+      "currency": "DKK",
+      "unitCost": 13.1,
+      "moq": 600,
+      "leadTimeDays": 28,
+      "status": "blocked",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:16:00Z"
+    }
+  ],
+  "costModels": [
+    {
+      "id": "cost_oat_barista_launch",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_oat_barista",
+      "currency": "DKK",
+      "unitCost": 11.2,
+      "targetSellPrice": 24.95,
+      "estimatedGrossMarginPct": 55,
+      "status": "needs_human_review",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:17:00Z"
+    },
+    {
+      "id": "cost_cloudberry_launch",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_cloudberry_yogurt",
+      "currency": "DKK",
+      "unitCost": 8.4,
+      "targetSellPrice": 19.95,
+      "estimatedGrossMarginPct": 58,
+      "status": "reviewed",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:18:00Z"
+    },
+    {
+      "id": "cost_granola_launch",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_nordic_granola",
+      "currency": "DKK",
+      "unitCost": 13.1,
+      "targetSellPrice": null,
+      "estimatedGrossMarginPct": null,
+      "status": "blocked_missing_price",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:19:00Z"
+    }
+  ],
+  "complianceRequirements": [
+    {
+      "id": "comp_oat_label_review",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_oat_barista",
+      "requirementType": "label_review",
+      "status": "blocked",
+      "missingEvidence": [
+        "final ingredient list",
+        "allergen statement"
+      ],
+      "evidence": [],
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:20:00Z"
+    },
+    {
+      "id": "comp_cloudberry_label_review",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_cloudberry_yogurt",
+      "requirementType": "label_review",
+      "status": "ready",
+      "missingEvidence": [],
+      "evidence": [
+        "fake label checklist complete",
+        "fake allergen statement reviewed"
+      ],
+      "createdBy": "usr_compliance_reviewer",
+      "createdAt": "2026-06-29T10:21:00Z"
+    },
+    {
+      "id": "comp_granola_claim_review",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_nordic_granola",
+      "requirementType": "claim_review",
+      "status": "needs_review",
+      "missingEvidence": [
+        "nutrition claim rationale"
+      ],
+      "evidence": [
+        "draft ingredient list"
+      ],
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:22:00Z"
+    }
+  ],
+  "channels": [
+    {
+      "id": "chn_demo_webshop",
+      "companyId": "co_demo_maelk",
+      "name": "Demo webshop draft",
+      "channelType": "webshop",
+      "syncMode": "disabled_fake_only",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:23:00Z"
+    },
+    {
+      "id": "chn_demo_retail",
+      "companyId": "co_demo_maelk",
+      "name": "Demo retail catalogue",
+      "channelType": "retail_catalogue",
+      "syncMode": "disabled_fake_only",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:24:00Z"
+    }
+  ],
+  "launches": [
+    {
+      "id": "lnch_oat_barista_q3",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_oat_barista",
+      "ownerId": "usr_ops_lead",
+      "targetChannelId": "chn_demo_webshop",
+      "targetLaunchDate": "2026-09-01",
+      "status": "review",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:25:00Z"
+    },
+    {
+      "id": "lnch_cloudberry_yogurt_ready",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_cloudberry_yogurt",
+      "ownerId": "usr_channel_manager",
+      "targetChannelId": "chn_demo_webshop",
+      "targetLaunchDate": "2026-08-15",
+      "status": "staged_fake_ready",
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:26:00Z"
+    },
+    {
+      "id": "lnch_nordic_granola_reset",
+      "companyId": "co_demo_maelk",
+      "productId": "prd_nordic_granola",
+      "ownerId": "usr_ops_lead",
+      "targetChannelId": "chn_demo_retail",
+      "targetLaunchDate": "2026-10-01",
+      "status": "draft",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:27:00Z"
+    }
+  ],
+  "launchGates": [
+    {
+      "id": "gate_oat_product",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_oat_barista_q3",
+      "gateType": "product",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Keep product and SKU records linked to the launch.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:31:00Z"
+    },
+    {
+      "id": "gate_oat_supplier",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_oat_barista_q3",
+      "gateType": "supplier",
+      "status": "needs_review",
+      "blockers": [
+        "supplier term remains draft"
+      ],
+      "nextAction": "Review fake supplier term before launch readiness can advance.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:32:00Z"
+    },
+    {
+      "id": "gate_oat_economics",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_oat_barista_q3",
+      "gateType": "economics",
+      "status": "needs_review",
+      "blockers": [
+        "target price needs human review"
+      ],
+      "nextAction": "Record a human economics review note in fake data.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:33:00Z"
+    },
+    {
+      "id": "gate_oat_compliance",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_oat_barista_q3",
+      "gateType": "compliance",
+      "status": "blocked",
+      "blockers": [
+        "final ingredient list missing",
+        "allergen statement missing"
+      ],
+      "nextAction": "Collect missing compliance evidence before review.",
+      "requiredApprovalId": "appr_oat_compliance",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:34:00Z"
+    },
+    {
+      "id": "gate_oat_channel",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_oat_barista_q3",
+      "gateType": "channel",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Keep channel sync mode disabled_fake_only.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:35:00Z"
+    },
+    {
+      "id": "gate_oat_inventory",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_oat_barista_q3",
+      "gateType": "inventory",
+      "status": "needs_review",
+      "blockers": [
+        "opening allocation not confirmed"
+      ],
+      "nextAction": "Confirm a fake launch allocation plan.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:36:00Z"
+    },
+    {
+      "id": "gate_oat_sales",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_oat_barista_q3",
+      "gateType": "sales",
+      "status": "not_started",
+      "blockers": [
+        "campaign copy not drafted"
+      ],
+      "nextAction": "Draft local sales-readiness notes.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:37:00Z"
+    },
+    {
+      "id": "gate_oat_ai_review",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_oat_barista_q3",
+      "gateType": "ai_review",
+      "status": "needs_review",
+      "blockers": [
+        "AI flagged missing compliance evidence"
+      ],
+      "nextAction": "Use AI summary as advisory input only.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:38:00Z"
+    },
+    {
+      "id": "gate_oat_approval",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_oat_barista_q3",
+      "gateType": "approval",
+      "status": "needs_review",
+      "blockers": [
+        "approval reason is empty"
+      ],
+      "nextAction": "Draft a human reason before fake approval can be complete.",
+      "requiredApprovalId": "appr_oat_compliance",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:39:00Z"
+    },
+    {
+      "id": "gate_cloudberry_product",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_cloudberry_yogurt_ready",
+      "gateType": "product",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Keep product and SKU records attached.",
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:41:00Z"
+    },
+    {
+      "id": "gate_cloudberry_supplier",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_cloudberry_yogurt_ready",
+      "gateType": "supplier",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Keep fake supplier terms current.",
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:42:00Z"
+    },
+    {
+      "id": "gate_cloudberry_economics",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_cloudberry_yogurt_ready",
+      "gateType": "economics",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Retain reviewed fake economics summary.",
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:43:00Z"
+    },
+    {
+      "id": "gate_cloudberry_compliance",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_cloudberry_yogurt_ready",
+      "gateType": "compliance",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Retain fake compliance evidence.",
+      "requiredApprovalId": "appr_cloudberry_launch",
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:44:00Z"
+    },
+    {
+      "id": "gate_cloudberry_channel",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_cloudberry_yogurt_ready",
+      "gateType": "channel",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Keep channel sync mode disabled_fake_only.",
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:45:00Z"
+    },
+    {
+      "id": "gate_cloudberry_inventory",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_cloudberry_yogurt_ready",
+      "gateType": "inventory",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Retain fake launch allocation note.",
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:46:00Z"
+    },
+    {
+      "id": "gate_cloudberry_sales",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_cloudberry_yogurt_ready",
+      "gateType": "sales",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Retain fake sales-readiness note.",
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:47:00Z"
+    },
+    {
+      "id": "gate_cloudberry_ai_review",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_cloudberry_yogurt_ready",
+      "gateType": "ai_review",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Use AI summary as advisory input only.",
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:48:00Z"
+    },
+    {
+      "id": "gate_cloudberry_approval",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_cloudberry_yogurt_ready",
+      "gateType": "approval",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Keep the recorded fake human reason visible.",
+      "requiredApprovalId": "appr_cloudberry_launch",
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:49:00Z"
+    },
+    {
+      "id": "gate_granola_product",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_nordic_granola_reset",
+      "gateType": "product",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Keep product and SKU records attached.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:51:00Z"
+    },
+    {
+      "id": "gate_granola_supplier",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_nordic_granola_reset",
+      "gateType": "supplier",
+      "status": "blocked",
+      "blockers": [
+        "supplier contract evidence missing"
+      ],
+      "nextAction": "Resolve fake supplier evidence before review.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:52:00Z"
+    },
+    {
+      "id": "gate_granola_economics",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_nordic_granola_reset",
+      "gateType": "economics",
+      "status": "blocked",
+      "blockers": [
+        "target sell price missing"
+      ],
+      "nextAction": "Add a fake target sell price before economics review.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:53:00Z"
+    },
+    {
+      "id": "gate_granola_compliance",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_nordic_granola_reset",
+      "gateType": "compliance",
+      "status": "needs_review",
+      "blockers": [
+        "nutrition claim rationale missing"
+      ],
+      "nextAction": "Prepare a fake claim rationale for human review.",
+      "requiredApprovalId": "appr_granola_launch",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:54:00Z"
+    },
+    {
+      "id": "gate_granola_channel",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_nordic_granola_reset",
+      "gateType": "channel",
+      "status": "ready",
+      "blockers": [],
+      "nextAction": "Keep channel sync mode disabled_fake_only.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:55:00Z"
+    },
+    {
+      "id": "gate_granola_inventory",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_nordic_granola_reset",
+      "gateType": "inventory",
+      "status": "not_started",
+      "blockers": [
+        "allocation plan not started"
+      ],
+      "nextAction": "Create a fake inventory-readiness note.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:56:00Z"
+    },
+    {
+      "id": "gate_granola_sales",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_nordic_granola_reset",
+      "gateType": "sales",
+      "status": "not_started",
+      "blockers": [
+        "sales launch brief not started"
+      ],
+      "nextAction": "Create a fake sales-readiness note.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:57:00Z"
+    },
+    {
+      "id": "gate_granola_ai_review",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_nordic_granola_reset",
+      "gateType": "ai_review",
+      "status": "needs_review",
+      "blockers": [
+        "AI flagged pricing and supplier blockers"
+      ],
+      "nextAction": "Use AI summary as advisory input only.",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:58:00Z"
+    },
+    {
+      "id": "gate_granola_approval",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_nordic_granola_reset",
+      "gateType": "approval",
+      "status": "needs_review",
+      "blockers": [
+        "approval reason is empty"
+      ],
+      "nextAction": "Draft a human reason after blockers are cleared.",
+      "requiredApprovalId": "appr_granola_launch",
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:59:00Z"
+    }
+  ],
+  "approvals": [
+    {
+      "id": "appr_oat_compliance",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_oat_approval",
+      "action": "record_fake_compliance_readiness",
+      "status": "requested",
+      "riskSummary": "Label evidence is incomplete; fake compliance approval cannot be complete yet.",
+      "reason": "",
+      "requestedBy": "usr_ops_lead",
+      "approvedBy": null,
+      "rejectedBy": null,
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T11:10:00Z",
+      "resolvedAt": null
+    },
+    {
+      "id": "appr_cloudberry_launch",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_cloudberry_approval",
+      "action": "record_fake_launch_readiness",
+      "status": "approved",
+      "riskSummary": "All fake readiness records are present and remain local-only.",
+      "reason": "Fake launch readiness reviewed for cockpit demonstration; no external action is authorized.",
+      "requestedBy": "usr_channel_manager",
+      "approvedBy": "usr_channel_manager",
+      "rejectedBy": null,
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T11:11:00Z",
+      "resolvedAt": "2026-06-29T11:13:00Z"
+    },
+    {
+      "id": "appr_granola_launch",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_granola_approval",
+      "action": "record_fake_blocker_review",
+      "status": "requested",
+      "riskSummary": "Supplier and economics blockers prevent fake approval completion.",
+      "reason": "",
+      "requestedBy": "usr_ops_lead",
+      "approvedBy": null,
+      "rejectedBy": null,
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T11:12:00Z",
+      "resolvedAt": null
+    }
+  ],
+  "aiReviews": [
+    {
+      "id": "air_oat_launch_review",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_oat_barista_q3",
+      "summary": "Launch is promising but blocked by compliance evidence and needs human review for economics and approval reason.",
+      "flags": [
+        "missing compliance evidence",
+        "approval reason required",
+        "supplier term still draft"
+      ],
+      "preparedActions": [
+        "draft approval checklist",
+        "summarize missing fields"
+      ],
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T11:15:00Z"
+    },
+    {
+      "id": "air_cloudberry_launch_review",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_cloudberry_yogurt_ready",
+      "summary": "Fake records indicate a locally ready launch; keep controls advisory and wait for review before acceptance.",
+      "flags": [
+        "static data only",
+        "no external action authorized"
+      ],
+      "preparedActions": [
+        "prepare review summary",
+        "list fake evidence links"
+      ],
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T11:16:00Z"
+    },
+    {
+      "id": "air_granola_launch_review",
+      "companyId": "co_demo_maelk",
+      "launchId": "lnch_nordic_granola_reset",
+      "summary": "Launch should stay in draft because supplier evidence, target price, and inventory readiness are incomplete.",
+      "flags": [
+        "supplier blocker",
+        "target sell price missing",
+        "approval reason required"
+      ],
+      "preparedActions": [
+        "draft blocker recap",
+        "prepare pricing review checklist"
+      ],
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T11:17:00Z"
+    }
+  ],
+  "activityEvents": [
+    {
+      "id": "evt_oat_created",
+      "companyId": "co_demo_maelk",
+      "entityType": "launch",
+      "entityId": "lnch_oat_barista_q3",
+      "actorId": "usr_ops_lead",
+      "action": "launch_seeded_for_static_cockpit",
+      "metadata": {
+        "launchId": "lnch_oat_barista_q3"
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:30:00Z"
+    },
+    {
+      "id": "evt_oat_product_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_oat_product",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_oat_barista_q3",
+        "gateType": "product",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:31:00Z"
+    },
+    {
+      "id": "evt_oat_supplier_needs_review",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_oat_supplier",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_oat_barista_q3",
+        "gateType": "supplier",
+        "status": "needs_review",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:32:00Z"
+    },
+    {
+      "id": "evt_oat_economics_needs_review",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_oat_economics",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_oat_barista_q3",
+        "gateType": "economics",
+        "status": "needs_review",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:33:00Z"
+    },
+    {
+      "id": "evt_oat_compliance_blocked",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_oat_compliance",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_oat_barista_q3",
+        "gateType": "compliance",
+        "status": "blocked",
+        "blockerCount": 2
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:34:00Z"
+    },
+    {
+      "id": "evt_oat_channel_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_oat_channel",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_oat_barista_q3",
+        "gateType": "channel",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:35:00Z"
+    },
+    {
+      "id": "evt_oat_inventory_needs_review",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_oat_inventory",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_oat_barista_q3",
+        "gateType": "inventory",
+        "status": "needs_review",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:36:00Z"
+    },
+    {
+      "id": "evt_oat_sales_not_started",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_oat_sales",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_oat_barista_q3",
+        "gateType": "sales",
+        "status": "not_started",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:37:00Z"
+    },
+    {
+      "id": "evt_oat_ai_review_needs_review",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_oat_ai_review",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_oat_barista_q3",
+        "gateType": "ai_review",
+        "status": "needs_review",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:38:00Z"
+    },
+    {
+      "id": "evt_oat_approval_needs_review",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_oat_approval",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_oat_barista_q3",
+        "gateType": "approval",
+        "status": "needs_review",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:39:00Z"
+    },
+    {
+      "id": "evt_cloudberry_created",
+      "companyId": "co_demo_maelk",
+      "entityType": "launch",
+      "entityId": "lnch_cloudberry_yogurt_ready",
+      "actorId": "usr_channel_manager",
+      "action": "launch_seeded_for_static_cockpit",
+      "metadata": {
+        "launchId": "lnch_cloudberry_yogurt_ready"
+      },
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:40:00Z"
+    },
+    {
+      "id": "evt_cloudberry_product_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_cloudberry_product",
+      "actorId": "usr_channel_manager",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_cloudberry_yogurt_ready",
+        "gateType": "product",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:41:00Z"
+    },
+    {
+      "id": "evt_cloudberry_supplier_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_cloudberry_supplier",
+      "actorId": "usr_channel_manager",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_cloudberry_yogurt_ready",
+        "gateType": "supplier",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:42:00Z"
+    },
+    {
+      "id": "evt_cloudberry_economics_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_cloudberry_economics",
+      "actorId": "usr_channel_manager",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_cloudberry_yogurt_ready",
+        "gateType": "economics",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:43:00Z"
+    },
+    {
+      "id": "evt_cloudberry_compliance_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_cloudberry_compliance",
+      "actorId": "usr_channel_manager",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_cloudberry_yogurt_ready",
+        "gateType": "compliance",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:44:00Z"
+    },
+    {
+      "id": "evt_cloudberry_channel_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_cloudberry_channel",
+      "actorId": "usr_channel_manager",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_cloudberry_yogurt_ready",
+        "gateType": "channel",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:45:00Z"
+    },
+    {
+      "id": "evt_cloudberry_inventory_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_cloudberry_inventory",
+      "actorId": "usr_channel_manager",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_cloudberry_yogurt_ready",
+        "gateType": "inventory",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:46:00Z"
+    },
+    {
+      "id": "evt_cloudberry_sales_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_cloudberry_sales",
+      "actorId": "usr_channel_manager",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_cloudberry_yogurt_ready",
+        "gateType": "sales",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:47:00Z"
+    },
+    {
+      "id": "evt_cloudberry_ai_review_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_cloudberry_ai_review",
+      "actorId": "usr_channel_manager",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_cloudberry_yogurt_ready",
+        "gateType": "ai_review",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:48:00Z"
+    },
+    {
+      "id": "evt_cloudberry_approval_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_cloudberry_approval",
+      "actorId": "usr_channel_manager",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_cloudberry_yogurt_ready",
+        "gateType": "approval",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_channel_manager",
+      "createdAt": "2026-06-29T10:49:00Z"
+    },
+    {
+      "id": "evt_granola_created",
+      "companyId": "co_demo_maelk",
+      "entityType": "launch",
+      "entityId": "lnch_nordic_granola_reset",
+      "actorId": "usr_ops_lead",
+      "action": "launch_seeded_for_static_cockpit",
+      "metadata": {
+        "launchId": "lnch_nordic_granola_reset"
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:50:00Z"
+    },
+    {
+      "id": "evt_granola_product_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_granola_product",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_nordic_granola_reset",
+        "gateType": "product",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:51:00Z"
+    },
+    {
+      "id": "evt_granola_supplier_blocked",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_granola_supplier",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_nordic_granola_reset",
+        "gateType": "supplier",
+        "status": "blocked",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:52:00Z"
+    },
+    {
+      "id": "evt_granola_economics_blocked",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_granola_economics",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_nordic_granola_reset",
+        "gateType": "economics",
+        "status": "blocked",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:53:00Z"
+    },
+    {
+      "id": "evt_granola_compliance_needs_review",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_granola_compliance",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_nordic_granola_reset",
+        "gateType": "compliance",
+        "status": "needs_review",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:54:00Z"
+    },
+    {
+      "id": "evt_granola_channel_ready",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_granola_channel",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_nordic_granola_reset",
+        "gateType": "channel",
+        "status": "ready",
+        "blockerCount": 0
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:55:00Z"
+    },
+    {
+      "id": "evt_granola_inventory_not_started",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_granola_inventory",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_nordic_granola_reset",
+        "gateType": "inventory",
+        "status": "not_started",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:56:00Z"
+    },
+    {
+      "id": "evt_granola_sales_not_started",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_granola_sales",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_nordic_granola_reset",
+        "gateType": "sales",
+        "status": "not_started",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:57:00Z"
+    },
+    {
+      "id": "evt_granola_ai_review_needs_review",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_granola_ai_review",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_nordic_granola_reset",
+        "gateType": "ai_review",
+        "status": "needs_review",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:58:00Z"
+    },
+    {
+      "id": "evt_granola_approval_needs_review",
+      "companyId": "co_demo_maelk",
+      "entityType": "launchGate",
+      "entityId": "gate_granola_approval",
+      "actorId": "usr_ops_lead",
+      "action": "gate_status_seeded",
+      "metadata": {
+        "launchId": "lnch_nordic_granola_reset",
+        "gateType": "approval",
+        "status": "needs_review",
+        "blockerCount": 1
+      },
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T10:59:00Z"
+    }
+  ],
+  "sourceLinks": [
+    {
+      "id": "src_oat_supplier_quote",
+      "companyId": "co_demo_maelk",
+      "entityType": "supplierTerm",
+      "entityId": "st_oat_barista_initial",
+      "label": "Fake supplier quote note",
+      "sourceType": "internal_note",
+      "url": null,
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T11:20:00Z"
+    },
+    {
+      "id": "src_cloudberry_compliance_note",
+      "companyId": "co_demo_maelk",
+      "entityType": "complianceRequirement",
+      "entityId": "comp_cloudberry_label_review",
+      "label": "Fake compliance review note",
+      "sourceType": "internal_note",
+      "url": null,
+      "createdBy": "usr_compliance_reviewer",
+      "createdAt": "2026-06-29T11:21:00Z"
+    },
+    {
+      "id": "src_granola_price_gap",
+      "companyId": "co_demo_maelk",
+      "entityType": "costModel",
+      "entityId": "cost_granola_launch",
+      "label": "Fake price gap note",
+      "sourceType": "internal_note",
+      "url": null,
+      "createdBy": "usr_ops_lead",
+      "createdAt": "2026-06-29T11:22:00Z"
+    }
+  ]
+}

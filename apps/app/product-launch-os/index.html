@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mælk Product Launch OS static cockpit</title>
+    <meta
+      name="description"
+      content="Repo-local Product Launch OS cockpit backed by fake launch records."
+    />
+    <link rel="stylesheet" href="./product-launch-os.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#cockpit-root">Skip to cockpit</a>
+
+    <header class="shell-header">
+      <p class="eyebrow">Mælk · repo-local prototype</p>
+      <div class="shell-title-row">
+        <div>
+          <h1>Product Launch OS cockpit</h1>
+          <p class="lede">
+            Fake launch records flow into readiness gates, AI review notes, human approval reasons,
+            and an audit timeline. No live integration controls are present.
+          </p>
+        </div>
+        <div class="status-card" aria-label="Prototype boundary">
+          <span class="status-dot" aria-hidden="true"></span>
+          Static fake-data slice
+        </div>
+      </div>
+    </header>
+
+    <main id="cockpit-root" class="cockpit-shell" aria-live="polite">
+      <section class="loading-card">
+        <p class="eyebrow">Loading</p>
+        <h2>Reading fake Product Launch OS records…</h2>
+        <p>The cockpit renders from the adjacent JSON file using a relative path.</p>
+      </section>
+    </main>
+
+    <footer class="shell-footer">
+      <p>
+        Prototype-only controls: view a launch, draft an approval note, and mark a fake reason as entered.
+        Human review remains required before acceptance.
+      </p>
+    </footer>
+
+    <script src="./product-launch-os.js" defer></script>
+  </body>
+</html>
