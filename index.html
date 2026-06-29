@@ -191,7 +191,8 @@
     }
 
     .milk-button {
-      --shine: rgba(255,255,255,0.64);
+      --slosh-x: 0%;
+      --slosh-tilt: -2deg;
       position: relative;
       isolation: isolate;
       display: inline-flex;
@@ -202,10 +203,12 @@
       border: 1px solid rgba(255,248,236,0.34);
       border-radius: 999px;
       color: var(--milk);
-      background: linear-gradient(145deg, #241a13 0%, #3a2519 62%, #4a2d1f 100%);
+      background:
+        radial-gradient(circle at 50% -20%, rgba(255,248,236,0.20), transparent 42%),
+        linear-gradient(145deg, #20150f 0%, #342115 58%, #4a2d1f 100%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.16),
-        inset 0 -10px 20px rgba(0,0,0,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.18),
+        inset 0 -12px 24px rgba(0,0,0,0.24),
         0 20px 50px rgba(36,26,19,0.26);
       font-weight: 820;
       letter-spacing: -0.012em;
@@ -214,33 +217,70 @@
       transform: translateZ(0);
     }
 
-    .milk-button::before {
+    .button-label {
+      position: relative;
+      z-index: 3;
+      text-shadow: 0 1px 10px rgba(36,26,19,0.76), 0 0 1px rgba(36,26,19,0.92);
+    }
+
+    .button-liquid {
+      position: absolute;
+      z-index: 1;
+      inset: 4px;
+      border-radius: inherit;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .button-liquid::before {
       content: "";
       position: absolute;
-      z-index: -1;
-      inset: 6px;
-      border-radius: inherit;
+      left: -22%;
+      bottom: -62%;
+      width: 144%;
+      height: 112%;
+      border-radius: 46% 54% 48% 52% / 42% 44% 56% 58%;
       background:
-        radial-gradient(circle at var(--mx, 24%) var(--my, 38%), rgba(255,255,255,0.94) 0 8%, transparent 18%),
-        radial-gradient(circle at calc(100% - var(--mx, 24%)) calc(100% - var(--my, 38%)), rgba(244,214,160,0.72) 0 10%, transparent 24%),
-        linear-gradient(92deg, rgba(255,248,236,0.24), rgba(255,255,255,0.07), rgba(247,231,200,0.26));
-      filter: url(#milk-wobble) blur(0.1px);
-      opacity: 0.78;
-      animation: milkShift 8s ease-in-out infinite;
-      transform-origin: var(--mx, 50%) var(--my, 50%);
+        radial-gradient(circle at 35% 24%, rgba(255,255,255,0.95) 0 8%, transparent 18%),
+        radial-gradient(circle at 68% 18%, rgba(247,231,200,0.92) 0 6%, transparent 16%),
+        linear-gradient(180deg, #fffdf7 0%, #fff8ec 36%, #f7e7c8 100%);
+      box-shadow:
+        inset 0 12px 22px rgba(255,255,255,0.72),
+        inset 0 -16px 28px rgba(184,107,56,0.13),
+        0 -10px 24px rgba(255,248,236,0.16);
+      transform: translateX(var(--slosh-x)) rotate(var(--slosh-tilt));
+      transform-origin: 50% 78%;
+      animation: buttonMilkSlosh 5.4s cubic-bezier(.45,0,.22,1) infinite;
+    }
+
+    .button-liquid::after {
+      content: "";
+      position: absolute;
+      left: 14%;
+      right: 10%;
+      bottom: 28%;
+      height: 11px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.64), transparent);
+      filter: blur(1px);
+      opacity: 0.68;
+      transform: rotate(-2deg);
+      animation: milkSurfaceGlide 4.8s ease-in-out infinite;
     }
 
     .milk-button::after {
       content: "";
       position: absolute;
-      inset: -55% -20%;
-      background: linear-gradient(110deg, transparent 28%, rgba(255,255,255,0.24) 44%, transparent 58%);
-      transform: translateX(-40%) rotate(4deg);
-      animation: slowGlint 6.5s ease-in-out infinite;
+      z-index: 2;
+      inset: 1px;
+      border-radius: inherit;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.20), transparent 42%),
+        radial-gradient(circle at var(--mx, 30%) var(--my, 30%), rgba(255,255,255,0.18), transparent 25%);
       pointer-events: none;
     }
 
-    .milk-button:hover::before { animation-duration: 3.3s; opacity: 0.95; }
+    .milk-button:hover .button-liquid::before { animation-duration: 3.2s; }
     .milk-button:hover { transform: translateY(-1px); }
     .milk-button:active { transform: translateY(1px) scale(0.99); }
 
@@ -395,49 +435,56 @@
     .milk-progress {
       --value: 68%;
       position: relative;
-      height: 22px;
+      height: 30px;
       border-radius: 999px;
       overflow: hidden;
-      background: rgba(255,248,236,0.12);
+      background:
+        linear-gradient(180deg, rgba(255,248,236,0.10), rgba(255,248,236,0.04)),
+        rgba(16,10,7,0.22);
       border: 1px solid rgba(255,248,236,0.18);
-      box-shadow: inset 0 4px 10px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.12);
+      box-shadow: inset 0 5px 13px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.12);
     }
 
     .milk-progress .fill {
       position: absolute;
-      inset: 2px auto 2px 2px;
+      inset: 3px auto 3px 3px;
       width: var(--value);
+      min-width: 36px;
       border-radius: inherit;
       overflow: hidden;
-      background:
-        radial-gradient(circle at 18% 40%, rgba(255,255,255,0.96) 0 10%, transparent 18%),
-        linear-gradient(92deg, #fff8ec 0%, #f7e7c8 42%, #f4d6a0 72%, #fff8ec 100%);
-      background-size: 180% 100%;
-      box-shadow: 0 0 28px rgba(255,248,236,0.28), inset 0 1px 0 rgba(255,255,255,0.86);
-      filter: url(#milk-wobble);
-      transition: width 900ms cubic-bezier(.2,.85,.2,1);
-      animation: milkSurface 7s ease-in-out infinite;
+      background: linear-gradient(180deg, #fffdf8 0%, #fff8ec 52%, #f3ddba 100%);
+      box-shadow:
+        0 0 28px rgba(255,248,236,0.30),
+        inset 0 1px 0 rgba(255,255,255,0.94),
+        inset 0 -8px 18px rgba(184,107,56,0.13);
+      transition: width 1100ms cubic-bezier(.2,.85,.2,1);
     }
 
-    .milk-progress .fill::before,
+    .milk-progress .fill::before {
+      content: "";
+      position: absolute;
+      left: -22%;
+      top: -20px;
+      width: 144%;
+      height: 35px;
+      border-radius: 45% 55% 48% 52% / 52% 48% 52% 48%;
+      background: rgba(255,255,255,0.72);
+      box-shadow: 0 10px 16px rgba(255,255,255,0.22);
+      transform-origin: 50% 60%;
+      animation: progressMilkSlosh 4.8s cubic-bezier(.45,0,.22,1) infinite;
+    }
+
     .milk-progress .fill::after {
       content: "";
       position: absolute;
-      left: -10%;
-      right: -10%;
-      height: 14px;
-      top: -5px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.44);
-      animation: wave 4.8s ease-in-out infinite;
-    }
-
-    .milk-progress .fill::after {
-      top: auto;
-      bottom: -8px;
-      opacity: 0.34;
-      animation-duration: 6.2s;
-      animation-direction: reverse;
+      top: 5px;
+      bottom: 5px;
+      right: 5px;
+      width: 10px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(184,107,56,0.16));
+      box-shadow: -10px 0 26px rgba(255,248,236,0.56);
+      opacity: 0.92;
     }
 
     .progress-row {
@@ -508,10 +555,14 @@
     .ae-mark::before {
       content: "";
       position: absolute;
-      inset: 52% -20% -20% -20%;
-      background: linear-gradient(90deg, rgba(255,248,236,0.42), rgba(244,214,160,0.28), rgba(255,248,236,0.48));
-      filter: url(#milk-wobble);
-      animation: milkShift 7s ease-in-out infinite;
+      left: -22%;
+      bottom: -34%;
+      width: 144%;
+      height: 72%;
+      border-radius: 44% 56% 46% 54% / 48% 50% 50% 52%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.66), rgba(255,248,236,0.34));
+      box-shadow: inset 0 12px 18px rgba(255,255,255,0.24);
+      animation: iconMilkSettle 6.6s cubic-bezier(.45,0,.22,1) infinite;
     }
 
     .ae-mark span {
@@ -648,25 +699,27 @@
 
     .bottom-note span { color: rgba(255,248,236,0.68); }
 
-    @keyframes milkShift {
-      0%, 100% { transform: translate3d(-3%, 0, 0) rotate(-0.3deg) scale(1.02); }
-      45% { transform: translate3d(4%, -4%, 0) rotate(0.7deg) scale(1.07); }
-      70% { transform: translate3d(1%, 2%, 0) rotate(-0.8deg) scale(1.04); }
+    @keyframes buttonMilkSlosh {
+      0%, 100% { transform: translateX(calc(var(--slosh-x) - 2%)) rotate(calc(var(--slosh-tilt) - 1deg)); border-radius: 46% 54% 48% 52% / 42% 44% 56% 58%; }
+      34% { transform: translateX(calc(var(--slosh-x) + 5%)) rotate(calc(var(--slosh-tilt) + 3deg)); border-radius: 55% 45% 54% 46% / 50% 42% 58% 50%; }
+      62% { transform: translateX(calc(var(--slosh-x) - 4%)) rotate(calc(var(--slosh-tilt) - 4deg)); border-radius: 43% 57% 46% 54% / 45% 55% 45% 55%; }
     }
 
-    @keyframes slowGlint {
-      0%, 72%, 100% { transform: translateX(-48%) rotate(4deg); opacity: 0; }
-      36% { transform: translateX(42%) rotate(4deg); opacity: 1; }
+    @keyframes milkSurfaceGlide {
+      0%, 100% { transform: translateX(-8%) rotate(-2deg); opacity: 0.56; }
+      50% { transform: translateX(10%) rotate(2deg); opacity: 0.78; }
     }
 
-    @keyframes wave {
-      0%, 100% { transform: translateX(-4%) skewX(-8deg); }
-      50% { transform: translateX(7%) skewX(9deg); }
+    @keyframes progressMilkSlosh {
+      0%, 100% { transform: translateX(-4%) rotate(-2.4deg); }
+      35% { transform: translateX(5%) rotate(2.8deg); }
+      65% { transform: translateX(-2%) rotate(-1.2deg); }
     }
 
-    @keyframes milkSurface {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+    @keyframes iconMilkSettle {
+      0%, 100% { transform: translateX(-3%) rotate(-2deg); }
+      46% { transform: translateX(4%) rotate(2.4deg); }
+      72% { transform: translateX(-1%) rotate(-1deg); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -685,13 +738,6 @@
   </style>
 </head>
 <body>
-  <svg width="0" height="0" aria-hidden="true" focusable="false">
-    <filter id="milk-wobble">
-      <feTurbulence type="fractalNoise" baseFrequency="0.018 0.052" numOctaves="2" seed="8" result="noise" />
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4.2" xChannelSelector="R" yChannelSelector="G" />
-    </filter>
-  </svg>
-
   <main class="page">
     <nav class="nav" aria-label="Prototype navigation">
       <div class="wordmark" aria-label="mælk"><span>m</span><span class="ae">æ</span><span>lk</span></div>
@@ -705,7 +751,7 @@
         <p class="lede">Fra produktmulighed til klar vare — med ansvar, godkendelser og næste skridt samlet ét sted.</p>
 
         <div class="actions">
-          <a class="milk-button" href="#flow">Start readiness flow</a>
+          <a class="milk-button" href="#flow"><span class="button-liquid" aria-hidden="true"></span><span class="button-label">Start readiness flow</span></a>
           <a class="ghost-button" href="#material">Se milkglass materialet</a>
         </div>
 
@@ -773,7 +819,7 @@
 
     <section class="bottom-note">
       <div><strong>Milkglass is a signature detail.</strong><span>Use it for CTAs, progress and readiness states — never as generic glass everywhere.</span></div>
-      <a class="milk-button" href="#">Prototype the controls</a>
+      <a class="milk-button" href="#"><span class="button-liquid" aria-hidden="true"></span><span class="button-label">Prototype the controls</span></a>
     </section>
   </main>
 
@@ -787,13 +833,19 @@
           const rect = button.getBoundingClientRect();
           const x = ((event.clientX - rect.left) / rect.width) * 100;
           const y = ((event.clientY - rect.top) / rect.height) * 100;
+          const offset = ((x - 50) / 50) * 5;
+          const tilt = ((x - 50) / 50) * 3;
           button.style.setProperty('--mx', `${x.toFixed(1)}%`);
           button.style.setProperty('--my', `${y.toFixed(1)}%`);
+          button.style.setProperty('--slosh-x', `${offset.toFixed(2)}%`);
+          button.style.setProperty('--slosh-tilt', `${tilt.toFixed(2)}deg`);
         });
 
         button.addEventListener('pointerleave', () => {
           button.style.removeProperty('--mx');
           button.style.removeProperty('--my');
+          button.style.removeProperty('--slosh-x');
+          button.style.removeProperty('--slosh-tilt');
         });
       });
 
