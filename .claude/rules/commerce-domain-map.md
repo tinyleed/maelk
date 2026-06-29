@@ -34,6 +34,11 @@ A launch connects many domains without requiring the full system to exist first:
 product + supplier + cost + compliance + channel + inventory + campaign + approval + AI review
 ```
 
+The first implementation slice is planned in
+`architecture/product-launch-os-first-implementation-slice-v0.md` and should stay
+repo-local, fake-data-backed, and free of live integrations until ANANKE approves
+the build task.
+
 ## Domain language guide
 
 ```text
