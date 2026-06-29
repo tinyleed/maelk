@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/
+.next/
+dist/
+build/
+.env
+.env.*
+!.env.example
+.claude/scratch/*
+!.claude/scratch/plans/
+!.claude/scratch/research/
+!.claude/scratch/tasks/
+!.claude/scratch/**/.gitkeep
