@@ -16,6 +16,7 @@ Load the focused rule for the area being touched.
 | UI/component system | `conventions-ui.md` |
 | Commerce domain map | `commerce-domain-map.md` |
 | Approval and AI gates | `approval-audit-system.md` |
+| Agent loop, worker, review, harness | `agent-loop-guardrails.md` |
 | Shop-floor boundary | `shop-floor-boundary.md` |
 
 ## Always-true architecture facts

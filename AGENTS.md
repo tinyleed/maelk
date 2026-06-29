@@ -71,6 +71,20 @@ Initial modules:
 companies users products suppliers purchasing inventory sales pricing compliance channels approvals readiness activity ai-review integrations
 ```
 
+## Agent loop
+
+Mælk uses a supervised build loop:
+
+```text
+ANANKE → task brief → maelk-builder → harness → Themis review → ANANKE acceptance
+```
+
+- `maelk-builder` implements scoped tasks only.
+- `themis` reviews meaningful worker output before acceptance.
+- Kanban is the durable task queue/audit trail.
+- `./scripts/maelk-harness-check.sh` is the default guardrail command.
+- See `architecture/agent-loop-governance-v0.md` and `.claude/rules/agent-loop-guardrails.md`.
+
 ## Work style
 
 - Plan non-trivial changes before editing.
