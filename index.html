@@ -191,25 +191,27 @@
     }
 
     .milk-button {
-      --slosh-x: 0%;
-      --slosh-tilt: -2deg;
+      --mx: 50%;
+      --my: 35%;
       position: relative;
       isolation: isolate;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 58px;
-      padding: 0 26px;
-      border: 1px solid rgba(255,248,236,0.34);
+      min-height: 62px;
+      padding: 0 28px;
+      border: 1px solid rgba(255,248,236,0.30);
       border-radius: 999px;
       color: var(--milk);
       background:
-        radial-gradient(circle at 50% -20%, rgba(255,248,236,0.20), transparent 42%),
-        linear-gradient(145deg, #20150f 0%, #342115 58%, #4a2d1f 100%);
+        radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.16), transparent 26%),
+        linear-gradient(180deg, rgba(255,248,236,0.10), rgba(255,255,255,0.025) 42%, rgba(0,0,0,0.22)),
+        rgba(18, 12, 8, 0.82);
+      backdrop-filter: blur(18px) saturate(1.18);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.18),
-        inset 0 -12px 24px rgba(0,0,0,0.24),
-        0 20px 50px rgba(36,26,19,0.26);
+        inset 0 1px 0 rgba(255,255,255,0.22),
+        inset 0 -14px 28px rgba(0,0,0,0.28),
+        0 22px 56px rgba(36,26,19,0.30);
       font-weight: 820;
       letter-spacing: -0.012em;
       text-decoration: none;
@@ -219,68 +221,51 @@
 
     .button-label {
       position: relative;
-      z-index: 3;
-      text-shadow: 0 1px 10px rgba(36,26,19,0.76), 0 0 1px rgba(36,26,19,0.92);
+      z-index: 4;
+      text-shadow: 0 1px 12px rgba(13,8,5,0.82), 0 0 1px rgba(13,8,5,0.94);
     }
 
-    .button-liquid {
+    .button-fluid {
       position: absolute;
       z-index: 1;
       inset: 4px;
+      width: calc(100% - 8px);
+      height: calc(100% - 8px);
       border-radius: inherit;
-      overflow: hidden;
       pointer-events: none;
+      opacity: 0.84;
+      filter: saturate(1.08) contrast(1.08);
     }
 
-    .button-liquid::before {
+    .milk-button::before {
       content: "";
       position: absolute;
-      left: -22%;
-      bottom: -62%;
-      width: 144%;
-      height: 112%;
-      border-radius: 46% 54% 48% 52% / 42% 44% 56% 58%;
+      z-index: 2;
+      inset: 4px;
+      border-radius: inherit;
+      pointer-events: none;
       background:
-        radial-gradient(circle at 35% 24%, rgba(255,255,255,0.95) 0 8%, transparent 18%),
-        radial-gradient(circle at 68% 18%, rgba(247,231,200,0.92) 0 6%, transparent 16%),
-        linear-gradient(180deg, #fffdf7 0%, #fff8ec 36%, #f7e7c8 100%);
+        linear-gradient(180deg, rgba(255,255,255,0.18), transparent 34%),
+        radial-gradient(ellipse at 50% 128%, rgba(255,248,236,0.18), transparent 42%);
       box-shadow:
-        inset 0 12px 22px rgba(255,255,255,0.72),
-        inset 0 -16px 28px rgba(184,107,56,0.13),
-        0 -10px 24px rgba(255,248,236,0.16);
-      transform: translateX(var(--slosh-x)) rotate(var(--slosh-tilt));
-      transform-origin: 50% 78%;
-      animation: buttonMilkSlosh 5.4s cubic-bezier(.45,0,.22,1) infinite;
-    }
-
-    .button-liquid::after {
-      content: "";
-      position: absolute;
-      left: 14%;
-      right: 10%;
-      bottom: 28%;
-      height: 11px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.64), transparent);
-      filter: blur(1px);
-      opacity: 0.68;
-      transform: rotate(-2deg);
-      animation: milkSurfaceGlide 4.8s ease-in-out infinite;
+        inset 0 1px 0 rgba(255,255,255,0.26),
+        inset 0 -1px 0 rgba(255,248,236,0.10),
+        inset 0 0 0 1px rgba(255,248,236,0.09);
     }
 
     .milk-button::after {
       content: "";
       position: absolute;
-      z-index: 2;
-      inset: 1px;
-      border-radius: inherit;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.20), transparent 42%),
-        radial-gradient(circle at var(--mx, 30%) var(--my, 30%), rgba(255,255,255,0.18), transparent 25%);
+      z-index: 3;
+      inset: -62% -22%;
+      background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.24) 48%, rgba(255,255,255,0.04) 54%, transparent 64%);
+      opacity: 0.26;
+      transform: translateX(-38%) rotate(4deg);
+      animation: glassSpecularSweep 5.8s cubic-bezier(.45,0,.2,1) infinite;
       pointer-events: none;
     }
 
-    .milk-button:hover .button-liquid::before { animation-duration: 3.2s; }
+    .milk-button:hover::after { animation-duration: 2.9s; opacity: 0.58; }
     .milk-button:hover { transform: translateY(-1px); }
     .milk-button:active { transform: translateY(1px) scale(0.99); }
 
@@ -699,15 +684,9 @@
 
     .bottom-note span { color: rgba(255,248,236,0.68); }
 
-    @keyframes buttonMilkSlosh {
-      0%, 100% { transform: translateX(calc(var(--slosh-x) - 2%)) rotate(calc(var(--slosh-tilt) - 1deg)); border-radius: 46% 54% 48% 52% / 42% 44% 56% 58%; }
-      34% { transform: translateX(calc(var(--slosh-x) + 5%)) rotate(calc(var(--slosh-tilt) + 3deg)); border-radius: 55% 45% 54% 46% / 50% 42% 58% 50%; }
-      62% { transform: translateX(calc(var(--slosh-x) - 4%)) rotate(calc(var(--slosh-tilt) - 4deg)); border-radius: 43% 57% 46% 54% / 45% 55% 45% 55%; }
-    }
-
-    @keyframes milkSurfaceGlide {
-      0%, 100% { transform: translateX(-8%) rotate(-2deg); opacity: 0.56; }
-      50% { transform: translateX(10%) rotate(2deg); opacity: 0.78; }
+    @keyframes glassSpecularSweep {
+      0%, 68%, 100% { transform: translateX(-48%) rotate(4deg); opacity: 0; }
+      34% { transform: translateX(44%) rotate(4deg); opacity: 0.58; }
     }
 
     @keyframes progressMilkSlosh {
@@ -751,7 +730,7 @@
         <p class="lede">Fra produktmulighed til klar vare — med ansvar, godkendelser og næste skridt samlet ét sted.</p>
 
         <div class="actions">
-          <a class="milk-button" href="#flow"><span class="button-liquid" aria-hidden="true"></span><span class="button-label">Start readiness flow</span></a>
+          <a class="milk-button" href="#flow"><canvas class="button-fluid" aria-hidden="true"></canvas><span class="button-label">Start readiness flow</span></a>
           <a class="ghost-button" href="#material">Se milkglass materialet</a>
         </div>
 
@@ -819,35 +798,140 @@
 
     <section class="bottom-note">
       <div><strong>Milkglass is a signature detail.</strong><span>Use it for CTAs, progress and readiness states — never as generic glass everywhere.</span></div>
-      <a class="milk-button" href="#"><span class="button-liquid" aria-hidden="true"></span><span class="button-label">Prototype the controls</span></a>
+      <a class="milk-button" href="#"><canvas class="button-fluid" aria-hidden="true"></canvas><span class="button-label">Prototype the controls</span></a>
     </section>
   </main>
 
   <script>
     (() => {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const buttons = document.querySelectorAll('.milk-button');
+      const buttons = Array.from(document.querySelectorAll('.milk-button'));
+      const fluidStates = new WeakMap();
+      window.__maelkFluidFrames = 0;
+
+      function resizeCanvas(canvas) {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const width = Math.max(1, Math.floor(rect.width * dpr));
+        const height = Math.max(1, Math.floor(rect.height * dpr));
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width;
+          canvas.height = height;
+        }
+        return { width, height, dpr };
+      }
+
+      function drawFluidButton(button, time) {
+        const canvas = button.querySelector('.button-fluid');
+        if (!canvas) return;
+        const state = fluidStates.get(button) || { pointer: 0, target: 0, phase: Math.random() * 10 };
+        state.pointer += (state.target - state.pointer) * 0.08;
+        fluidStates.set(button, state);
+
+        const ctx = canvas.getContext('2d');
+        const { width: w, height: h } = resizeCanvas(canvas);
+        const t = reduceMotion ? 0 : time * 0.001;
+        ctx.clearRect(0, 0, w, h);
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+
+        // Soft contained milk/cream core — inspired by the reference's "flame in glass",
+        // but translated to a milk glow instead of orange fire.
+        ctx.filter = `blur(${Math.max(5, h * 0.10)}px)`;
+        const glow = ctx.createRadialGradient(w * 0.52, h * 0.92, h * 0.04, w * 0.52, h * 0.92, h * 0.52);
+        glow.addColorStop(0, 'rgba(255,253,248,0.82)');
+        glow.addColorStop(0.24, 'rgba(255,248,236,0.46)');
+        glow.addColorStop(0.55, 'rgba(244,214,160,0.16)');
+        glow.addColorStop(1, 'rgba(184,107,56,0)');
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.ellipse(w * 0.50 + state.pointer * w * 0.04, h * 0.94, w * 0.42, h * 0.36, state.pointer * 0.08, 0, Math.PI * 2);
+        ctx.fill();
+
+        for (let i = 0; i < 5; i += 1) {
+          const x = w * (0.20 + i * 0.16) + Math.sin(t * (0.85 + i * 0.08) + state.phase + i) * w * 0.045 + state.pointer * w * 0.05;
+          const y = h * (0.78 + (i % 2) * 0.08) + Math.cos(t * (0.72 + i * 0.05) + i * 1.7) * h * 0.045;
+          const r = h * (0.11 + (i % 3) * 0.024);
+          const blob = ctx.createRadialGradient(x, y, 0, x, y, r);
+          blob.addColorStop(0, 'rgba(255,255,255,0.70)');
+          blob.addColorStop(0.44, 'rgba(255,248,236,0.30)');
+          blob.addColorStop(1, 'rgba(255,248,236,0)');
+          ctx.fillStyle = blob;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Visible milk surface / meniscus, kept low in the glass capsule.
+        ctx.filter = 'blur(0.35px)';
+        ctx.globalCompositeOperation = 'source-over';
+        const base = h * 0.76 + Math.sin(t * 1.25 + state.phase) * h * 0.018 + state.pointer * h * 0.025;
+        const grad = ctx.createLinearGradient(0, base - h * 0.08, 0, h);
+        grad.addColorStop(0, 'rgba(255,255,255,0.86)');
+        grad.addColorStop(0.34, 'rgba(255,248,236,0.82)');
+        grad.addColorStop(1, 'rgba(247,231,200,0.68)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(-w * 0.08, h + 4);
+        ctx.lineTo(-w * 0.08, base);
+        for (let x = -w * 0.08; x <= w * 1.08; x += w / 16) {
+          const y = base + Math.sin((x / w) * Math.PI * 2 + t * 1.7 + state.phase) * h * 0.024 + Math.sin((x / w) * Math.PI * 5 - t * 0.9) * h * 0.010;
+          ctx.lineTo(x, y);
+        }
+        ctx.lineTo(w * 1.08, h + 4);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.52)';
+        ctx.lineWidth = Math.max(1, h * 0.035);
+        ctx.beginPath();
+        for (let x = w * 0.08; x <= w * 0.92; x += w / 18) {
+          const y = base - h * 0.015 + Math.sin((x / w) * Math.PI * 2 + t * 1.6 + state.phase) * h * 0.018;
+          if (x === w * 0.08) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Small refracted glints, like the reference's glass edge light.
+        ctx.globalCompositeOperation = 'screen';
+        ctx.filter = `blur(${Math.max(0.5, h * 0.012)}px)`;
+        const glintX = w * (0.25 + 0.46 * ((Math.sin(t * 0.92 + state.phase) + 1) / 2));
+        const glint = ctx.createRadialGradient(glintX, h * 0.28, 0, glintX, h * 0.28, h * 0.18);
+        glint.addColorStop(0, 'rgba(255,255,255,0.38)');
+        glint.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = glint;
+        ctx.beginPath();
+        ctx.ellipse(glintX, h * 0.28, w * 0.14, h * 0.12, -0.2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
 
       buttons.forEach((button) => {
+        fluidStates.set(button, { pointer: 0, target: 0, phase: Math.random() * 10 });
         button.addEventListener('pointermove', (event) => {
           const rect = button.getBoundingClientRect();
           const x = ((event.clientX - rect.left) / rect.width) * 100;
           const y = ((event.clientY - rect.top) / rect.height) * 100;
-          const offset = ((x - 50) / 50) * 5;
-          const tilt = ((x - 50) / 50) * 3;
           button.style.setProperty('--mx', `${x.toFixed(1)}%`);
           button.style.setProperty('--my', `${y.toFixed(1)}%`);
-          button.style.setProperty('--slosh-x', `${offset.toFixed(2)}%`);
-          button.style.setProperty('--slosh-tilt', `${tilt.toFixed(2)}deg`);
+          const state = fluidStates.get(button);
+          if (state) state.target = Math.max(-1, Math.min(1, (x - 50) / 50));
         });
 
         button.addEventListener('pointerleave', () => {
           button.style.removeProperty('--mx');
           button.style.removeProperty('--my');
-          button.style.removeProperty('--slosh-x');
-          button.style.removeProperty('--slosh-tilt');
+          const state = fluidStates.get(button);
+          if (state) state.target = 0;
         });
       });
+
+      function animate(now) {
+        buttons.forEach((button) => drawFluidButton(button, now));
+        window.__maelkFluidFrames += 1;
+        if (!reduceMotion) window.requestAnimationFrame(animate);
+      }
+      window.requestAnimationFrame(animate);
+      window.addEventListener('resize', () => buttons.forEach((button) => drawFluidButton(button, performance.now())));
 
       if (!reduceMotion) {
         const progress = document.querySelector('[data-progress]');
