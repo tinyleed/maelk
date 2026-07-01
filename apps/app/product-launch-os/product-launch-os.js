@@ -250,7 +250,7 @@
         <h2>Why this is the next safe action</h2>
         <div class="meta-grid">
           ${renderMeta('Winning gate', gate ? gate.label : 'None — all gates ready')}
-          ${gate ? renderMeta('Gate status', statusLabels[gate.status]) : ''}
+          ${renderMeta('Gate status', gate ? statusLabels[gate.status] : 'Ready')}
           ${renderMeta('Owner', trace.owner)}
         </div>
         <p>${escapeHtml(trace.reason)}</p>
