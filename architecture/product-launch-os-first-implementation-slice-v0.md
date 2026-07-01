@@ -33,7 +33,7 @@ Do not implement in this plan task.
 
 The follow-on build slice must not:
 
-- touch root live-site files: `index.html`, `design-prototype-v0.html`, `CNAME`, `.nojekyll`;
+- re-add retired repo-root static-site files (`index.html`, `design-prototype-v0.html`, `CNAME`, `DNS.md`, `.nojekyll`) unless the hosting strategy is explicitly reopened;
 - add credentials, `.env` files, secrets, DNS, hosting, payments, deploys, or live integration writes;
 - publish to channels or send external supplier/customer messages;
 - mutate inventory, accounting, pricing, compliance, or go-live state outside fake data;
@@ -348,14 +348,14 @@ npm run build
 ## Acceptance criteria for the follow-on build
 
 - Only the exact follow-on files are touched, unless ANANKE expands scope.
-- Root GitHub Pages files remain untouched and still parse through the harness.
+- Retired repo-root GitHub Pages files remain absent; product preview work stays under `apps/app/product-launch-os/` until a new hosting target is selected.
 - The cockpit is backed by fake JSON records with `companyId` and audit fields.
 - Readiness is derived from gates, blockers, approvals, evidence, and sync state.
 - AI review is shown as a draft/review aid only.
 - Human approval/rejection cannot be represented as complete without a non-empty reason.
 - No live integration, publish, supplier send, inventory sync, accounting, price mutation, credential, deployment, DNS, or payment behavior exists.
 - No shop-floor/manufacturing execution terms or flows are introduced.
-- Harness output includes `html_ok`, `product_launch_os_html_ok`, git status, and `maelk_harness_ok`.
+- Harness output includes `root_static_site_absent_ok`, `product_launch_os_html_ok`, git status, and `maelk_harness_ok`.
 
 ## Review gate
 

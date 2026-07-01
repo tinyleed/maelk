@@ -2,11 +2,10 @@
 
 **Mælk** is a commerce/business operating system with shop-floor/manufacturing execution out of scope.
 
-Current live surface:
+Hosting status:
 
-- `https://mælk.com/`
-- `https://xn--mlk-yla.com/`
-- static GitHub Pages prototype at repository root
+- No repo-root static website is maintained here anymore.
+- `mælk.com` / `xn--mlk-yla.com` hosting is intentionally pending a new non-GitHub-Pages target.
 
 Current product direction:
 
@@ -26,4 +25,4 @@ Original architecture rule:
 
 > Build Mælk's own commerce operating model. Do not source-fork external products, copy schemas wholesale, or carry manufacturing execution assumptions into the system.
 
-The root `index.html`, `design-prototype-v0.html`, `CNAME`, and `.nojekyll` currently keep the live GitHub Pages site working. Do not move them until the marketing/app hosting strategy is deliberately changed.
+The old repo-root GitHub Pages prototype has been retired. Do not re-add `index.html`, `design-prototype-v0.html`, `CNAME`, `DNS.md`, or `.nojekyll` unless the hosting strategy is deliberately reopened.

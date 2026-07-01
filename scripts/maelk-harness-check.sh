@@ -25,10 +25,9 @@ require_file .claude/rules/agent-loop-guardrails.md
 require_file .claude/rules/shop-floor-boundary.md
 require_file ops/agent-harness/task-brief-template.md
 require_file ops/agent-harness/themis-review-checklist.md
-require_file index.html
-require_file design-prototype-v0.html
-require_file CNAME
-require_file .nojekyll
+for retired_root_file in index.html design-prototype-v0.html CNAME DNS.md .nojekyll; do
+  [[ ! -e "$retired_root_file" ]] || fail "retired root static-site file is still present: $retired_root_file"
+done
 require_dir apps/app
 require_file apps/app/README.md
 require_file apps/app/product-launch-os/README.md
@@ -48,17 +47,7 @@ if git grep --untracked -n -E 'Carbon|carbon|Carbon-inspired|Carbon-class|withou
 fi
 rm -f /tmp/maelk-public-framing-grep.txt
 
-python3 - <<'PY'
-from html.parser import HTMLParser
-from pathlib import Path
-for name in ["index.html", "design-prototype-v0.html"]:
-    text = Path(name).read_text(encoding="utf-8")
-    HTMLParser().feed(text)
-    for needle in ["Mælk samler commerce fra idé til live.", "Commerce operating system", "Product Launch OS", "button-fluid"]:
-        if needle not in text:
-            raise SystemExit(f"{name}: missing {needle!r}")
-print("html_ok")
-PY
+echo "root_static_site_absent_ok"
 
 PRODUCT_LAUNCH_JSON="apps/app/product-launch-os/product-launch-os.fake-data.json"
 PRODUCT_LAUNCH_HTML="apps/app/product-launch-os/index.html"
