@@ -154,6 +154,7 @@
       </aside>
       <section class="detail-stack" aria-label="Selected launch cockpit">
         ${renderHero(selected)}
+        ${renderDecisionTrace(selected)}
         ${renderGates(selected)}
         <div class="two-column">
           ${renderAiReview(selected)}
@@ -236,6 +237,29 @@
           ${context.blockers.map((blocker) => `<li>${escapeHtml(blocker)}</li>`).join('')}
         </ul>
       </div>
+    `;
+  }
+
+  function renderDecisionTrace(context) {
+    const trace = deriveDecisionTrace(context);
+    const gate = trace.winningGate;
+
+    return `
+      <section class="panel" aria-label="Readiness decision trace">
+        <p class="eyebrow">Readiness decision trace</p>
+        <h2>Why this is the next safe action</h2>
+        <div class="meta-grid">
+          ${renderMeta('Winning gate', gate ? gate.label : 'None — all gates ready')}
+          ${renderMeta('Gate status', gate ? statusLabels[gate.status] : 'Ready')}
+          ${renderMeta('Owner', trace.owner)}
+        </div>
+        <p>${escapeHtml(trace.reason)}</p>
+        <h3>Evidence and blocker detail</h3>
+        <ul class="blocker-list">
+          ${trace.evidence.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
+        </ul>
+        <p><strong>Next local-only action:</strong> ${escapeHtml(trace.nextAction)}</p>
+      </section>
     `;
   }
 
@@ -492,6 +516,9 @@
     }
 
     return {
+      id: gate?.id ?? `${context.launch.id}:${gateType}`,
+      createdBy: gate?.createdBy ?? context.launch.createdBy,
+      requiredApprovalId: gate?.requiredApprovalId,
       label: gateLabels[gateType],
       gateType,
       status,
@@ -518,6 +545,66 @@
       return 'entered locally';
     }
     return 'required';
+  }
+
+  function deriveDecisionTrace(context) {
+    const winningGate =
+      context.gates.find((gate) => gate.status === 'blocked') ??
+      context.gates.find((gate) => gate.status === 'needs_review' || gate.status === 'not_started') ??
+      null;
+
+    if (!winningGate) {
+      return {
+        winningGate: null,
+        owner: context.ownerName,
+        reason:
+          'All fake readiness gates are ready. The safe decision is to keep the launch staged locally until ANANKE/Themis accepts the slice.',
+        evidence: [
+          `${context.readyGateCount}/${gateOrder.length} gates are ready in static fake data.`,
+          'No live publish, sync, pricing, compliance, inventory, or go-live action is exposed.',
+        ],
+        nextAction: getNextSafeAction(context),
+      };
+    }
+
+    const gateEvent = context.events.find((event) => {
+      return event.entityId === winningGate.id && event.metadata?.gateType === winningGate.gateType;
+    });
+    const actor = findById(collection('users'), gateEvent?.actorId ?? winningGate.createdBy) ?? context.owner;
+    const reasonPrefix = winningGate.status === 'blocked'
+      ? 'Blocked gates stop readiness before review-only gates.'
+      : 'No blocked gate appears before this gate, so the first review/not-started gate controls the next action.';
+    const evidence = [];
+
+    if (winningGate.blockers.length) {
+      evidence.push(...winningGate.blockers.map((blocker) => `${winningGate.label}: ${blocker}`));
+    } else {
+      evidence.push(`${winningGate.label} has no blocker text recorded; status is ${statusLabels[winningGate.status]}.`);
+    }
+
+    if (gateEvent) {
+      evidence.push(
+        `Audit event ${gateEvent.id} records ${humanize(gateEvent.action)} at ${formatDateTime(gateEvent.createdAt)}.`,
+      );
+    } else {
+      evidence.push('No matching fake audit event is present for this winning gate.');
+    }
+
+    if (winningGate.requiredApprovalId && context.approval?.riskSummary) {
+      evidence.push(`Approval risk summary: ${context.approval.riskSummary}`);
+    }
+
+    if (winningGate.gateType === 'ai_review' && context.aiReview?.flags?.length) {
+      evidence.push(`AI review flags: ${context.aiReview.flags.join(', ')}.`);
+    }
+
+    return {
+      winningGate,
+      owner: actor?.name ?? context.ownerName,
+      reason: `${reasonPrefix} ${winningGate.label} is the canonical ${statusLabels[winningGate.status].toLowerCase()} gate that currently determines the next safe step.`,
+      evidence,
+      nextAction: winningGate.nextAction,
+    };
   }
 
   function getNextSafeAction(context) {

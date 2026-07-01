@@ -196,8 +196,15 @@ except ValueError as exc:
 for needle in ["Product Launch OS", "product-launch-os.css", "product-launch-os.js"]:
     if needle not in html:
         raise SystemExit(f"{html_path}: missing {needle!r}")
-if "product-launch-os.fake-data.json" not in script:
-    raise SystemExit(f"{script_path}: missing fake JSON relative path")
+for needle in [
+    "product-launch-os.fake-data.json",
+    "Readiness decision trace",
+    "deriveDecisionTrace",
+    "winningGate",
+    "Next local-only action",
+]:
+    if needle not in script:
+        raise SystemExit(f"{script_path}: missing {needle!r}")
 for forbidden in ["Publish", "Sync inventory", "Send to supplier", "Approve go-live", "Change live price"]:
     if forbidden in html or forbidden in script:
         raise SystemExit(f"Product Launch OS static cockpit includes forbidden live-control label: {forbidden}")
