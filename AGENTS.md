@@ -3,7 +3,7 @@
 ## Environment
 
 - This project is **Mælk**: a commerce/business operating system with shop-floor/manufacturing execution out of scope.
-- Current live surface is a static GitHub Pages prototype at the repository root (`index.html`) for `mælk.com` / `xn--mlk-yla.com`.
+- Hosting for `mælk.com` / `xn--mlk-yla.com` is intentionally pending a new non-GitHub-Pages target; no repo-root static site is maintained here now.
 - The first product wedge is **Product Launch OS**.
 
 ## Source of truth
@@ -94,6 +94,8 @@ ANANKE → task brief → maelk-builder → harness → Themis review → ANANKE
 - Do not declare completion without fresh verification output.
 - Do not edit secrets, credentials, payment details, or production data.
 
-## Current static site caution
+## Retired root static site
 
-The root `index.html`, `design-prototype-v0.html`, `CNAME`, and `.nojekyll` keep the current GitHub Pages site alive. Do not move or delete them when adding architecture scaffolding unless the hosting strategy is explicitly changed.
+The old repo-root GitHub Pages prototype has been removed. Do not re-add `index.html`, `design-prototype-v0.html`, `CNAME`, `DNS.md`, or `.nojekyll` unless ANANKE/Mads explicitly reopens the hosting strategy.
+
+Keep product prototypes under their app paths, e.g. `apps/app/product-launch-os/`, until a new hosting target is selected.

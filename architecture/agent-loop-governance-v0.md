@@ -119,8 +119,7 @@ The repo harness must check:
 - required architecture/agent files exist;
 - no forbidden shop-floor execution app exists;
 - no public external-inspiration wording appears in repo files;
-- `index.html` and `design-prototype-v0.html` parse;
-- live-root files are present: `index.html`, `design-prototype-v0.html`, `CNAME`, `.nojekyll`;
+- root GitHub Pages files are absent: `index.html`, `design-prototype-v0.html`, `CNAME`, `DNS.md`, `.nojekyll`;
 - git working tree state is visible in output;
 - optional package checks run when `package.json` exists.
 

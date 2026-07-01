@@ -141,7 +141,7 @@ TrainingGuide
 apps/
   app/          # core Mælk application
   docs/         # product/docs site
-  marketing/    # future home for mælk.com, current static root stays live for now
+  marketing/    # future home for mælk.com; root GitHub Pages prototype is retired
   academy/      # later training/onboarding app
 
 packages/
@@ -340,5 +340,5 @@ Before building the full system, create a thin Product Launch OS slice:
 - [x] `AGENTS.md` and `CLAUDE.md` define repo operating rules.
 - [x] `.claude/rules` seeds the agent-readable architecture layer.
 - [x] `.claude/skills` seeds the plan/execute/verify workflow.
-- [x] current GitHub Pages static site remains untouched and deployable.
+- [x] repo-root GitHub Pages static prototype retired so hosting can move to a deliberate non-GitHub-Pages target.
 - [ ] later: migrate from static marketing prototype to actual app monorepo.

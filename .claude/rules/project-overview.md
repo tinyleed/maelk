@@ -9,7 +9,7 @@ Mælk is a commerce/business operating system with shop-floor/manufacturing exec
 
 Current repository state:
 
-- root static GitHub Pages prototype serves `mælk.com`;
+- the old root static GitHub Pages prototype has been retired; new public hosting for `mælk.com` is pending a deliberate non-GitHub-Pages target;
 - architecture docs live in `architecture/`;
 - `.claude/rules` describes the intended technical conventions for future app work;
 - app/package monorepo directories are planned, not fully implemented yet.
@@ -51,7 +51,7 @@ manufacturing execution events
 ```text
 apps/app        # core Mælk app
 apps/docs       # docs/product manual
-apps/marketing  # future marketing site; current root static page remains live for now
+apps/marketing  # future marketing site; root GitHub Pages prototype is retired
 apps/academy    # later training/onboarding app
 ```
 
