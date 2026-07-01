@@ -6,7 +6,7 @@ Repo-local static prototype for the first Mælk Product Launch OS surface.
 
 - Dependency-free HTML, CSS, JavaScript, and fake JSON only.
 - Reads `product-launch-os.fake-data.json` with a relative `fetch()` from `index.html`.
-- Shows launch readiness gates, blockers, AI review as advisory output, approval reason requirements, and audit timeline.
+- Shows launch readiness gates, blockers, AI review as advisory output, approval reason requirements, an inspectable readiness decision trace, and audit timeline.
 - Uses fake internal demo records only.
 
 ## Guardrails
