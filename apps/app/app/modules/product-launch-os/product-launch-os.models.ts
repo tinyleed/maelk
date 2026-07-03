@@ -90,6 +90,7 @@ export type ProductLaunchRecord = ProductLaunchAuditFields & {
 export type ProductLaunchReadiness = {
   status: ProductLaunchCardStatus;
   totalGateCount: number;
+  missingGateTypes: readonly ProductLaunchGateType[];
   readyGateCount: number;
   blockedGateCount: number;
   needsReviewGateCount: number;
