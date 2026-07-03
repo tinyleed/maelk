@@ -1,0 +1,88 @@
+name: Bug report
+description: Report a reproducible problem in Mælk.
+title: "bug: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Mælk. Keep reports scoped to the commerce/business operating-system surface and avoid sharing secrets or production data.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component area
+      description: Pick the closest area.
+      options:
+        - Product Launch OS
+        - App shell / routes
+        - Product / PIM
+        - Suppliers / purchasing
+        - Inventory / channels
+        - Pricing / compliance
+        - Approvals / audit / readiness
+        - AI review
+        - Documentation / harness
+        - Repository maintenance
+        - Other / unsure
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What is broken, and what is intentionally out of scope for this issue?
+      placeholder: "Broken: ...\nOut of scope: ..."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Use fake or sanitized data only.
+      placeholder: |
+        1. TODO
+        2. TODO
+        3. TODO
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What must be true for maintainers to close this issue?
+      placeholder: |
+        - [ ] TODO
+        - [ ] TODO
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification plan
+      description: Commands, browser checks, or evidence expected for a fix.
+      placeholder: |
+        ./scripts/maelk-harness-check.sh
+        git diff --check
+    validations:
+      required: true
+  - type: textarea
+    id: safety
+    attributes:
+      label: Safety boundaries
+      description: Confirm this issue does not require gated changes, or list the human approval needed.
+      placeholder: "No secrets, DNS/hosting/deploy, production data, live integrations, pricing/compliance/go-live, merge/release, or shop-floor/manufacturing execution changes are required."
+    validations:
+      required: true

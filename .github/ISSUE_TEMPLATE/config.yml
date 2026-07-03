@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/tinyleed/maelk/security/policy
+    about: Please do not post sensitive vulnerability details in a public issue.
+  - name: Contributor guide
+    url: https://github.com/tinyleed/maelk/blob/main/CONTRIBUTING.md
+    about: Read the issue-first, small-PR, harness-first workflow before contributing.
