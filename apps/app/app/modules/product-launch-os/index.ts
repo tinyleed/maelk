@@ -1,5 +1,11 @@
 export { productLaunchFixtures } from "./product-launch-os.fixtures";
-export { createProductLaunchSummaries, createProductLaunchSummary, deriveProductLaunchReadiness, requiresHumanApprovalReason } from "./product-launch-os.readiness";
+export {
+  PRODUCT_LAUNCH_REQUIRED_GATE_TYPES,
+  createProductLaunchSummaries,
+  createProductLaunchSummary,
+  deriveProductLaunchReadiness,
+  requiresHumanApprovalReason,
+} from "./product-launch-os.readiness";
 export type {
   ProductLaunchActivityEvent,
   ProductLaunchAiReview,

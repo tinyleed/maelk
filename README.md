@@ -32,4 +32,6 @@ The old repo-root GitHub Pages prototype has been retired. Do not re-add `index.
 
 Mælk is public under the MIT license. Contributions should start with an issue, stay small enough for focused review, and include fresh output from `./scripts/maelk-harness-check.sh` plus `git diff --check`.
 
+CI runs the same secret-free harness through GitHub Actions on pull requests and pushes to `main`.
+
 Read [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md), and [`docs/maintainer-workflow.md`](docs/maintainer-workflow.md) before opening meaningful changes. Human approval remains required for secrets, DNS/hosting, deployment, production data, live integrations, pricing/compliance/go-live decisions, merges, and releases.
