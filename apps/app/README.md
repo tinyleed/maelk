@@ -13,6 +13,7 @@ The first real app slice is a small **React Router framework** shell prepared fo
 - Supabase browser/server helpers live under `app/lib/`.
 - `/login` sends a Supabase magic link when env vars are configured.
 - `/app` is the protected operator surface and currently shows local-only Product Launch OS demo records.
+- Product Launch OS demo cards are derived from a typed local domain module under `app/modules/product-launch-os/`, preserving fake readiness gates, audit fields, and human approval reasons without live writes.
 - The app builds without Supabase env vars so Vercel setup can be prepared before credentials exist.
 
 ## Environment
