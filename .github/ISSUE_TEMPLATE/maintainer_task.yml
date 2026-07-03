@@ -1,0 +1,79 @@
+name: Maintainer task
+description: Track repository, governance, release, or review work for maintainers.
+title: "maint: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for scoped maintainer work. Do not use it to bypass human approval gates for secrets, hosting, deployment, production, pricing, compliance, go-live, merges, or releases.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component area
+      description: Pick the closest area.
+      options:
+        - Repository maintenance
+        - Documentation / harness
+        - GitHub workflow
+        - Product Launch OS
+        - App shell / routes
+        - Approvals / audit / readiness
+        - Security / privacy
+        - Release coordination
+        - Other / unsure
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What exactly should the maintainer task change or decide?
+      placeholder: "In scope: ...\nOut of scope: ..."
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Link related issues, PRs, Kanban tasks, docs, or decisions.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What evidence proves this task is finished?
+      placeholder: |
+        - [ ] TODO
+        - [ ] TODO
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification plan
+      description: Commands, GitHub readbacks, review evidence, or manual checks.
+      placeholder: |
+        ./scripts/maelk-harness-check.sh
+        git diff --check
+    validations:
+      required: true
+  - type: checkboxes
+    id: gates
+    attributes:
+      label: Human gates
+      description: Check any gate this task requires. Leave unchecked only when not applicable.
+      options:
+        - label: Secrets, credentials, tokens, or security-sensitive settings
+        - label: DNS, hosting, deployment, branch protection, or external account settings
+        - label: Production data or live integration writes
+        - label: Pricing, compliance, go-live, merge, or release decision
+        - label: Public delivery or announcement
+  - type: textarea
+    id: safety
+    attributes:
+      label: Safety boundaries
+      description: Confirm the task excludes shop-floor/manufacturing execution and any unapproved gated work.
+      placeholder: "This task stays repo-local unless a checked human gate is explicitly approved."
+    validations:
+      required: true

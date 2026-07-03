@@ -26,3 +26,9 @@ Original architecture rule:
 > Build Mælk's own commerce operating model. Do not source-fork external products, copy schemas wholesale, or carry manufacturing execution assumptions into the system.
 
 The old repo-root GitHub Pages prototype has been retired. Do not re-add `index.html`, `design-prototype-v0.html`, `CNAME`, `DNS.md`, or `.nojekyll` unless the hosting strategy is deliberately reopened.
+
+## Open source
+
+Mælk is public under the MIT license. Contributions should start with an issue, stay small enough for focused review, and include fresh output from `./scripts/maelk-harness-check.sh` plus `git diff --check`.
+
+Read [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md), and [`docs/maintainer-workflow.md`](docs/maintainer-workflow.md) before opening meaningful changes. Human approval remains required for secrets, DNS/hosting, deployment, production data, live integrations, pricing/compliance/go-live decisions, merges, and releases.

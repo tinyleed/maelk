@@ -1,0 +1,77 @@
+name: Feature request
+description: Propose a focused Mælk capability or improvement.
+title: "feat: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Mælk is an early-stage commerce/business operating system. Please frame features around Product Launch OS or adjacent commerce operations, with humans approving high-impact decisions.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component area
+      description: Pick the closest area.
+      options:
+        - Product Launch OS
+        - App shell / routes
+        - Product / PIM
+        - Suppliers / purchasing
+        - Inventory / channels
+        - Pricing / compliance
+        - Approvals / audit / readiness
+        - AI review
+        - Documentation / harness
+        - Repository maintenance
+        - Other / unsure
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What should this feature include, and what should it not include?
+      placeholder: "In scope: ...\nOut of scope: ..."
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / user need
+      description: What commerce workflow or maintainer workflow does this improve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed approach
+      description: Keep this small enough for one focused PR when possible.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What must be true before this is accepted?
+      placeholder: |
+        - [ ] TODO
+        - [ ] TODO
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification plan
+      description: Commands, screenshots, browser smoke, or review evidence expected.
+      placeholder: |
+        ./scripts/maelk-harness-check.sh
+        git diff --check
+    validations:
+      required: true
+  - type: textarea
+    id: safety
+    attributes:
+      label: Safety boundaries
+      description: List any human gates or confirm none are needed.
+      placeholder: "No secrets, DNS/hosting/deploy, production data, live integrations, pricing/compliance/go-live, merge/release, or shop-floor/manufacturing execution changes are required."
+    validations:
+      required: true
