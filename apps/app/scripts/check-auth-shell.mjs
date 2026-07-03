@@ -18,6 +18,11 @@ const requiredFiles = [
   "app/lib/supabase-client.ts",
   "app/lib/supabase-server.ts",
   "app/lib/supabase-env.ts",
+  "app/lib/product-launches.ts",
+  "app/modules/product-launch-os/index.ts",
+  "app/modules/product-launch-os/product-launch-os.models.ts",
+  "app/modules/product-launch-os/product-launch-os.fixtures.ts",
+  "app/modules/product-launch-os/product-launch-os.readiness.ts",
   "app/styles.css",
   ".env.example",
 ];
@@ -67,6 +72,39 @@ for (const required of [
 ]) {
   if (!allSource.includes(required)) {
     throw new Error(`auth shell missing ${required}`);
+  }
+}
+
+const productLaunchModuleSource = [
+  "app/modules/product-launch-os/index.ts",
+  "app/modules/product-launch-os/product-launch-os.models.ts",
+  "app/modules/product-launch-os/product-launch-os.fixtures.ts",
+  "app/modules/product-launch-os/product-launch-os.readiness.ts",
+]
+  .map((file) => readFileSync(join(root, file), "utf8"))
+  .join("\n");
+
+for (const required of [
+  "export type ProductLaunchSummary",
+  "export type ProductLaunchGate",
+  "export type ProductLaunchReadiness",
+  "companyId",
+  "createdBy",
+  "createdAt",
+  "createProductLaunchSummaries",
+  "deriveProductLaunchReadiness",
+  "requiresHumanApprovalReason",
+  "humanApprovalReasonRequired",
+  "canApprove: false",
+]) {
+  if (!productLaunchModuleSource.includes(required)) {
+    throw new Error(`Product Launch OS domain module missing ${required}`);
+  }
+}
+
+for (const forbidden of ["ready=true", "ready = true", "syncMode: \"enabled\""]) {
+  if (productLaunchModuleSource.includes(forbidden)) {
+    throw new Error(`Product Launch OS domain module contains forbidden shortcut: ${forbidden}`);
   }
 }
 
