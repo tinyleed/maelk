@@ -3,7 +3,8 @@
 ## Environment
 
 - This project is **Mælk**: a commerce/business operating system with shop-floor/manufacturing execution out of scope.
-- Hosting for `mælk.com` / `xn--mlk-yla.com` is intentionally pending a new non-GitHub-Pages target; no repo-root static site is maintained here now.
+- Mælk v0 standard stack is **React Router framework + TypeScript + Tailwind + Radix UI** on **Vercel**, with **Supabase Auth/Postgres** as canonical auth and data layer.
+- Hosting for `mælk.com` / `xn--mlk-yla.com` must stay off GitHub Pages. Use Vercel preview/production URLs first; do not change DNS/custom-domain settings without explicit approval.
 - The first product wedge is **Product Launch OS**.
 
 ## Source of truth

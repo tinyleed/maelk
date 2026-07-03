@@ -2,10 +2,11 @@
 
 **Mælk** is a commerce/business operating system with shop-floor/manufacturing execution out of scope.
 
-Hosting status:
+Hosting/app status:
 
 - No repo-root static website is maintained here anymore.
-- `mælk.com` / `xn--mlk-yla.com` hosting is intentionally pending a new non-GitHub-Pages target.
+- Mælk v0 standard is a React Router framework app with TypeScript, Tailwind, Radix UI, Supabase Auth/Postgres, and Vercel hosting.
+- `mælk.com` / `xn--mlk-yla.com` stay unwired until the Vercel/Supabase app is proven on preview URLs.
 
 Current product direction:
 

@@ -1,0 +1,20 @@
+{
+  "name": "maelk",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/app"
+  ],
+  "overrides": {
+    "@vercel/static-config": {
+      "ajv": "^8.18.0"
+    }
+  },
+  "scripts": {
+    "dev": "npm --workspace @maelk/app run dev",
+    "build": "npm --workspace @maelk/app run build",
+    "lint": "npm --workspace @maelk/app run lint",
+    "test": "npm --workspace @maelk/app run test",
+    "typecheck": "npm --workspace @maelk/app run typecheck"
+  }
+}
