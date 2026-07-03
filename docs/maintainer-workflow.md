@@ -7,6 +7,9 @@ Mælk is public, but it is still a supervised early-stage commerce/business oper
 - Product direction and final acceptance stay with ANANKE/Mads.
 - Contributors and agents work from issues, small branches, and explicit acceptance criteria.
 - The default verification is harness-first: `./scripts/maelk-harness-check.sh` plus `git diff --check`.
+- `main` is protected: changes must go through PRs and pass the required `Repository harness` GitHub Actions check before normal merge.
+- `main` also requires branches to be up to date before merge, and blocks force pushes and branch deletion.
+- Admin enforcement and required review count are intentionally off in the first branch-protection pass; do not use admin bypass for normal maintainer workflow.
 - Meaningful changes should be reviewed before merge; do not merge your own risky change without independent review.
 - Product Launch OS remains the first wedge.
 - Shop-floor/manufacturing execution scope stays out of the project.
