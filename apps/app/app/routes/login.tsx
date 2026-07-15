@@ -2,24 +2,25 @@ import { redirect } from "react-router";
 
 import type { Route } from "./+types/login";
 import { LoginForm } from "~/components/login-form";
-import { createSupabaseServerClient } from "~/lib/supabase-server";
+import { getClientSafeRedirectPath } from "~/lib/client-safe-redirect";
+import { createSupabaseBrowserClient } from "~/lib/supabase-client";
 import { getMissingSupabaseEnv, hasSupabaseEnv } from "~/lib/supabase-env";
 
 export function meta() {
   return [{ title: "Sign in · Mælk" }];
 }
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
-  const next = url.searchParams.get("next") || "/app";
-  const supabase = createSupabaseServerClient(request);
+  const next = getClientSafeRedirectPath(url.searchParams.get("next"));
+  const supabase = createSupabaseBrowserClient();
 
   if (supabase) {
     const {
-      data: { user },
-    } = await supabase.auth.getUser();
+      data: { session },
+    } = await supabase.auth.getSession();
 
-    if (user) {
+    if (session?.user) {
       throw redirect(next);
     }
   }
@@ -42,14 +43,15 @@ export default function LoginRoute({ loaderData }: Route.ComponentProps) {
         ) : (
           <div className="setup-card">
             <h2>Supabase is not configured yet</h2>
-            <p>Add these environment variables locally and in Vercel:</p>
+            <p>Add these public browser variables locally before signing in:</p>
             <ul>
               {loaderData.missingEnv.map((name) => (
                 <li key={name}>{name}</li>
               ))}
             </ul>
             <p className="muted">
-              The app still builds without them so preview deployment can be prepared safely.
+              The app still builds without them so the SPA and API stack can be
+              verified without secrets.
             </p>
           </div>
         )}

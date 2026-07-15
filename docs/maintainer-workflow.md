@@ -1,6 +1,6 @@
 # Mælk maintainer workflow
 
-Mælk is public, but it is still a supervised early-stage commerce/business operating-system project. Maintainers should keep the repo easy for contributors and agents to work on without loosening human approval gates.
+Mælk is public, but it is still a supervised early-stage Denmark-first, open-source, AI-native ERP platform project for commerce operations. Maintainers should keep the repo easy for contributors and agents to work on without loosening human approval gates.
 
 ## Operating model
 
@@ -11,7 +11,10 @@ Mælk is public, but it is still a supervised early-stage commerce/business oper
 - `main` also requires branches to be up to date before merge, and blocks force pushes and branch deletion.
 - Admin enforcement and required review count are intentionally off in the first branch-protection pass; do not use admin bypass for normal maintainer workflow.
 - Meaningful changes should be reviewed before merge; do not merge your own risky change without independent review.
-- Product Launch OS remains the first wedge.
+- Canonical current goal lives in `architecture/maelk-erp-platform-goal-v1.md`.
+- Current runnable stack is React Router v8 SPA + same-origin Express API + Supabase browser auth boundary + shadcn/ui; hosting/deployment remains a separate human-gated decision.
+- Native double-entry accounting is mandatory from the first serious version, but finance schema/code and production accounting-readiness claims require a separate approved slice.
+- Product Launch OS remains an existing fake-data-backed prototype/module, not the current platform goal or default next build lane.
 - Shop-floor/manufacturing execution scope stays out of the project.
 
 ## Recommended label taxonomy
@@ -57,7 +60,7 @@ For every incoming issue:
 
 1. Confirm it fits the Mælk commerce/business operating-system scope.
 2. Confirm it does not introduce shop-floor/manufacturing execution work.
-3. Check whether it needs human approval for secrets, DNS/hosting, deployment, production data, live integrations, pricing, compliance, go-live, merge, or release decisions.
+3. Check whether it needs human approval for secrets, DNS/hosting, deployment, production data, live integrations, accounting, pricing, compliance, go-live, merge, or release decisions.
 4. Ask for missing acceptance criteria or verification steps before marking it ready.
 5. Prefer one issue per small, independently reviewable change.
 

@@ -6,6 +6,7 @@ paths: ["apps/**", "packages/**", "architecture/**", ".claude/rules/**"]
 # Mælk Conventions Index
 
 Load the focused rule for the area being touched.
+Canonical current goal: `architecture/maelk-erp-platform-goal-v1.md`.
 
 | Area | Rule |
 | --- | --- |
@@ -21,9 +22,13 @@ Load the focused rule for the area being touched.
 
 ## Always-true architecture facts
 
-- Mælk is a commerce/business operating system, not a source fork of another product.
-- Mælk can be ERP-like, but it must not include shop-floor/manufacturing execution.
-- Product Launch OS is the first wedge.
+- Mælk is a Denmark-first, open-source, AI-native ERP platform for commerce operations, not a source fork of another product.
+- Mælk is ERP-grade, but it must not include shop-floor/manufacturing execution.
+- Native double-entry accounting is mandatory from the first serious version; do not add finance schema/code or claim legal/accounting production readiness without a separate approved task.
+- One shared multi-tenant and multi-company core supports segments through tiers, permissions, configuration, and localization packs.
+- Current runnable stack is React Router v8 SPA + same-origin Node.js/Express API + Tailwind v4 + shadcn/ui, with Supabase Auth/Postgres as the canonical auth/data target.
+- Denmark is the first localization target; future countries should be explicit localization packs.
+- Product Launch OS is an existing fake-data-backed prototype/module, not the current platform goal or default next build lane.
 - `companyId`, audit fields, approval reasons, and activity events are first-class.
 - AI can draft/review/prepare; humans approve high-impact mutations.
-- Current GitHub Pages root files must remain stable until a hosting migration is explicitly planned.
+- Retired GitHub Pages root files must remain absent unless a hosting strategy is explicitly reopened.

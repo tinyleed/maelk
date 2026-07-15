@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { Button } from "~/components/button";
+import { Button } from "~/components/ui/button";
+import { getClientSafeRedirectPath } from "~/lib/client-safe-redirect";
 import { createSupabaseBrowserClient } from "~/lib/supabase-client";
 
 type LoginFormProps = {
@@ -24,8 +25,9 @@ export function LoginForm({ nextPath = "/app" }: LoginFormProps) {
       return;
     }
 
-    const origin = window.location.origin;
-    const emailRedirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextPath)}`;
+    const callbackUrl = new URL("/auth/callback", window.location.origin);
+    callbackUrl.searchParams.set("next", getClientSafeRedirectPath(nextPath));
+    const emailRedirectTo = callbackUrl.toString();
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: { emailRedirectTo },

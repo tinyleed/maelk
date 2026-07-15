@@ -5,19 +5,24 @@ paths: ["apps/**", "packages/**", "architecture/**", "docs/**"]
 
 # Mælk Project Overview
 
-Mælk is a commerce/business operating system with shop-floor/manufacturing execution out of scope.
+Mælk is a Denmark-first, open-source, AI-native ERP platform for commerce operations with shop-floor/manufacturing execution out of scope.
+
+Canonical current goal: `architecture/maelk-erp-platform-goal-v1.md`.
 
 Current repository state:
 
 - the old root static GitHub Pages prototype has been retired; new public hosting for `mælk.com` is pending a deliberate non-GitHub-Pages target;
 - architecture docs live in `architecture/`;
 - `.claude/rules` describes the intended technical conventions for future app work;
-- app/package monorepo directories are planned, not fully implemented yet.
+- React Router v8 SPA + same-origin Express API scaffolding exists, but the platform is still early and not production-ready.
 
 ## Product direction
 
-Mælk may include ERP-like commerce surfaces:
+Mælk should grow into one shared multi-tenant/multi-company ERP core for commerce operations:
 
+- native double-entry accounting from the first serious version;
+- Danish localization first, then localization packs for future countries;
+- company, user, role, permission, and tier configuration;
 - Product/PIM;
 - supplier and sourcing;
 - purchasing;
@@ -31,7 +36,7 @@ Mælk may include ERP-like commerce surfaces:
 - implementation/readiness hub;
 - docs/training later.
 
-The first wedge is **Product Launch OS**.
+Product Launch OS remains an existing fake-data-backed prototype/module. It is useful as a safety-validation surface, but it is not the current platform goal or default next build lane.
 
 ## Shop-floor boundary
 
@@ -50,6 +55,7 @@ manufacturing execution events
 
 ```text
 apps/app        # core Mælk app
+apps/api        # same-origin Express API/runtime serving the SPA build
 apps/docs       # docs/product manual
 apps/marketing  # future marketing site; root GitHub Pages prototype is retired
 apps/academy    # later training/onboarding app
@@ -73,6 +79,8 @@ packages/ai
 packages/approvals
 packages/readiness
 packages/integrations
+packages/accounting       # planned; no production accounting implementation yet
+packages/localization     # planned localization-pack seams
 ```
 
 ## Core module pattern
@@ -89,5 +97,5 @@ apps/app/app/modules/{module}/
 Initial modules:
 
 ```text
-companies users products suppliers purchasing inventory sales pricing compliance channels approvals readiness activity ai-review integrations
+companies users accounting products suppliers purchasing inventory sales pricing compliance channels approvals readiness activity ai-review integrations localization
 ```
