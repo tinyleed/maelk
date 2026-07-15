@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 
 import { Button } from "~/components/ui/button";
+import { getClientSafeRedirectPath } from "~/lib/client-safe-redirect";
 import { createSupabaseBrowserClient } from "~/lib/supabase-client";
 
 export function meta() {
@@ -19,7 +20,7 @@ export default function AuthCallbackRoute() {
     async function completeSignIn() {
       const supabase = createSupabaseBrowserClient();
       const code = searchParams.get("code");
-      const next = searchParams.get("next") || "/app";
+      const next = getClientSafeRedirectPath(searchParams.get("next"));
 
       if (!supabase || !code) {
         setMessage("Supabase is not configured or the callback is missing a code.");

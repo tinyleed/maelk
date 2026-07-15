@@ -11,7 +11,7 @@
     "build": "react-router build",
     "typecheck": "react-router typegen && tsc --noEmit",
     "lint": "npm run typecheck && node scripts/check-auth-shell.mjs",
-    "test": "node scripts/check-auth-shell.mjs && node scripts/run-product-launch-readiness-tests.mjs"
+    "test": "node scripts/check-auth-shell.mjs && node scripts/run-client-safe-redirect-tests.mjs && node scripts/run-product-launch-readiness-tests.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.3.0",

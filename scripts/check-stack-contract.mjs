@@ -41,6 +41,7 @@ for (const [script, needle] of [
 
 const appPackage = readJson("apps/app/package.json");
 assert.equal(appPackage.engines?.node, ">=22.22.0", "app package must require Node >=22.22.0");
+requireIncludes(appPackage.scripts?.test ?? "", "run-client-safe-redirect-tests.mjs", "app test script");
 assert.equal(appPackage.dependencies?.["react-router"], "8.2.0", "react-router must be pinned to verified v8.2.0");
 assert.equal(appPackage.dependencies?.["@react-router/node"], "8.2.0", "@react-router/node must be pinned to verified v8.2.0");
 assert.equal(appPackage.devDependencies?.["@react-router/dev"], "8.2.0", "@react-router/dev must be pinned to verified v8.2.0");
@@ -61,7 +62,10 @@ for (const script of ["dev", "build", "start", "typecheck", "lint", "test"]) {
 requireFile("apps/app/components.json");
 requireFile("apps/app/app/components/ui/button.tsx");
 requireFile("apps/app/app/entry.server.tsx");
+requireFile("apps/app/app/lib/client-safe-redirect.ts");
+requireFile("apps/app/app/lib/client-safe-redirect.test.ts");
 requireFile("apps/app/app/lib/utils.ts");
+requireFile("apps/app/scripts/run-client-safe-redirect-tests.mjs");
 requireFile("apps/api/src/app.ts");
 requireFile("apps/api/src/server.ts");
 requireFile("apps/api/test/app.test.mjs");
@@ -81,6 +85,11 @@ requireIncludes(supabaseClient, "@supabase/supabase-js", "supabase-client.ts");
 requireIncludes(supabaseClient, "createClient", "supabase-client.ts");
 assert.equal(existsSync(join(root, "apps/app/app/lib/supabase-server.ts")), false, "server-only Supabase helper must be removed");
 
+const clientSafeRedirect = readText("apps/app/app/lib/client-safe-redirect.ts");
+for (const needle of ["DEFAULT_CLIENT_REDIRECT_PATH", "getClientSafeRedirectPath", "decodeURIComponent", "new URL"]) {
+  requireIncludes(clientSafeRedirect, needle, "client-safe-redirect.ts");
+}
+
 for (const route of ["apps/app/app/routes/login.tsx", "apps/app/app/routes/app.tsx"]) {
   const source = readText(route);
   requireIncludes(source, "clientLoader", route);
@@ -88,15 +97,34 @@ for (const route of ["apps/app/app/routes/login.tsx", "apps/app/app/routes/app.t
   requireNotIncludes(source, "createSupabaseServerClient", route);
 }
 
+const loginRoute = readText("apps/app/app/routes/login.tsx");
+requireIncludes(loginRoute, "getClientSafeRedirectPath", "login.tsx");
+const loginForm = readText("apps/app/app/components/login-form.tsx");
+for (const needle of ["getClientSafeRedirectPath", "new URL(\"/auth/callback\"", "searchParams.set"]) {
+  requireIncludes(loginForm, needle, "login-form.tsx");
+}
+requireNotIncludes(loginForm, "encodeURIComponent(nextPath)", "login-form.tsx");
+const authCallbackRoute = readText("apps/app/app/routes/auth-callback.tsx");
+requireIncludes(authCallbackRoute, "getClientSafeRedirectPath", "auth-callback.tsx");
+
 const button = readText("apps/app/app/components/ui/button.tsx");
 requireIncludes(button, "class-variance-authority", "ui/button.tsx");
 requireIncludes(button, "~/lib/utils", "ui/button.tsx");
 requireIncludes(button, "Slot", "ui/button.tsx");
 
 const apiApp = readText("apps/api/src/app.ts");
-for (const needle of ["/api/health", "not_found", "express.static", "index.html"]) {
+for (const needle of [
+  "/api/health",
+  "not_found",
+  "express.static",
+  "index.html",
+  "isMissingStaticAssetRequest",
+  "Client build unavailable",
+  "internal_server_error",
+]) {
   requireIncludes(apiApp, needle, "api app");
 }
+requireNotIncludes(apiApp, "path: spaIndexPath", "api app");
 
 const stalePatterns = [
   /Vercel preview hosting/i,

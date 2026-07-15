@@ -33,6 +33,9 @@ done
 require_dir apps/app
 require_file apps/app/README.md
 require_file apps/app/components.json
+require_file apps/app/app/lib/client-safe-redirect.ts
+require_file apps/app/app/lib/client-safe-redirect.test.ts
+require_file apps/app/scripts/run-client-safe-redirect-tests.mjs
 require_dir apps/api
 require_file apps/api/package.json
 require_file apps/api/src/app.ts

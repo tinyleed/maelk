@@ -2,6 +2,7 @@ import { redirect } from "react-router";
 
 import type { Route } from "./+types/login";
 import { LoginForm } from "~/components/login-form";
+import { getClientSafeRedirectPath } from "~/lib/client-safe-redirect";
 import { createSupabaseBrowserClient } from "~/lib/supabase-client";
 import { getMissingSupabaseEnv, hasSupabaseEnv } from "~/lib/supabase-env";
 
@@ -11,7 +12,7 @@ export function meta() {
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
-  const next = url.searchParams.get("next") || "/app";
+  const next = getClientSafeRedirectPath(url.searchParams.get("next"));
   const supabase = createSupabaseBrowserClient();
 
   if (supabase) {

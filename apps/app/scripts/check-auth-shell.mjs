@@ -17,6 +17,8 @@ const requiredFiles = [
   "app/components/ui/button.tsx",
   "app/components/login-form.tsx",
   "app/components/logout-button.tsx",
+  "app/lib/client-safe-redirect.ts",
+  "app/lib/client-safe-redirect.test.ts",
   "app/lib/supabase-client.ts",
   "app/lib/supabase-env.ts",
   "app/lib/utils.ts",
@@ -26,6 +28,7 @@ const requiredFiles = [
   "app/modules/product-launch-os/product-launch-os.fixtures.ts",
   "app/modules/product-launch-os/product-launch-os.readiness.ts",
   "app/styles.css",
+  "scripts/run-client-safe-redirect-tests.mjs",
   ".env.example",
 ];
 
@@ -100,6 +103,8 @@ for (const required of [
   "@supabase/supabase-js",
   "signInWithOtp",
   "clientLoader",
+  "getClientSafeRedirectPath",
+  "DEFAULT_CLIENT_REDIRECT_PATH",
   "HydrateFallback",
   "@radix-ui/react-slot",
   "class-variance-authority",
@@ -117,6 +122,7 @@ for (const forbidden of [
   "export async function loader",
   "SUPABASE_SERVICE_ROLE",
   "service_role",
+  "encodeURIComponent(nextPath)",
   "Approve go-live",
   "Sync inventory",
   "Send to supplier",
