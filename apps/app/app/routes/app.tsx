@@ -1,24 +1,25 @@
 import { Link, redirect } from "react-router";
 
 import type { Route } from "./+types/app";
-import { Button } from "~/components/button";
+import { Button } from "~/components/ui/button";
 import { LogoutButton } from "~/components/logout-button";
 import { demoLaunches } from "~/lib/product-launches";
-import { createSupabaseServerClient } from "~/lib/supabase-server";
+import { createSupabaseBrowserClient } from "~/lib/supabase-client";
 import { hasSupabaseEnv } from "~/lib/supabase-env";
 
 export function meta() {
   return [{ title: "App · Mælk" }];
 }
 
-export async function loader({ request }: Route.LoaderArgs) {
-  const supabase = createSupabaseServerClient(request);
+export async function clientLoader() {
+  const supabase = createSupabaseBrowserClient();
   let email: string | null = null;
 
   if (supabase) {
     const {
-      data: { user },
-    } = await supabase.auth.getUser();
+      data: { session },
+    } = await supabase.auth.getSession();
+    const user = session?.user;
 
     if (!user) {
       throw redirect("/login?next=/app");
@@ -65,7 +66,7 @@ export default function AppRoute({ loaderData }: Route.ComponentProps) {
         </h2>
         <p>
           {loaderData.hasSupabaseEnv
-            ? "React Router loader checks Supabase Auth before rendering this route."
+            ? "React Router clientLoader checks the browser Supabase session before rendering this route."
             : "Supabase variables are missing, so this local preview shows setup state instead of blocking development."}
         </p>
       </section>

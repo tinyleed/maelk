@@ -45,6 +45,18 @@ export default function App() {
   return <Outlet />;
 }
 
+export function HydrateFallback() {
+  return (
+    <main className="shell narrow-shell">
+      <section className="panel">
+        <p className="eyebrow">Mælk SPA</p>
+        <h1>Preparing the operator shell…</h1>
+        <p className="muted">Loading client-side route data.</p>
+      </section>
+    </main>
+  );
+}
+
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let message = "Unexpected error";
   let details = "Mælk hit an unknown error while rendering this slice.";

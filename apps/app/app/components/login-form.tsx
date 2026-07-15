@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Button } from "~/components/button";
+import { Button } from "~/components/ui/button";
 import { createSupabaseBrowserClient } from "~/lib/supabase-client";
 
 type LoginFormProps = {

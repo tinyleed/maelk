@@ -5,8 +5,8 @@
 Hosting/app status:
 
 - No repo-root static website is maintained here anymore.
-- Mælk v0 standard is a React Router framework app with TypeScript, Tailwind, Radix UI, Supabase Auth/Postgres, and Vercel hosting.
-- `mælk.com` / `xn--mlk-yla.com` stay unwired until the Vercel/Supabase app is proven on preview URLs.
+- Mælk v0 standard is a React Router v8 Framework SPA with TypeScript, Tailwind v4, shadcn/ui, a same-origin Node.js/Express API, and Supabase Auth/Postgres as the canonical auth/data target.
+- Hosting is undecided. The current runnable shape is local Express serving `apps/app/build/client`; `mælk.com` / `xn--mlk-yla.com`, deploys, and external service projects remain human-gated.
 
 Current product direction:
 
@@ -26,6 +26,7 @@ Architecture entrypoint:
 - Historical context: [`architecture/maelk-operating-system-architecture-v0.md`](architecture/maelk-operating-system-architecture-v0.md)
 - [`AGENTS.md`](AGENTS.md)
 - [`.claude/rules/conventions-index.md`](.claude/rules/conventions-index.md)
+- [`docs/spa-express-supabase-setup.md`](docs/spa-express-supabase-setup.md)
 
 Original architecture rule:
 

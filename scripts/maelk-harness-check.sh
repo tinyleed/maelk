@@ -32,6 +32,14 @@ for retired_root_file in index.html design-prototype-v0.html CNAME DNS.md .nojek
 done
 require_dir apps/app
 require_file apps/app/README.md
+require_file apps/app/components.json
+require_dir apps/api
+require_file apps/api/package.json
+require_file apps/api/src/app.ts
+require_file apps/api/src/server.ts
+require_file apps/api/test/app.test.mjs
+require_file docs/spa-express-supabase-setup.md
+[[ ! -e docs/vercel-supabase-setup.md ]] || fail "stale Vercel setup doc is still present"
 require_dir packages/database
 require_dir packages/readiness
 
@@ -68,6 +76,8 @@ fi
 rm -f /tmp/maelk-stale-product-launch-goal-grep.txt
 
 echo "erp_platform_goal_doc_ok"
+
+node scripts/check-stack-contract.mjs
 
 echo "root_static_site_absent_ok"
 

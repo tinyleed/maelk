@@ -12,6 +12,7 @@ Mælk is public, but it is still a supervised early-stage Denmark-first, open-so
 - Admin enforcement and required review count are intentionally off in the first branch-protection pass; do not use admin bypass for normal maintainer workflow.
 - Meaningful changes should be reviewed before merge; do not merge your own risky change without independent review.
 - Canonical current goal lives in `architecture/maelk-erp-platform-goal-v1.md`.
+- Current runnable stack is React Router v8 SPA + same-origin Express API + Supabase browser auth boundary + shadcn/ui; hosting/deployment remains a separate human-gated decision.
 - Native double-entry accounting is mandatory from the first serious version, but finance schema/code and production accounting-readiness claims require a separate approved slice.
 - Product Launch OS remains an existing fake-data-backed prototype/module, not the current platform goal or default next build lane.
 - Shop-floor/manufacturing execution scope stays out of the project.

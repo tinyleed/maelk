@@ -26,6 +26,7 @@ Canonical current goal: `architecture/maelk-erp-platform-goal-v1.md`.
 - Mælk is ERP-grade, but it must not include shop-floor/manufacturing execution.
 - Native double-entry accounting is mandatory from the first serious version; do not add finance schema/code or claim legal/accounting production readiness without a separate approved task.
 - One shared multi-tenant and multi-company core supports segments through tiers, permissions, configuration, and localization packs.
+- Current runnable stack is React Router v8 SPA + same-origin Node.js/Express API + Tailwind v4 + shadcn/ui, with Supabase Auth/Postgres as the canonical auth/data target.
 - Denmark is the first localization target; future countries should be explicit localization packs.
 - Product Launch OS is an existing fake-data-backed prototype/module, not the current platform goal or default next build lane.
 - `companyId`, audit fields, approval reasons, and activity events are first-class.

@@ -3,8 +3,8 @@
 ## Environment
 
 - This project is **Mælk**: a Denmark-first, open-source, AI-native ERP platform for commerce operations with shop-floor/manufacturing execution out of scope.
-- Mælk v0 standard stack is **React Router framework + TypeScript + Tailwind + Radix UI** on **Vercel**, with **Supabase Auth/Postgres** as canonical auth and data layer.
-- Hosting for `mælk.com` / `xn--mlk-yla.com` must stay off GitHub Pages. Use Vercel preview/production URLs first; do not change DNS/custom-domain settings without explicit approval.
+- Mælk v0 standard stack is **React Router v8 Framework in SPA mode + Node.js/Express same-origin API + TypeScript + Tailwind v4 + shadcn/ui**, with **Supabase Auth/Postgres** as canonical auth and data layer.
+- Hosting/deployment is undecided. The current runnable shape is local single-service Express serving the SPA build; do not change DNS/custom-domain settings, create hosting projects, deploy, or mutate external accounts without explicit approval.
 - Current canonical goal: `architecture/maelk-erp-platform-goal-v1.md`.
 - Product Launch OS is an existing fake-data-backed prototype/module, not the current platform goal or default next build lane.
 
@@ -48,6 +48,7 @@ Translate manufacturing-adjacent needs into commerce language: products, SKUs, s
 ```text
 apps/
   app/
+  api/          # current same-origin Express runtime/API
   docs/
   marketing/
   academy/        # later

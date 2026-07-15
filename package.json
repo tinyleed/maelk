@@ -2,19 +2,22 @@
   "name": "maelk",
   "version": "0.0.0",
   "private": true,
-  "workspaces": [
-    "apps/app"
-  ],
-  "overrides": {
-    "@vercel/static-config": {
-      "ajv": "^8.18.0"
-    }
+  "engines": {
+    "node": ">=22.22.0"
   },
+  "workspaces": [
+    "apps/app",
+    "apps/api"
+  ],
   "scripts": {
-    "dev": "npm --workspace @maelk/app run dev",
-    "build": "npm --workspace @maelk/app run build",
-    "lint": "npm --workspace @maelk/app run lint",
-    "test": "npm --workspace @maelk/app run test",
-    "typecheck": "npm --workspace @maelk/app run typecheck"
+    "dev": "concurrently -n api,web -c green,blue \"npm --workspace @maelk/api run dev\" \"npm --workspace @maelk/app run dev\"",
+    "build": "npm --workspace @maelk/app run build && npm --workspace @maelk/api run build",
+    "start": "npm --workspace @maelk/api run start",
+    "lint": "node scripts/check-stack-contract.mjs && npm --workspaces run lint",
+    "test": "node scripts/check-stack-contract.mjs && npm --workspaces run test",
+    "typecheck": "npm --workspaces run typecheck"
+  },
+  "devDependencies": {
+    "concurrently": "10.0.3"
   }
 }

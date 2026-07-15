@@ -22,6 +22,12 @@ Mælk is:
 - **Commerce-operations focused:** product data, suppliers, purchasing, inventory, sales, offers, orders, invoicing-adjacent flows, pricing, compliance, approvals, activity, readiness, and integrations belong in one coherent system.
 - **Multi-tenant and multi-company:** one shared core must support multiple companies and multiple operating segments through permissions, configuration, localization, and tiers.
 
+## Current runnable stack decision
+
+The current implementation stack is React Router v8 Framework in SPA mode, TypeScript, Tailwind v4, shadcn/ui, a same-origin Node.js/Express API runtime, and Supabase Auth/Postgres as the canonical auth/data target.
+
+The Express runtime is the local single-service shape for now: it serves `apps/app/build/client`, exposes `/api/*`, and returns the SPA `index.html` for non-API client routes. Hosting/deployment remains undecided and human-gated; do not use this document to create hosting projects, deploy, wire DNS, or claim production readiness.
+
 ## Non-decision: full OSS vs open-core
 
 The repo is currently public under its existing license, but the long-term product/commercial packaging model is not decided in this document.

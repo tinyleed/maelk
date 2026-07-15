@@ -14,7 +14,7 @@ Current repository state:
 - the old root static GitHub Pages prototype has been retired; new public hosting for `mælk.com` is pending a deliberate non-GitHub-Pages target;
 - architecture docs live in `architecture/`;
 - `.claude/rules` describes the intended technical conventions for future app work;
-- React Router app/package scaffolding exists, but the platform is still early and not production-ready.
+- React Router v8 SPA + same-origin Express API scaffolding exists, but the platform is still early and not production-ready.
 
 ## Product direction
 
@@ -55,6 +55,7 @@ manufacturing execution events
 
 ```text
 apps/app        # core Mælk app
+apps/api        # same-origin Express API/runtime serving the SPA build
 apps/docs       # docs/product manual
 apps/marketing  # future marketing site; root GitHub Pages prototype is retired
 apps/academy    # later training/onboarding app
