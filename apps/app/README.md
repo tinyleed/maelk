@@ -1,10 +1,10 @@
 # apps/app
 
-Core Mælk application. Commerce/business OS app shell with shop-floor/manufacturing execution out of scope.
+Core Mælk application. React Router app shell for the Denmark-first AI-native ERP platform, with shop-floor/manufacturing execution out of scope.
 
 ## v0 app shell
 
-The first real app slice is a small **React Router framework** shell prepared for Supabase Auth and Vercel preview hosting.
+The current app slice is a small **React Router framework** shell prepared for Supabase Auth and Vercel preview hosting.
 
 - React Router framework routes live in `app/routes.ts` and route modules under `app/routes/`.
 - TypeScript is enabled for route modules and app code.
@@ -12,8 +12,8 @@ The first real app slice is a small **React Router framework** shell prepared fo
 - Radix UI is present through the shared `Button` primitive using `@radix-ui/react-slot`.
 - Supabase browser/server helpers live under `app/lib/`.
 - `/login` sends a Supabase magic link when env vars are configured.
-- `/app` is the protected operator surface and currently shows local-only Product Launch OS demo records.
-- Product Launch OS demo cards are derived from a typed local domain module under `app/modules/product-launch-os/`, preserving fake readiness gates, audit fields, and human approval reasons without live writes.
+- `/app` is the protected operator surface and currently shows local-only Product Launch OS demo records while the broader ERP platform goal is documented in `../../architecture/maelk-erp-platform-goal-v1.md`.
+- Product Launch OS demo cards are derived from a typed local domain module under `app/modules/product-launch-os/`, preserving fake readiness gates, audit fields, and human approval reasons without live writes. Treat this as an existing prototype, not the default next build lane.
 - The app builds without Supabase env vars so Vercel setup can be prepared before credentials exist.
 
 ## Environment

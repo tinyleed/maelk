@@ -19,7 +19,9 @@ require_dir() {
 
 require_file AGENTS.md
 require_file CLAUDE.md
+require_file architecture/maelk-erp-platform-goal-v1.md
 require_file architecture/maelk-operating-system-architecture-v0.md
+require_file architecture/product-launch-os-first-implementation-slice-v0.md
 require_file architecture/agent-loop-governance-v0.md
 require_file .claude/rules/agent-loop-guardrails.md
 require_file .claude/rules/shop-floor-boundary.md
@@ -30,11 +32,6 @@ for retired_root_file in index.html design-prototype-v0.html CNAME DNS.md .nojek
 done
 require_dir apps/app
 require_file apps/app/README.md
-require_file apps/app/product-launch-os/README.md
-require_file apps/app/product-launch-os/index.html
-require_file apps/app/product-launch-os/product-launch-os.css
-require_file apps/app/product-launch-os/product-launch-os.js
-require_file apps/app/product-launch-os/product-launch-os.fake-data.json
 require_dir packages/database
 require_dir packages/readiness
 
@@ -47,19 +44,51 @@ if git grep --untracked -n -E 'Carbon|carbon|Carbon-inspired|Carbon-class|withou
 fi
 rm -f /tmp/maelk-public-framing-grep.txt
 
+GOAL_DOC="architecture/maelk-erp-platform-goal-v1.md"
+for required_goal_text in \
+  "Denmark-first" \
+  "open-source" \
+  "AI-native ERP platform" \
+  "double-entry accounting" \
+  "Multi-tenant and multi-company" \
+  "localization packs" \
+  "full OSS vs open-core" \
+  "Product Launch OS" \
+  "not the current platform goal" \
+  "not the default next build lane" \
+  "shop-floor"; do
+  grep -Fq "$required_goal_text" "$GOAL_DOC" || fail "$GOAL_DOC missing required goal text: $required_goal_text"
+done
+
+if git grep --untracked -n -E 'The first product wedge is \*\*Product Launch OS\*\*|first wedge: \*\*Product Launch OS\*\*|First wedge: Product Launch OS|Product Launch OS remains the first wedge|The first wedge is \*\*Product Launch OS\*\*|First protected workflow surface|first Mælk Product Launch OS surface' -- \
+  README.md AGENTS.md CONTRIBUTING.md docs apps ops .claude/rules ':!architecture/maelk-operating-system-architecture-v0.md' ':!architecture/product-launch-os-first-implementation-slice-v0.md' >/tmp/maelk-stale-product-launch-goal-grep.txt; then
+  cat /tmp/maelk-stale-product-launch-goal-grep.txt >&2
+  fail "stale Product Launch OS platform-goal wording found"
+fi
+rm -f /tmp/maelk-stale-product-launch-goal-grep.txt
+
+echo "erp_platform_goal_doc_ok"
+
 echo "root_static_site_absent_ok"
 
 PRODUCT_LAUNCH_JSON="apps/app/product-launch-os/product-launch-os.fake-data.json"
 PRODUCT_LAUNCH_HTML="apps/app/product-launch-os/index.html"
 PRODUCT_LAUNCH_SCRIPT="apps/app/product-launch-os/product-launch-os.js"
 
-if ! python3 -m json.tool "$PRODUCT_LAUNCH_JSON" >/tmp/maelk-product-launch-os.fake-data.json; then
-  rm -f /tmp/maelk-product-launch-os.fake-data.json
-  fail "malformed JSON: $PRODUCT_LAUNCH_JSON"
-fi
-rm -f /tmp/maelk-product-launch-os.fake-data.json
+if [[ -d apps/app/product-launch-os ]]; then
+  require_file apps/app/product-launch-os/README.md
+  require_file "$PRODUCT_LAUNCH_HTML"
+  require_file apps/app/product-launch-os/product-launch-os.css
+  require_file "$PRODUCT_LAUNCH_SCRIPT"
+  require_file "$PRODUCT_LAUNCH_JSON"
 
-python3 - "$PRODUCT_LAUNCH_JSON" <<'PY'
+  if ! python3 -m json.tool "$PRODUCT_LAUNCH_JSON" >/tmp/maelk-product-launch-os.fake-data.json; then
+    rm -f /tmp/maelk-product-launch-os.fake-data.json
+    fail "malformed JSON: $PRODUCT_LAUNCH_JSON"
+  fi
+  rm -f /tmp/maelk-product-launch-os.fake-data.json
+
+  python3 - "$PRODUCT_LAUNCH_JSON" <<'PY'
 from pathlib import Path
 import json
 import sys
@@ -131,7 +160,7 @@ for approval in data["approvals"]:
 print("product_launch_os_json_ok")
 PY
 
-python3 - "$PRODUCT_LAUNCH_HTML" "$PRODUCT_LAUNCH_SCRIPT" <<'PY'
+  python3 - "$PRODUCT_LAUNCH_HTML" "$PRODUCT_LAUNCH_SCRIPT" <<'PY'
 from html.parser import HTMLParser
 from pathlib import Path
 import sys
@@ -199,10 +228,14 @@ for forbidden in ["Publish", "Sync inventory", "Send to supplier", "Approve go-l
         raise SystemExit(f"Product Launch OS static cockpit includes forbidden live-control label: {forbidden}")
 print("product_launch_os_html_ok")
 PY
+else
+  echo "product_launch_os_static_cockpit_absent_ok"
+fi
 
 if [[ -f package.json ]]; then
   if command -v npm >/dev/null 2>&1; then
     npm test --if-present
+    npm run typecheck --if-present
     npm run lint --if-present
     npm run build --if-present
   else

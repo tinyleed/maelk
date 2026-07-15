@@ -1,5 +1,10 @@
 # Mælk Operating System Architecture v0
 
+> Historical note (2026-07-15): this v0 architecture is superseded by
+> `architecture/maelk-erp-platform-goal-v1.md` as the canonical current goal.
+> Preserve this file as historical context; Product Launch OS language below
+> describes the earlier v0 direction, not the active platform target.
+
 Status: accepted direction
 Date: 2026-06-29
 

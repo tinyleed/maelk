@@ -17,8 +17,11 @@ Check:
 
 - task goal satisfied;
 - only in-scope files changed;
+- canonical goal alignment checked against `architecture/maelk-erp-platform-goal-v1.md` when product direction is touched;
 - no secrets/credentials/live external effects;
+- no finance schema/code, ledger posting, fiscal reporting, or accounting production-readiness claim introduced without explicit approval;
 - no shop-floor/manufacturing execution scope introduced;
+- Product Launch OS, when touched, remains fake-data-backed/local-only prototype scope rather than the current platform goal;
 - no public source-inspiration wording introduced;
 - harness output present and passing;
 - relevant tests/builds/smokes present when executable behavior changed;

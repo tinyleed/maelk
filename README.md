@@ -1,6 +1,6 @@
 # mælk
 
-**Mælk** is a commerce/business operating system with shop-floor/manufacturing execution out of scope.
+**Mælk** is a Denmark-first, open-source, AI-native ERP platform for commerce operations, with shop-floor/manufacturing execution out of scope.
 
 Hosting/app status:
 
@@ -10,15 +10,20 @@ Hosting/app status:
 
 Current product direction:
 
-- ERP/business OS seriousness, translated for commerce operations;
-- product/PIM, suppliers, purchasing, inventory, sales/offers/orders, pricing, compliance, channels, approvals, AI review, and readiness;
+- canonical current goal: Denmark-first AI-native ERP platform for commerce operations;
+- native double-entry accounting is mandatory from the first serious version, without claiming production accounting/legal readiness yet;
+- one shared multi-tenant and multi-company core supports segments through tiers, permissions, configuration, and localization packs;
+- Denmark leads the first localization pack; future countries should be added through explicit localization architecture rather than forks;
+- full OSS vs open-core remains undecided; this repo stays public under the existing license while that product decision is open;
+- product/PIM, suppliers, purchasing, inventory, sales/offers/orders, pricing, compliance, accounting foundations, channels, approvals, AI review, and readiness;
 - hard boundary: no shop-floor app, work centers, labor/machine time, routing execution, or production operation tracking;
-- first wedge: **Product Launch OS**;
+- Product Launch OS remains an existing fake-data-backed module/prototype, not the current platform goal or default next build lane;
 - design language: lowercase `mælk`, `æ` as signature asset, cream/cocoa/caramel palette, sparse Milkglass controls.
 
 Architecture entrypoint:
 
-- [`architecture/maelk-operating-system-architecture-v0.md`](architecture/maelk-operating-system-architecture-v0.md)
+- [`architecture/maelk-erp-platform-goal-v1.md`](architecture/maelk-erp-platform-goal-v1.md)
+- Historical context: [`architecture/maelk-operating-system-architecture-v0.md`](architecture/maelk-operating-system-architecture-v0.md)
 - [`AGENTS.md`](AGENTS.md)
 - [`.claude/rules/conventions-index.md`](.claude/rules/conventions-index.md)
 

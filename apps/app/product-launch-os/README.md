@@ -1,6 +1,8 @@
 # Product Launch OS static cockpit v0
 
-Repo-local static prototype for the first Mælk Product Launch OS surface.
+Repo-local static prototype for an existing Mælk Product Launch OS surface.
+
+Status: historical/prototype. Product Launch OS is kept as a fake-data-backed safety-validation surface and is not the current Mælk platform goal or default next build lane. See `../../../architecture/maelk-erp-platform-goal-v1.md`.
 
 ## Scope
 

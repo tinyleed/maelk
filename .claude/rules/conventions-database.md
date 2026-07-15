@@ -5,7 +5,9 @@ paths: ["packages/database/**", "apps/app/app/modules/**/*.models.ts"]
 
 # Database Conventions
 
-Mælk's database must be multi-tenant, audit-first, and approval-aware from day one.
+Mælk's database must be multi-tenant, multi-company, audit-first, approval-aware, and ready for a future native double-entry accounting core from day one.
+
+Canonical current goal: `architecture/maelk-erp-platform-goal-v1.md`.
 
 ## Default table contract
 
@@ -40,6 +42,8 @@ CREATE TABLE "entityName" (
 - Use `SECURITY_INVOKER=true` for views so underlying RLS applies.
 - Use transactions for multi-row writes.
 - Do not store readiness as one hand-edited boolean when it can be derived from required evidence, blockers, and approvals.
+- Do not add accounting tables, ledger posting behavior, fiscal reports, or production accounting claims without a separate approved accounting architecture task.
+- Future accounting-impacting tables will need stricter immutability, posting, and audit controls than ordinary draft workflow records.
 
 ## Approval data
 
@@ -54,26 +58,28 @@ riskSummary
 sourceLink
 ```
 
-Applies to pricing, compliance, channel publishing, external sends, inventory/accounting-affecting actions, and go-live.
+Applies to pricing, compliance, channel publishing, external sends, inventory/accounting-affecting actions, ledger posting, filing/payment preparation, and go-live.
 
-## First Product Launch OS tables
+## Platform table families
 
-Start narrow:
+The canonical platform goal is ERP-wide. Product Launch OS records are now prototype safety fixtures, not the platform data model. Future schema work should start from a focused approved slice, but table-family planning should account for:
 
 ```text
 company
 user
+role / permission / membership
+accounting primitives (planned separately)
 product
 sku
 supplier
 supplierTerm
+purchase / sales / inventory documents
 costModel
 complianceRequirement
 channel
-launch
-launchGate
 approval
 activityEvent
 aiReview
 sourceLink
+localizationPack / tier / configuration
 ```

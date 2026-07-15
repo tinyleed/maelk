@@ -74,7 +74,7 @@ export default function AppRoute({ loaderData }: Route.ComponentProps) {
         <div className="section-heading">
           <div>
             <p className="eyebrow">Product Launch OS</p>
-            <h2>First protected workflow surface</h2>
+            <h2>Existing local workflow prototype</h2>
           </div>
           <span className="status-pill">local-only</span>
         </div>
