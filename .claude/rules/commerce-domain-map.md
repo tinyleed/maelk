@@ -5,12 +5,27 @@ paths: ["architecture/**", "apps/app/app/modules/**", "packages/database/**"]
 
 # Commerce Domain Map
 
-Mælk is a broad commerce/business operating system. The language is commerce operations, not manufacturing execution.
+Mælk is a Denmark-first, open-source, AI-native ERP platform for commerce operations. The language is commerce operations and accounting-grade business control, not manufacturing execution.
+
+Canonical current goal: `architecture/maelk-erp-platform-goal-v1.md`.
+
+## Platform goal
+
+```text
+Denmark-first ERP core
+→ native double-entry accounting from the first serious version
+→ shared multi-tenant / multi-company platform
+→ tiers, permissions, configuration, and localization packs
+→ AI-assisted drafting/review with human approval gates
+```
+
+Do not add finance schema/code or claim legal/accounting production readiness until a separate accounting architecture task approves that work.
 
 ## Core domains
 
 ```text
 companies / users
+accounting core / ledger controls / VAT-localization seams
 products / SKUs / variants
 suppliers / supplier terms
 purchasing
@@ -24,20 +39,18 @@ readiness / launch gates
 activity / timeline
 ai-review / prepared actions
 integrations / sync state
+localization packs / tiers / configuration
 ```
 
-## First wedge: Product Launch OS
+## Existing prototype: Product Launch OS
 
-A launch connects many domains without requiring the full system to exist first:
+Product Launch OS remains as an existing fake-data-backed prototype/module. A launch connects many domains and is still useful for readiness, audit, and approval safety checks:
 
 ```text
 product + supplier + cost + compliance + channel + inventory + campaign + approval + AI review
 ```
 
-The first implementation slice is planned in
-`architecture/product-launch-os-first-implementation-slice-v0.md` and should stay
-repo-local, fake-data-backed, and free of live integrations until ANANKE approves
-the build task.
+The historical implementation plan lives in `architecture/product-launch-os-first-implementation-slice-v0.md`. Keep any existing prototype repo-local, fake-data-backed, and free of live integrations unless ANANKE approves a separate build task.
 
 ## Domain language guide
 
@@ -49,5 +62,7 @@ workflow step        → gate / readiness step
 quality/risk         → compliance / review / approval
 onboarding           → readiness / implementation / go-live
 AI tool surface      → constrained review and prepared-action surface
+accounting impact    → human-approved draft/posting boundary with audit reason
+country support      → localization pack
 shop-floor operation → excluded
 ```

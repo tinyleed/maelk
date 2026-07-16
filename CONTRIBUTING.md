@@ -1,6 +1,6 @@
 # Contributing to Mælk
 
-Mælk is an early-stage commerce/business operating system. The first wedge is Product Launch OS: a calm, audit-first way to move products from idea to live while keeping humans in control of high-impact decisions.
+Mælk is an early-stage Denmark-first, open-source, AI-native ERP platform for commerce operations. Native double-entry accounting is mandatory from the first serious version, while Product Launch OS remains an existing fake-data-backed prototype/module rather than the current platform goal.
 
 This public repo is intentionally small and supervised. Please optimize for focused issues, small PRs, and verified changes rather than broad rewrites.
 
@@ -9,13 +9,15 @@ This public repo is intentionally small and supervised. Please optimize for focu
 In scope:
 
 - commerce/business operating-system work;
-- Product Launch OS and adjacent product, supplier, pricing, compliance, channel, approval, readiness, activity, and AI-review flows;
+- ERP platform architecture for product, supplier, purchasing, inventory, sales, pricing, compliance, accounting foundations, channels, approval, readiness, activity, localization, and AI-review flows;
+- Product Launch OS prototype maintenance when it stays fake-data-backed and local-only;
 - docs, tests, harness checks, and repo-local automation that make changes safer.
 
 Out of scope:
 
 - shop-floor or manufacturing execution features;
 - secrets, credentials, tokens, payment settings, production data, or live integration writes;
+- finance schema/code, ledger posting, fiscal reporting, or production accounting-readiness claims unless a maintainer explicitly approves that slice;
 - DNS, hosting, deployment, branch protection, and external account changes without maintainer approval.
 
 If a proposed change touches a boundary, open an issue first and wait for maintainer direction.
@@ -47,6 +49,8 @@ Contributors and agents may draft, analyze, test, and prepare changes. Maintaine
 - merges, releases, and public delivery.
 
 Do not attempt to bypass these gates in code, docs, automation, or PR process.
+
+The repository is public under its existing license, but the long-term full-OSS vs open-core product model remains undecided; do not make licensing or packaging commitments in drive-by contributions.
 
 ## PR expectations
 

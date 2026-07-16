@@ -1,11 +1,13 @@
 ---
-description: Service/data-access conventions for Mælk modules.
-paths: ["apps/app/app/modules/**/*.service.ts", "packages/*/src/**/*.ts"]
+description: Service/data-access conventions for Mælk modules and the same-origin Express API.
+paths: ["apps/app/app/modules/**/*.service.ts", "apps/api/src/**/*.ts", "packages/*/src/**/*.ts"]
 ---
 
 # Service Conventions
 
 Services own database access. Routes/actions own permission checks, validation, redirects, and user-facing errors.
+
+The current runnable API boundary is `apps/api`: a Node.js/Express service that exposes `/api/*`, serves the built React Router SPA, and stays same-origin. Do not add service-role keys, live Supabase management calls, schema migrations, or production data writes in generic API work without a separate approved task.
 
 ## Module location
 

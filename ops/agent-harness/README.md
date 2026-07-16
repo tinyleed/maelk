@@ -14,10 +14,10 @@ This folder defines how ANANKE, `maelk-builder`, Themis, and Kanban coordinate M
 brief → worker → harness → ANANKE diff check → Themis review → accept/redo
 ```
 
-## First proof task
+## Historical first proof task
 
-Before building Product Launch OS, run one read-only worker task:
+The original v0 loop was proven with a read-only worker task:
 
 > Verify guardrails and propose the smallest Product Launch OS implementation plan.
 
-If that task cannot pass without confusion, the harness is not ready for real implementation work.
+That history is retained because the Product Launch OS prototype still exercises fake-data readiness, approvals, AI review, and audit checks. Current product-direction tasks should instead align with `architecture/maelk-erp-platform-goal-v1.md`.

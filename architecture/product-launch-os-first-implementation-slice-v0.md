@@ -1,5 +1,10 @@
 # Product Launch OS first implementation slice v0
 
+> Historical note (2026-07-15): this plan is superseded as the default build
+> lane by `architecture/maelk-erp-platform-goal-v1.md`. Preserve it as the
+> Product Launch OS prototype history and safety-validation reference; do not
+> treat it as the active Mælk platform goal.
+
 Status: plan gate, not implemented
 Date: 2026-06-29
 Task: `t_b6a013be`

@@ -1,5 +1,5 @@
 ---
-description: UI conventions for Mælk's future component system and current marketing prototype.
+description: UI conventions for Mælk's shadcn/ui component system and current app shell.
 paths: ["apps/**/app/components/**", "apps/**/app/modules/**/ui/**", "packages/react/**", "index.html", "design-prototype-v0.html"]
 ---
 
@@ -17,7 +17,7 @@ Mælk's UI should feel warm, calm, premium, and operational — not generic dark
 
 ## Component discipline
 
-When the app exists, use shared components from `packages/react` before hand-rolled markup.
+Use shadcn/ui-style components under `apps/app/app/components/ui/` before hand-rolled markup. Preserve Mælk tokens and brand classes; do not drop in stock shadcn styling that erases the cream/cocoa/caramel language.
 
 Rules:
 
@@ -29,6 +29,6 @@ Rules:
 - reduced-motion support for decorative motion;
 - visual polish must not hide unclear product logic.
 
-## Current static site caution
+## Runtime caution
 
-`index.html` and `design-prototype-v0.html` are live/static prototype files. Keep them working while architecture scaffolding is added.
+The React Router app is an SPA served by the local Express runtime after build. Route and component changes should work both through Vite dev and through the built `apps/app/build/client` fallback served by `apps/api`.

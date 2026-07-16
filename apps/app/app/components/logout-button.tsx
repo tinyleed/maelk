@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 
-import { Button } from "~/components/button";
+import { Button } from "~/components/ui/button";
 import { createSupabaseBrowserClient } from "~/lib/supabase-client";
 
 export function LogoutButton() {

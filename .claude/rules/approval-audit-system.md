@@ -7,10 +7,12 @@ paths: ["apps/app/app/modules/approvals/**", "apps/app/app/modules/readiness/**"
 
 Mælk's safety model is: AI prepares; humans approve; the system records why.
 
+Canonical current goal: `architecture/maelk-erp-platform-goal-v1.md`.
+
 ## AI may
 
 - search and summarize records;
-- draft product copy, supplier notes, launch briefs, and checklist text;
+- draft product copy, supplier notes, accounting-support summaries, launch briefs, and checklist text;
 - flag missing fields;
 - compare a launch against a readiness template;
 - prepare an action for review.
@@ -22,6 +24,8 @@ Mælk's safety model is: AI prepares; humans approve; the system records why.
 - publish to a channel;
 - send external messages;
 - mutate inventory/accounting state;
+- post ledger entries or fiscal reports;
+- decide payments, filings, pricing, compliance, go-live, or release outcomes;
 - approve go-live.
 
 ## Approval record
@@ -44,6 +48,8 @@ resolvedAt
 ## Audit event
 
 Every state transition that affects readiness should append an activity/audit event with actor, action, target, timestamp, and metadata.
+
+Accounting-impacting state transitions need an explicit human reason and must be designed as draft/posted boundaries in a separate approved accounting slice.
 
 ## Readiness
 
