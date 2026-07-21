@@ -31,6 +31,7 @@ jobs:
         run: ./scripts/maelk-harness-check.sh
 
       - name: Verify Cloudflare Worker bundle and local preview
+        timeout-minutes: 2
         run: npm run test:worker-preview
 
       - name: Start minimal local Supabase security stack

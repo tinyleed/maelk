@@ -35,19 +35,34 @@ async function waitForHealth(baseUrl, child, output) {
   throw new Error(`wrangler preview did not become ready\n${output.join("")}`);
 }
 
-async function stopChild(child) {
-  if (child.exitCode !== null) {
+function signalChildTree(child, signal) {
+  if (!child.pid) {
     return;
   }
-  child.kill("SIGTERM");
-  await Promise.race([
-    new Promise((resolve) => child.once("exit", resolve)),
-    delay(5_000).then(() => {
-      if (child.exitCode === null) {
-        child.kill("SIGKILL");
-      }
-    }),
-  ]);
+  try {
+    if (process.platform === "win32") {
+      child.kill(signal);
+    } else {
+      process.kill(-child.pid, signal);
+    }
+  } catch (error) {
+    if (error?.code !== "ESRCH") {
+      throw error;
+    }
+  }
+}
+
+async function stopChild(child) {
+  const exited =
+    child.exitCode !== null
+      ? Promise.resolve()
+      : new Promise((resolve) => child.once("exit", resolve));
+
+  signalChildTree(child, "SIGTERM");
+  await Promise.race([exited, delay(5_000)]);
+  signalChildTree(child, "SIGKILL");
+  child.stdout.destroy();
+  child.stderr.destroy();
 }
 
 const port = await reserveLoopbackPort();
@@ -63,6 +78,7 @@ const child = spawn(
       CI: "1",
       WRANGLER_SEND_METRICS: "false",
     },
+    detached: process.platform !== "win32",
     stdio: ["ignore", "pipe", "pipe"],
   },
 );
