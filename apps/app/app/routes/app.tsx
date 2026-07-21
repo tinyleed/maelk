@@ -3,34 +3,22 @@ import { Link, redirect } from "react-router";
 import type { Route } from "./+types/app";
 import { Button } from "~/components/ui/button";
 import { LogoutButton } from "~/components/logout-button";
+import { getServerAuthSession } from "~/lib/auth-api";
 import { demoLaunches } from "~/lib/product-launches";
-import { createSupabaseBrowserClient } from "~/lib/supabase-client";
-import { hasSupabaseEnv } from "~/lib/supabase-env";
 
 export function meta() {
   return [{ title: "App · Mælk" }];
 }
 
 export async function clientLoader() {
-  const supabase = createSupabaseBrowserClient();
-  let email: string | null = null;
+  const session = await getServerAuthSession();
 
-  if (supabase) {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    const user = session?.user;
-
-    if (!user) {
-      throw redirect("/login?next=/app");
-    }
-
-    email = user.email ?? null;
+  if (session.authConfigured && !session.authenticated) {
+    throw redirect("/login?next=/app");
   }
 
   return {
-    email,
-    hasSupabaseEnv,
+    session,
     launches: demoLaunches,
   };
 }
@@ -47,7 +35,7 @@ export default function AppRoute({ loaderData }: Route.ComponentProps) {
           <Button asChild>
             <Link to="/">Home</Link>
           </Button>
-          {loaderData.email ? (
+          {loaderData.session.authConfigured && loaderData.session.authenticated ? (
             <LogoutButton />
           ) : (
             <Button asChild variant="primary">
@@ -60,14 +48,14 @@ export default function AppRoute({ loaderData }: Route.ComponentProps) {
       <section className="panel">
         <p className="eyebrow">Session</p>
         <h2>
-          {loaderData.email
-            ? `Logged in as ${loaderData.email}`
-            : "Login required once Supabase env is configured"}
+          {loaderData.session.authConfigured && loaderData.session.authenticated
+            ? `Logged in as ${loaderData.session.user.email ?? loaderData.session.user.id}`
+            : "Local setup mode: server-owned auth is not configured"}
         </h2>
         <p>
-          {loaderData.hasSupabaseEnv
-            ? "React Router clientLoader checks the browser Supabase session before rendering this route."
-            : "Supabase variables are missing, so this local preview shows setup state instead of blocking development."}
+          {loaderData.session.authConfigured
+            ? "React Router clientLoader checks the same-origin server session before rendering this route."
+            : "Required server-only Supabase auth variables are missing, so this local preview shows setup state without simulating identity."}
         </p>
       </section>
 

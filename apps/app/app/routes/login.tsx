@@ -2,9 +2,8 @@ import { redirect } from "react-router";
 
 import type { Route } from "./+types/login";
 import { LoginForm } from "~/components/login-form";
+import { getServerAuthSession } from "~/lib/auth-api";
 import { getClientSafeRedirectPath } from "~/lib/client-safe-redirect";
-import { createSupabaseBrowserClient } from "~/lib/supabase-client";
-import { getMissingSupabaseEnv, hasSupabaseEnv } from "~/lib/supabase-env";
 
 export function meta() {
   return [{ title: "Sign in · Mælk" }];
@@ -13,22 +12,15 @@ export function meta() {
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
   const next = getClientSafeRedirectPath(url.searchParams.get("next"));
-  const supabase = createSupabaseBrowserClient();
+  const session = await getServerAuthSession();
 
-  if (supabase) {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    if (session?.user) {
-      throw redirect(next);
-    }
+  if (session.authConfigured && session.authenticated) {
+    throw redirect(next);
   }
 
   return {
     next,
-    hasSupabaseEnv,
-    missingEnv: getMissingSupabaseEnv(),
+    session,
   };
 }
 
@@ -38,20 +30,19 @@ export default function LoginRoute({ loaderData }: Route.ComponentProps) {
       <section className="panel auth-panel">
         <p className="eyebrow">Mælk login</p>
         <h1>Sign in to the Mælk operator shell</h1>
-        {loaderData.hasSupabaseEnv ? (
+        {loaderData.session.authConfigured ? (
           <LoginForm nextPath={loaderData.next} />
         ) : (
           <div className="setup-card">
-            <h2>Supabase is not configured yet</h2>
-            <p>Add these public browser variables locally before signing in:</p>
+            <h2>Server-owned Supabase auth is not configured yet</h2>
+            <p>Add these server-only variables locally before signing in:</p>
             <ul>
-              {loaderData.missingEnv.map((name) => (
+              {loaderData.session.missingConfiguration.map((name: string) => (
                 <li key={name}>{name}</li>
               ))}
             </ul>
             <p className="muted">
-              The app still builds without them so the SPA and API stack can be
-              verified without secrets.
+              The app still builds without secrets, but it does not simulate a logged-in identity.
             </p>
           </div>
         )}

@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 import { Button } from "~/components/ui/button";
 import { getClientSafeRedirectPath } from "~/lib/client-safe-redirect";
-import { createSupabaseBrowserClient } from "~/lib/supabase-client";
 
 export function meta() {
   return [{ title: "Auth callback · Mælk" }];
@@ -11,47 +9,19 @@ export function meta() {
 
 export default function AuthCallbackRoute() {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const [message, setMessage] = useState("Completing sign in…");
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function completeSignIn() {
-      const supabase = createSupabaseBrowserClient();
-      const code = searchParams.get("code");
-      const next = getClientSafeRedirectPath(searchParams.get("next"));
-
-      if (!supabase || !code) {
-        setMessage("Supabase is not configured or the callback is missing a code.");
-        return;
-      }
-
-      const { error } = await supabase.auth.exchangeCodeForSession(code);
-      if (cancelled) return;
-
-      if (error) {
-        setMessage(error.message);
-        return;
-      }
-
-      navigate(next, { replace: true });
-    }
-
-    void completeSignIn();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [navigate, searchParams]);
+  const next = getClientSafeRedirectPath(searchParams.get("next"));
 
   return (
     <main className="shell narrow-shell">
       <section className="panel">
-        <p className="eyebrow">Supabase callback</p>
-        <h1>{message}</h1>
+        <p className="eyebrow">Retired auth callback</p>
+        <h1>Email OTP now completes through the same-origin API</h1>
+        <p>
+          Browser magic-link exchange has been retired so refresh credentials stay server-owned. Use the
+          email OTP form instead.
+        </p>
         <Button asChild>
-          <Link to="/login">Back to login</Link>
+          <Link to={`/login?next=${encodeURIComponent(next)}`}>Back to login</Link>
         </Button>
       </section>
     </main>

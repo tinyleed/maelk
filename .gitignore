@@ -3,6 +3,7 @@ node_modules/
 .next/
 .react-router/
 .vercel/
+.wrangler/
 dist/
 build/
 .env

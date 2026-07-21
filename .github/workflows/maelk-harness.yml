@@ -29,3 +29,16 @@ jobs:
 
       - name: Run Mælk harness
         run: ./scripts/maelk-harness-check.sh
+
+      - name: Verify Cloudflare Worker bundle and local preview
+        run: npm run test:worker-preview
+
+      - name: Start minimal local Supabase security stack
+        run: npm run supabase:start:test
+
+      - name: Run auth and tenant security integration tests
+        run: npm run test:security:local
+
+      - name: Stop local Supabase security stack
+        if: always()
+        run: npm run supabase:stop

@@ -17,10 +17,9 @@ const requiredFiles = [
   "app/components/ui/button.tsx",
   "app/components/login-form.tsx",
   "app/components/logout-button.tsx",
+  "app/lib/auth-api.ts",
   "app/lib/client-safe-redirect.ts",
   "app/lib/client-safe-redirect.test.ts",
-  "app/lib/supabase-client.ts",
-  "app/lib/supabase-env.ts",
   "app/lib/utils.ts",
   "app/lib/product-launches.ts",
   "app/modules/product-launch-os/index.ts",
@@ -38,6 +37,9 @@ for (const file of requiredFiles) {
 
 if (existsSync(join(root, "app/lib/supabase-server.ts"))) {
   throw new Error("server-only Supabase helper must not exist in SPA mode");
+}
+if (existsSync(join(root, "app/lib/supabase-client.ts"))) {
+  throw new Error("browser Supabase auth helper must not exist after server-owned auth migration");
 }
 
 const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
@@ -70,6 +72,7 @@ for (const forbidden of [
   "@react-router/serve",
   "@vercel/react-router",
   "@supabase/ssr",
+  "@supabase/supabase-js",
   "isbot",
   "next",
 ]) {
@@ -98,10 +101,18 @@ const allSource = requiredFiles
   .map((file) => readFileSync(join(root, file), "utf8"))
   .join("\n");
 
+const browserEnvExample = readFileSync(join(root, ".env.example"), "utf8");
+for (const forbidden of ["VITE_SUPABASE_URL", "VITE_SUPABASE_ANON_KEY", "VITE_SUPABASE_SERVICE_ROLE"]) {
+  if (browserEnvExample.includes(forbidden)) {
+    throw new Error(`browser env example must not expose Supabase auth config: ${forbidden}`);
+  }
+}
+
 for (const required of [
-  "createSupabaseBrowserClient",
-  "@supabase/supabase-js",
-  "signInWithOtp",
+  "getServerAuthSession",
+  "requestEmailOtp",
+  "verifyEmailOtp",
+  "logoutServerSession",
   "clientLoader",
   "getClientSafeRedirectPath",
   "DEFAULT_CLIENT_REDIRECT_PATH",
@@ -110,6 +121,7 @@ for (const required of [
   "class-variance-authority",
   "Product Launch OS",
   "local-only",
+  "server-owned",
 ]) {
   if (!allSource.includes(required)) {
     throw new Error(`SPA auth shell missing ${required}`);
@@ -117,6 +129,15 @@ for (const required of [
 }
 
 for (const forbidden of [
+  "createSupabaseBrowserClient",
+  "@supabase/supabase-js",
+  "signInWithOtp",
+  "exchangeCodeForSession",
+  "persistSession",
+  "detectSessionInUrl",
+  "localStorage",
+  "VITE_SUPABASE_URL",
+  "VITE_SUPABASE_ANON_KEY",
   "createSupabaseServerClient",
   "@supabase/ssr",
   "export async function loader",
