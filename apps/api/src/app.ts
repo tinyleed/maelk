@@ -5,7 +5,9 @@ import { fileURLToPath } from "node:url";
 
 import express, { type Express, type NextFunction, type Request, type Response } from "express";
 
-export type CreateAppOptions = {
+import { appendJsonErrorHandler, configureApiApp, type CreateApiAppOptions } from "./api-app.js";
+
+export type CreateAppOptions = CreateApiAppOptions & {
   clientBuildPath?: string;
 };
 
@@ -19,25 +21,7 @@ export function createApp(options: CreateAppOptions = {}): Express {
   const clientBuildPath = options.clientBuildPath ?? defaultClientBuildPath;
   const spaIndexPath = join(clientBuildPath, "index.html");
 
-  app.disable("x-powered-by");
-
-  app.get("/api/health", (_request: Request, response: Response) => {
-    response.json({
-      ok: true,
-      service: "maelk-api",
-      stack: {
-        api: "express",
-        web: "react-router-spa",
-      },
-    });
-  });
-
-  app.use("/api", (request: Request, response: Response) => {
-    response.status(404).json({
-      error: "not_found",
-      path: request.originalUrl,
-    });
-  });
+  configureApiApp(app, options);
 
   app.use(express.static(clientBuildPath, { index: false }));
 
@@ -66,16 +50,7 @@ export function createApp(options: CreateAppOptions = {}): Express {
     }
   });
 
-  app.use((error: unknown, _request: Request, response: Response, next: NextFunction) => {
-    if (response.headersSent) {
-      next(error);
-      return;
-    }
-
-    response.status(500).json({
-      error: "internal_server_error",
-    });
-  });
+  appendJsonErrorHandler(app);
 
   return app;
 }

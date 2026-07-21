@@ -38,13 +38,27 @@ require_file apps/app/app/lib/client-safe-redirect.test.ts
 require_file apps/app/scripts/run-client-safe-redirect-tests.mjs
 require_dir apps/api
 require_file apps/api/package.json
+require_file apps/api/.env.example
 require_file apps/api/src/app.ts
+require_file apps/api/src/api-app.ts
 require_file apps/api/src/server.ts
+require_file apps/api/src/worker.ts
 require_file apps/api/test/app.test.mjs
+require_file apps/api/test/postgres-session-store.integration.test.mjs
 require_file docs/spa-express-supabase-setup.md
+require_file docs/cloudflare-workers-preview.md
 [[ ! -e docs/vercel-supabase-setup.md ]] || fail "stale Vercel setup doc is still present"
 require_dir packages/database
 require_dir packages/readiness
+require_dir supabase
+require_file supabase/config.toml
+require_dir supabase/migrations
+require_file supabase/migrations/20260721000100_auth_tenant_foundation_v0.sql
+require_file supabase/tests/cross_tenant_rls_harness.sql
+require_file supabase/tests/hosted_auth_tenant_smoke.sql
+require_file scripts/check-worker-preview.mjs
+require_file scripts/run-postgres-session-test.mjs
+require_file wrangler.jsonc
 
 [[ ! -d apps/mes ]] || fail "forbidden apps/mes exists"
 

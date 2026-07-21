@@ -13,11 +13,25 @@
     "dev": "concurrently -n api,web -c green,blue \"npm --workspace @maelk/api run dev\" \"npm --workspace @maelk/app run dev\"",
     "build": "npm --workspace @maelk/app run build && npm --workspace @maelk/api run build",
     "start": "npm --workspace @maelk/api run start",
+    "test:worker-preview": "npm run build && wrangler deploy --dry-run && node scripts/check-worker-preview.mjs",
     "lint": "node scripts/check-stack-contract.mjs && npm --workspaces run lint",
     "test": "node scripts/check-stack-contract.mjs && npm --workspaces run test",
-    "typecheck": "npm --workspaces run typecheck"
+    "typecheck": "npm --workspaces run typecheck",
+    "supabase:start:test": "supabase start --exclude edge-runtime,imgproxy,logflare,mailpit,postgres-meta,realtime,storage-api,studio,supavisor,vector",
+    "supabase:stop": "supabase stop",
+    "supabase:reset": "supabase db reset --local --no-seed",
+    "test:rls": "supabase test db supabase/tests/cross_tenant_rls_harness.sql --local",
+    "test:rls:hosted": "supabase test db supabase/tests/hosted_auth_tenant_smoke.sql --linked",
+    "test:auth:postgres": "node scripts/run-postgres-session-test.mjs",
+    "test:security:local": "npm run supabase:reset && npm run test:rls && npm run test:auth:postgres"
   },
   "devDependencies": {
-    "concurrently": "10.0.3"
+    "@cloudflare/workers-types": "5.20260721.1",
+    "concurrently": "10.0.3",
+    "supabase": "2.109.1",
+    "wrangler": "4.112.0"
+  },
+  "overrides": {
+    "shell-quote": "1.10.0"
   }
 }

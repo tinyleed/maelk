@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 
 import { Button } from "~/components/ui/button";
-import { hasSupabaseEnv } from "~/lib/supabase-env";
 
 export function meta() {
   return [
@@ -17,8 +16,8 @@ export default function HomeRoute() {
         <p className="eyebrow">Mælk v0</p>
         <h1>Commerce operating system, one safe slice at a time.</h1>
         <p className="lede">
-          This React Router v8 SPA shell is prepared for Supabase Auth in the
-          browser, a same-origin Express API, Tailwind styling, and shadcn/ui
+          This React Router v8 SPA shell is prepared for server-owned Supabase Auth,
+          a same-origin Express API, Tailwind styling, and shadcn/ui
           primitives. Product Launch OS remains a local prototype, not the
           platform goal.
         </p>
@@ -44,10 +43,10 @@ export default function HomeRoute() {
         </article>
         <article className="panel">
           <p className="eyebrow">Auth</p>
-          <h2>{hasSupabaseEnv ? "Supabase env detected" : "Supabase env not configured"}</h2>
+          <h2>Server-owned auth boundary</h2>
           <p>
-            Add the public Supabase URL and anon key in local runtime env.
-            No service-role key belongs in this app shell.
+            The browser calls the same-origin API for email OTP, session checks,
+            and logout. Supabase refresh credentials stay out of browser storage.
           </p>
         </article>
       </section>
