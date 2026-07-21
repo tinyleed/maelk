@@ -30,17 +30,25 @@ The command:
 1. builds the SPA and API;
 2. runs a Wrangler `deploy --dry-run` bundle check without uploading;
 3. starts `wrangler dev --local` on a random `127.0.0.1` port;
-4. verifies Express JSON health, API JSON 404, local auth-unconfigured state, SPA fallback on `/app`, and a real hashed asset;
+4. verifies Express JSON health, API JSON 404, credential-free fail-closed auth-unavailable state, SPA fallback on `/app`, and a real hashed asset;
 5. terminates the preview process in `finally`.
 
 The verified local result was `cloudflare_worker_preview_check_ok`. Wrangler 4.112.0 bundled 20 static assets and the Worker successfully routed Express and SPA requests from one origin.
+
+## Auth/session runtime contract
+
+The Worker entrypoint adapts the same Express auth runtime used by Node, but production Worker auth is deliberately fail-closed unless every server-owned auth setting and the `MAELK_SESSION_HYPERDRIVE` binding are present. The binding contract is typed as Hyperdrive-like and uses only `env.MAELK_SESSION_HYPERDRIVE.connectionString`; the connection string is passed to the server-only `PostgresApplicationSessionStore` and is not copied into browser variables, log output, JSON responses, or committed config.
+
+Node/Express local runtime still uses `DATABASE_URL`. Worker runtime does not require or copy `DATABASE_URL`; the Hyperdrive binding supplies the session database connection instead.
+
+Do not add placeholder Hyperdrive IDs or connection strings to `wrangler.jsonc`. Cloudflare `secrets.required` is also deferred to Human gate A because enabling it before real non-production secrets exist would make the current credential-free dry-run/preview CI require hosted values.
 
 ## Explicitly not verified
 
 This spike does **not** prove production readiness. Before deployment, separately verify:
 
 - Cloudflare account/project access and a non-production `workers.dev` deployment;
-- Worker secret/env binding behavior for all server-owned auth settings;
+- Worker secret/env binding behavior for all server-owned auth settings and the `MAELK_SESSION_HYPERDRIVE` Hyperdrive binding;
 - hosted Supabase JWKS and real email OTP delivery;
 - the `pg` session store against hosted Supabase from Workers, including whether direct TCP or Cloudflare Hyperdrive is the chosen production path;
 - live hosted OTP plus cross-tenant behavior with two deliberately invited disposable users;

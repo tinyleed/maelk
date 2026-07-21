@@ -24,9 +24,9 @@ Mælk is:
 
 ## Current runnable stack decision
 
-The current implementation stack is React Router v8 Framework in SPA mode, TypeScript, Tailwind v4, shadcn/ui, a same-origin Node.js/Express API runtime, and Supabase Auth/Postgres as the canonical auth/data target.
+The current implementation stack is React Router v8 Framework in SPA mode, TypeScript, Tailwind v4, shadcn/ui, a same-origin Node.js/Express API runtime, a Cloudflare Worker adapter for the non-production target candidate, and Supabase Auth/Postgres as the canonical auth/data target.
 
-The Express runtime is the local single-service shape for now: it serves `apps/app/build/client`, exposes `/api/*`, and returns the SPA `index.html` for non-API client routes. Hosting/deployment remains undecided and human-gated; do not use this document to create hosting projects, deploy, wire DNS, or claim production readiness.
+The Express runtime is the local single-service shape for now: it serves `apps/app/build/client`, exposes `/api/*`, and returns the SPA `index.html` for non-API client routes. Cloudflare Worker + Static Assets is the approved non-production hosting target candidate, but deployment, DNS, secrets, Hyperdrive bindings, hosted migrations, and production readiness remain human-gated; do not use this document to create hosting projects, deploy, wire DNS, or claim production readiness.
 
 ## Non-decision: full OSS vs open-core
 

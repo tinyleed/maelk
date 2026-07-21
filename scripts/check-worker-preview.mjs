@@ -106,10 +106,12 @@ try {
   });
 
   const authResponse = await fetch(`${baseUrl}/api/auth/session`);
-  assert.equal(authResponse.status, 200);
+  assert.equal(authResponse.status, 503);
   const authState = await authResponse.json();
   assert.equal(authState.authConfigured, false);
   assert.equal(authState.authenticated, false);
+  assert.deepEqual(authState.missingConfiguration, []);
+  assert.equal(authState.message, "Authentication is temporarily unavailable.");
 
   const appResponse = await fetch(`${baseUrl}/app`, {
     headers: { "Sec-Fetch-Mode": "navigate" },

@@ -6,6 +6,7 @@ import { RefreshTokenCipher } from "./crypto.js";
 import { SupabaseJwtVerifier, type VerifiedSupabaseJwt } from "./jwt.js";
 import { PostgresApplicationSessionStore } from "./postgres-session-store.js";
 import { createSupabaseAuthProvider, type SupabaseAuthProvider } from "./provider.js";
+import { createSessionDatabaseConnection, type SessionDatabaseConnection } from "./session-database.js";
 import { ApplicationSessionService } from "./session-service.js";
 import { InMemoryApplicationSessionStore, type ApplicationSessionStore, type StoredApplicationSession } from "./session-store.js";
 
@@ -37,14 +38,21 @@ export type AuthRuntimeOptions = {
   provider?: SupabaseAuthProvider;
   jwtVerifier?: JwtVerifier;
   store?: ApplicationSessionStore;
+  sessionDatabaseConnection?: SessionDatabaseConnection;
+  sessionDatabaseRequiredName?: string;
   now?: () => number;
   fetch?: typeof fetch;
 };
 
 export function createAuthRuntime(options: AuthRuntimeOptions = {}): AuthRuntime {
   const now = options.now ?? Date.now;
-  const config = options.config ?? loadAuthConfig(options.env);
-  const store = options.store ?? createDefaultSessionStore(config, now);
+  const config =
+    options.config ??
+    loadAuthConfig(options.env, {
+      sessionDatabaseConfigured: Boolean(options.sessionDatabaseConnection),
+      sessionDatabaseRequiredName: options.sessionDatabaseRequiredName,
+    });
+  const store = options.store ?? createDefaultSessionStore(config, now, options.sessionDatabaseConnection);
 
   if (!config.authConfigured) {
     return {
@@ -84,11 +92,26 @@ export function createAuthRuntime(options: AuthRuntimeOptions = {}): AuthRuntime
   };
 }
 
-function createDefaultSessionStore(config: AuthConfig, now: () => number): ApplicationSessionStore {
-  if (config.authConfigured) {
-    return new PostgresApplicationSessionStore({ databaseUrl: config.databaseUrl });
+function createDefaultSessionStore(
+  config: AuthConfig,
+  now: () => number,
+  sessionDatabaseConnection: SessionDatabaseConnection | undefined,
+): ApplicationSessionStore {
+  if (!config.authConfigured) {
+    return new InMemoryApplicationSessionStore({ now });
   }
-  return new InMemoryApplicationSessionStore({ now });
+
+  const databaseConnection =
+    sessionDatabaseConnection ??
+    (config.databaseUrl
+      ? createSessionDatabaseConnection({ connectionString: config.databaseUrl, source: "node-database-url" })
+      : undefined);
+
+  if (!databaseConnection) {
+    throw new Error("auth_session_database_unavailable");
+  }
+
+  return new PostgresApplicationSessionStore({ databaseConnection });
 }
 
 export function sendAuthUnavailable(response: Response, runtime: AuthRuntime): void {

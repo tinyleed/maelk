@@ -11,10 +11,10 @@ Canonical current goal: `architecture/maelk-erp-platform-goal-v1.md`.
 
 Current repository state:
 
-- the old root static GitHub Pages prototype has been retired; new public hosting for `mælk.com` is pending a deliberate non-GitHub-Pages target;
+- the old root static GitHub Pages prototype has been retired; Cloudflare Worker + Static Assets is the approved non-production target candidate, while `mælk.com`/custom-domain, secrets, deployment, hosted migrations, and production actions stay human-gated;
 - architecture docs live in `architecture/`;
 - `.claude/rules` describes the intended technical conventions for future app work;
-- React Router v8 SPA + same-origin Express API scaffolding exists, but the platform is still early and not production-ready.
+- React Router v8 SPA + same-origin Express API scaffolding exists, with a credential-free Cloudflare Worker adapter for the non-production target candidate, but the platform is still early and not production-ready.
 
 ## Product direction
 

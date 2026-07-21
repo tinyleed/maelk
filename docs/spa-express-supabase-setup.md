@@ -57,7 +57,7 @@ MAELK_SESSION_ENCRYPTION_KEY
 DATABASE_URL
 ```
 
-`MAELK_SESSION_ENCRYPTION_KEY` must be a base64url-encoded 32-byte key generated outside the repo. `DATABASE_URL` must point to the Supabase Postgres database with access to `app_private.application_sessions`; browser/PostgREST roles are explicitly revoked from that schema/table. The Express runtime defaults closed in production when any required value is missing. Local/test fakes can inject an explicit auth runtime for deterministic checks.
+`MAELK_SESSION_ENCRYPTION_KEY` must be a base64url-encoded 32-byte key generated outside the repo. For Node/Express, `DATABASE_URL` must point to the Supabase Postgres database with access to `app_private.application_sessions`; browser/PostgREST roles are explicitly revoked from that schema/table. For the Cloudflare Worker target candidate, the equivalent session database connection is the typed `MAELK_SESSION_HYPERDRIVE.connectionString` binding, not a committed `DATABASE_URL`. The runtime defaults closed in production when any required value or Worker binding is missing. Local/test fakes can inject an explicit auth runtime for deterministic checks.
 
 `SUPABASE_JWT_ALGORITHMS` is restricted to the asymmetric allowlist `RS256,ES256`; symmetric algorithms fail configuration closed. Production unavailable responses do not enumerate missing environment-variable names.
 

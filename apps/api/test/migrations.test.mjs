@@ -21,6 +21,13 @@ async function readAnonRevokeMigration() {
   return readFile(join(migrationsDir, migrationName), "utf8");
 }
 
+async function readApplicationSessionRuntimeRoleMigration() {
+  const files = await readdir(migrationsDir);
+  const migrationName = files.find((file) => file.endsWith("_application_session_runtime_role_v0.sql"));
+  assert.ok(migrationName, "application session runtime role migration missing");
+  return readFile(join(migrationsDir, migrationName), "utf8");
+}
+
 test("auth tenant migration enables RLS, revokes private access, and indexes tenant lookup paths", async () => {
   const sql = await readAuthMigration();
 
@@ -67,6 +74,37 @@ test("tenant helper correction removes Supabase's explicit anon function grants"
     "grant execute on function public.current_user_has_company_role(uuid, public.company_membership_role[]) to authenticated",
   ]) {
     assert.ok(sql.includes(required), `anon helper correction missing ${required}`);
+  }
+});
+
+test("application session runtime role is NOLOGIN and least-privilege for the private session table only", async () => {
+  const sql = await readApplicationSessionRuntimeRoleMigration();
+  const normalizedSql = sql.toLowerCase().replace(/\s+/gu, " ");
+
+  for (const required of [
+    "maelk_application_session_runtime",
+    "create role maelk_application_session_runtime nologin",
+    "alter role maelk_application_session_runtime with nologin nosuperuser nocreatedb nocreaterole noinherit noreplication nobypassrls",
+    "grant usage on schema app_private to maelk_application_session_runtime",
+    "grant select (id_hash, user_id, email, csrf_token, csrf_token_hash, encrypted_refresh_token, created_at, access_token_expires_at, expires_at, revoked_at) on table app_private.application_sessions to maelk_application_session_runtime",
+    "grant insert (id_hash, user_id, email, csrf_token, csrf_token_hash, encrypted_refresh_token, created_at, access_token_expires_at, expires_at) on table app_private.application_sessions to maelk_application_session_runtime",
+    "grant update (revoked_at) on table app_private.application_sessions to maelk_application_session_runtime",
+    "revoke all on table auth.users from maelk_application_session_runtime",
+    "revoke all on table public.profiles, public.companies, public.company_memberships, public.audit_events from maelk_application_session_runtime",
+  ]) {
+    assert.ok(normalizedSql.includes(required), `runtime role migration missing ${required}`);
+  }
+
+  for (const forbidden of [
+    /\bpassword\b/iu,
+    /\bcreate\s+role\s+maelk_application_session_runtime\s+login\b/iu,
+    /\bgrant\s+all\b/iu,
+    /\bgrant\s+delete\b/iu,
+    /\bgrant\s+.+\s+on\s+table\s+auth\.users\b/iu,
+    /\bgrant\s+.+\s+on\s+table\s+public\./iu,
+    /\bservice_role\b/iu,
+  ]) {
+    assert.equal(forbidden.test(sql), false, `forbidden runtime role grant found: ${forbidden}`);
   }
 });
 
