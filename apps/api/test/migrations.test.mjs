@@ -83,8 +83,7 @@ test("application session runtime role is NOLOGIN and least-privilege for the pr
 
   for (const required of [
     "maelk_application_session_runtime",
-    "create role maelk_application_session_runtime nologin",
-    "alter role maelk_application_session_runtime with nologin nosuperuser nocreatedb nocreaterole noinherit noreplication nobypassrls",
+    "create role maelk_application_session_runtime nologin nosuperuser nocreatedb nocreaterole noinherit noreplication nobypassrls",
     "grant usage on schema app_private to maelk_application_session_runtime",
     "grant select (id_hash, user_id, email, csrf_token, csrf_token_hash, encrypted_refresh_token, created_at, access_token_expires_at, expires_at, revoked_at) on table app_private.application_sessions to maelk_application_session_runtime",
     "grant insert (id_hash, user_id, email, csrf_token, csrf_token_hash, encrypted_refresh_token, created_at, access_token_expires_at, expires_at) on table app_private.application_sessions to maelk_application_session_runtime",

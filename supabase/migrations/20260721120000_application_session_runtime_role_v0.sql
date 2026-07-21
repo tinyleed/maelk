@@ -2,10 +2,7 @@
 -- Defines a NOLOGIN group role for the server-owned session store only.
 -- No LOGIN role, secret, service-role, tenant-domain, owner, or hosted credential is created here.
 
-create role maelk_application_session_runtime nologin;
-
-alter role maelk_application_session_runtime
-  with nologin nosuperuser nocreatedb nocreaterole noinherit noreplication nobypassrls;
+create role maelk_application_session_runtime nologin nosuperuser nocreatedb nocreaterole noinherit noreplication nobypassrls;
 
 revoke all on schema app_private from maelk_application_session_runtime;
 revoke all on all tables in schema app_private from maelk_application_session_runtime;
