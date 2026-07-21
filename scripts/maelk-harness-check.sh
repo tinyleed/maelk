@@ -55,7 +55,9 @@ require_file supabase/config.toml
 require_dir supabase/migrations
 require_file supabase/migrations/20260721000100_auth_tenant_foundation_v0.sql
 require_file supabase/tests/cross_tenant_rls_harness.sql
+require_file supabase/tests/hosted_auth_tenant_smoke.sql
 require_file scripts/check-worker-preview.mjs
+require_file scripts/run-postgres-session-test.mjs
 require_file wrangler.jsonc
 
 [[ ! -d apps/mes ]] || fail "forbidden apps/mes exists"

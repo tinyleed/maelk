@@ -6,7 +6,7 @@ Hosting/app status:
 
 - No repo-root static website is maintained here anymore.
 - Mælk v0 standard is a React Router v8 Framework SPA with TypeScript, Tailwind v4, shadcn/ui, a same-origin Node.js/Express API, and Supabase Auth/Postgres as the canonical auth/data target.
-- The approved target split is `mælk.com` for marketing and `app.mælk.com` for the application. A local Cloudflare Workers + Static Assets preview is verified; hosted database connectivity, deploys, DNS cutover, credentials, and external service projects remain human-gated.
+- The approved target split is `mælk.com` for marketing and `app.mælk.com` for the application. A local Cloudflare Workers + Static Assets preview is verified. The linked `maelk-dev` Supabase Cloud project has the reviewed migrations and read-only hosted RLS/grant smoke applied; live auth delivery, Worker-to-Postgres connectivity, deploys, secrets, and DNS cutover remain human-gated.
 
 Current product direction:
 

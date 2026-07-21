@@ -14,6 +14,13 @@ async function readAuthMigration() {
   return readFile(join(migrationsDir, migrationName), "utf8");
 }
 
+async function readAnonRevokeMigration() {
+  const files = await readdir(migrationsDir);
+  const migrationName = files.find((file) => file.endsWith("_revoke_anon_tenant_helpers.sql"));
+  assert.ok(migrationName, "anon tenant helper revoke migration missing");
+  return readFile(join(migrationsDir, migrationName), "utf8");
+}
+
 test("auth tenant migration enables RLS, revokes private access, and indexes tenant lookup paths", async () => {
   const sql = await readAuthMigration();
 
@@ -50,6 +57,19 @@ test("auth tenant migration enables RLS, revokes private access, and indexes ten
   }
 });
 
+test("tenant helper correction removes Supabase's explicit anon function grants", async () => {
+  const sql = await readAnonRevokeMigration();
+
+  for (const required of [
+    "revoke all on function public.current_user_company_ids() from public, anon",
+    "revoke all on function public.current_user_has_company_role(uuid, public.company_membership_role[]) from public, anon",
+    "grant execute on function public.current_user_company_ids() to authenticated",
+    "grant execute on function public.current_user_has_company_role(uuid, public.company_membership_role[]) to authenticated",
+  ]) {
+    assert.ok(sql.includes(required), `anon helper correction missing ${required}`);
+  }
+});
+
 test("RLS policies derive company access from auth.uid membership and deny client self-escalation", async () => {
   const sql = await readAuthMigration();
 
@@ -76,7 +96,7 @@ test("RLS policies derive company access from auth.uid membership and deny clien
 test("deterministic cross-tenant RLS harness is present for environments with Supabase CLI/runtime", async () => {
   const harness = await readFile(harnessPath, "utf8");
   for (const required of [
-    "select plan(13)",
+    "select '1..13'",
     "insert into auth.users",
     "tenant A cannot read tenant B company",
     "browser role cannot create or self-escalate membership",
@@ -84,9 +104,12 @@ test("deterministic cross-tenant RLS harness is present for environments with Su
     "browser role cannot access the private session schema",
     "tenant B sees only its own company",
     "set local role authenticated",
-    "set_config('request.jwt.claim.sub'",
-    "select * from finish()",
+    "set local \"request.jwt.claim.sub\"",
+    "rollback",
   ]) {
     assert.ok(harness.includes(required), `cross-tenant harness missing ${required}`);
+  }
+  for (const forbidden of ["create extension", "extensions.", "gen_salt(", "crypt("]) {
+    assert.equal(harness.toLowerCase().includes(forbidden), false, `hosted RLS harness requires forbidden extension call: ${forbidden}`);
   }
 });

@@ -39,7 +39,8 @@ for (const [script, needle] of [
   ["supabase:start:test", "--exclude"],
   ["supabase:reset", "db reset --local"],
   ["test:rls", "cross_tenant_rls_harness.sql"],
-  ["test:auth:postgres", "MAELK_TEST_DATABASE_URL"],
+  ["test:rls:hosted", "hosted_auth_tenant_smoke.sql --linked"],
+  ["test:auth:postgres", "run-postgres-session-test.mjs"],
   ["test:security:local", "test:auth:postgres"],
 ]) {
   requireIncludes(rootPackage.scripts?.[script] ?? "", needle, `root script ${script}`);
@@ -88,9 +89,18 @@ requireFile("apps/api/test/app.test.mjs");
 requireFile("apps/api/test/postgres-session-store.integration.test.mjs");
 requireFile("supabase/config.toml");
 requireFile("supabase/migrations/20260721000100_auth_tenant_foundation_v0.sql");
+requireFile("supabase/migrations/20260721103921_revoke_anon_tenant_helpers.sql");
 requireFile("supabase/tests/cross_tenant_rls_harness.sql");
+requireFile("supabase/tests/hosted_auth_tenant_smoke.sql");
 requireFile("scripts/check-worker-preview.mjs");
+requireFile("scripts/run-postgres-session-test.mjs");
 requireFile("wrangler.jsonc");
+
+const postgresTestRunner = readText("scripts/run-postgres-session-test.mjs");
+for (const needle of ["supabase", "status", "--output", "json", "DB_URL", "MAELK_TEST_DATABASE_URL"]) {
+  requireIncludes(postgresTestRunner, needle, "run-postgres-session-test.mjs");
+}
+requireNotIncludes(rootPackage.scripts?.["test:auth:postgres"] ?? "", "postgresql://", "root script test:auth:postgres");
 
 const workerSource = readText("apps/api/src/worker.ts");
 for (const needle of ["httpServerHandler", "createServer", "createApiApp", "server.listen(8080)"]) {

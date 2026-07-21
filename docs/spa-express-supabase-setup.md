@@ -4,7 +4,7 @@ Mælk v0 uses React Router v8 Framework in SPA mode, a same-origin Node.js/Expre
 
 ## Current boundary
 
-- The target split is approved: `mælk.com` for marketing and `app.mælk.com` for the application. A local Cloudflare Workers runtime preview is verified; deployment, hosted database connectivity, DNS cutover, and credentials remain human-gated.
+- The target split is approved: `mælk.com` for marketing and `app.mælk.com` for the application. A local Cloudflare Workers runtime preview is verified. The linked `maelk-dev` Supabase Cloud project has the versioned schema and hosted read-only RLS/grant smoke; deployment, Worker-to-Postgres connectivity, live OTP delivery, DNS cutover, and credentials remain human-gated.
 - The current runnable shape is local: build the SPA, then run Express to serve `apps/app/build/client` and `/api/*` from one origin.
 - Do not wire `mælk.com` / `xn--mlk-yla.com` yet.
 - Do not create hosting projects, deploy, commit secrets, or paste credentials into repo files.
@@ -23,6 +23,8 @@ npm run test:worker-preview
 npm run supabase:start:test
 npm run test:security:local
 npm run supabase:stop
+# Manual against the currently linked dev project:
+npm run test:rls:hosted
 ```
 
 `npm run dev` starts:
@@ -79,4 +81,8 @@ The public app URL contract is `https://app.mælk.com` (`https://app.xn--mlk-yla
 
 ## Local security proof
 
-`npm run test:security:local` requires the minimal local stack started by `npm run supabase:start:test`. It performs a clean database reset, applies the versioned migration, runs 13 seeded pgTAP assertions with two isolated companies, and executes the Postgres-backed concurrent session-rotation test. The stack is stopped in CI with an `always()` cleanup step and should also be stopped after manual use.
+`npm run test:security:local` requires the minimal local stack started by `npm run supabase:start:test`. It performs a clean database reset, applies all versioned migrations, runs 13 seeded TAP assertions with two isolated companies, and executes the Postgres-backed concurrent session-rotation test. The stack is stopped in CI with an `always()` cleanup step and should also be stopped after manual use.
+
+## Hosted dev security proof
+
+`npm run test:rls:hosted` targets only the currently linked Supabase dev project. Its SQL starts a `READ ONLY` transaction and runs 15 checks covering RLS enablement, the exact select-policy set, browser-role DML revocations, `app_private` isolation, and authenticated-only tenant helper ACLs. It creates no users or tenant fixtures and is intentionally not part of CI. Live email OTP and cross-tenant behavior with two real invited users remain separate external-send gates.

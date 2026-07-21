@@ -34,12 +34,16 @@ npm run test:worker-preview
 npm run supabase:start:test
 npm run test:security:local
 npm run supabase:stop
+# Manual, linked dev-project gate only:
+npm run test:rls:hosted
 ```
 
-The security integration gate resets a disposable local Supabase database, executes 13 seeded pgTAP assertions across two tenants, and runs a real Postgres concurrent-session-rotation test. It does not connect to a hosted Supabase project. Always stop the local stack after manual testing because its development ports and keys are not production-safe.
+The local security integration gate resets a disposable Supabase database, executes 13 seeded TAP assertions across two tenants, and runs a real Postgres concurrent-session-rotation test. It does not connect to a hosted project. Always stop the local stack after manual testing because its development ports and keys are not production-safe.
+
+`npm run test:rls:hosted` is a separate, manual gate for the currently linked dev project. It opens a read-only transaction and verifies 15 hosted RLS flags, policies, grants, private-schema restrictions, and helper-function ACLs without fixture writes. It is intentionally excluded from CI and does not replace live OTP or two-real-user isolation testing.
 
 The Worker preview gate bundles without upload, starts only on loopback, and verifies same-origin Express API plus SPA/static-asset routing. It does not verify hosted Worker-to-Postgres connectivity; see `../../docs/cloudflare-workers-preview.md`.
 
 ## Boundaries
 
-This package does not add service-role keys, live Supabase management calls, deployment behavior, DNS changes, production data writes, or shop-floor/manufacturing execution scope. Supabase schema changes are versioned under `../../supabase/migrations/`; production application requires a separately reviewed migration and hosted auth smoke test.
+This package does not add service-role keys, deployment behavior, DNS changes, production data writes, or shop-floor/manufacturing execution scope. Supabase schema changes are versioned under `../../supabase/migrations/`; production application still requires separately reviewed migrations, live auth verification, and production approval.

@@ -2,6 +2,8 @@
 
 Status: **local preview verified; no deployment performed**.
 
+The linked `maelk-dev` Supabase Cloud schema and its read-only 15-check RLS/grant smoke are verified independently of this Worker preview.
+
 ## Target routing
 
 The approved domain split remains:
@@ -41,7 +43,7 @@ This spike does **not** prove production readiness. Before deployment, separatel
 - Worker secret/env binding behavior for all server-owned auth settings;
 - hosted Supabase JWKS and real email OTP delivery;
 - the `pg` session store against hosted Supabase from Workers, including whether direct TCP or Cloudflare Hyperdrive is the chosen production path;
-- hosted migration/RLS smoke tests with disposable tenants;
+- live hosted OTP plus cross-tenant behavior with two deliberately invited disposable users;
 - cookie behavior through the real HTTPS Worker origin;
 - rate limiting, Turnstile, WAF, logs, rollback, and custom-domain cutover.
 

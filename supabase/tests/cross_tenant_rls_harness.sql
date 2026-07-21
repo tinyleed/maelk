@@ -1,10 +1,9 @@
--- Self-contained cross-tenant RLS proof for disposable local Supabase.
--- Run with: npm run test:rls
+-- Self-contained cross-tenant RLS proof for local and linked Supabase.
+-- Emits TAP directly and leaves no fixtures behind because the transaction rolls back.
 
 begin;
 
-create extension if not exists pgtap with schema extensions;
-select plan(13);
+select '1..13';
 
 insert into auth.users (
   instance_id,
@@ -30,7 +29,7 @@ values
     'authenticated',
     'authenticated',
     'owner-a@example.test',
-    crypt('local-only-password-a', gen_salt('bf')),
+    '',
     now(),
     '{"provider":"email","providers":["email"]}'::jsonb,
     '{}'::jsonb,
@@ -47,7 +46,7 @@ values
     'authenticated',
     'authenticated',
     'owner-b@example.test',
-    crypt('local-only-password-b', gen_salt('bf')),
+    '',
     now(),
     '{"provider":"email","providers":["email"]}'::jsonb,
     '{}'::jsonb,
@@ -79,87 +78,83 @@ values
   ('00000000-0000-0000-0000-0000000000a3', '00000000-0000-0000-0000-0000000000a2', '00000000-0000-0000-0000-0000000000a1', 'company.created', 'companies', '00000000-0000-0000-0000-0000000000a2'),
   ('00000000-0000-0000-0000-0000000000b3', '00000000-0000-0000-0000-0000000000b2', '00000000-0000-0000-0000-0000000000b1', 'company.created', 'companies', '00000000-0000-0000-0000-0000000000b2');
 
-select ok(
-  not has_table_privilege('authenticated', 'public.company_memberships', 'INSERT'),
-  'browser role cannot create or self-escalate membership'
-);
+select case when not has_table_privilege('authenticated', 'public.company_memberships', 'INSERT')
+  then 'ok 1 - browser role cannot create or self-escalate membership'
+  else 'not ok 1 - browser role cannot create or self-escalate membership' end;
 
-select ok(
-  not has_table_privilege('authenticated', 'public.company_memberships', 'UPDATE'),
-  'browser role cannot change membership roles'
-);
+select case when not has_table_privilege('authenticated', 'public.company_memberships', 'UPDATE')
+  then 'ok 2 - browser role cannot change membership roles'
+  else 'not ok 2 - browser role cannot change membership roles' end;
 
-select ok(
-  not has_table_privilege('authenticated', 'public.audit_events', 'INSERT'),
-  'browser role cannot forge audit events'
-);
+select case when not has_table_privilege('authenticated', 'public.audit_events', 'INSERT')
+  then 'ok 3 - browser role cannot forge audit events'
+  else 'not ok 3 - browser role cannot forge audit events' end;
 
-select ok(
-  not has_table_privilege('authenticated', 'public.profiles', 'UPDATE'),
-  'browser role cannot spoof server-owned profile identity fields'
-);
+select case when not has_table_privilege('authenticated', 'public.profiles', 'UPDATE')
+  then 'ok 4 - browser role cannot spoof server-owned profile identity fields'
+  else 'not ok 4 - browser role cannot spoof server-owned profile identity fields' end;
 
-select ok(
-  not has_schema_privilege('authenticated', 'app_private', 'USAGE'),
-  'browser role cannot access the private session schema'
-);
+select case when not has_schema_privilege('authenticated', 'app_private', 'USAGE')
+  then 'ok 5 - browser role cannot access the private session schema'
+  else 'not ok 5 - browser role cannot access the private session schema' end;
 
-select ok(
-  not has_table_privilege('authenticated', 'app_private.application_sessions', 'SELECT'),
-  'browser role cannot read application sessions'
-);
+select case when not has_table_privilege('authenticated', 'app_private.application_sessions', 'SELECT')
+  then 'ok 6 - browser role cannot read application sessions'
+  else 'not ok 6 - browser role cannot read application sessions' end;
 
 set local role authenticated;
-select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000a1', true);
-select set_config('request.jwt.claim.role', 'authenticated', true);
+set local "request.jwt.claim.sub" = '00000000-0000-0000-0000-0000000000a1';
+set local "request.jwt.claim.role" = 'authenticated';
 
-select results_eq(
-  $$select id::text from public.companies order by id$$,
-  array['00000000-0000-0000-0000-0000000000a2']::text[],
-  'tenant A sees only its own company'
-);
+select case when coalesce(
+  (select array_agg(id::text order by id) from public.companies),
+  array[]::text[]
+) = array['00000000-0000-0000-0000-0000000000a2']::text[]
+  then 'ok 7 - tenant A sees only its own company'
+  else 'not ok 7 - tenant A sees only its own company' end;
 
-select is_empty(
-  $$select id from public.companies where id = '00000000-0000-0000-0000-0000000000b2'::uuid$$,
-  'tenant A cannot read tenant B company'
-);
+select case when not exists (
+  select 1 from public.companies where id = '00000000-0000-0000-0000-0000000000b2'::uuid
+)
+  then 'ok 8 - tenant A cannot read tenant B company'
+  else 'not ok 8 - tenant A cannot read tenant B company' end;
 
-select results_eq(
-  $$select company_id::text from public.company_memberships order by company_id$$,
-  array['00000000-0000-0000-0000-0000000000a2']::text[],
-  'tenant A sees only its own memberships'
-);
+select case when coalesce(
+  (select array_agg(company_id::text order by company_id) from public.company_memberships),
+  array[]::text[]
+) = array['00000000-0000-0000-0000-0000000000a2']::text[]
+  then 'ok 9 - tenant A sees only its own memberships'
+  else 'not ok 9 - tenant A sees only its own memberships' end;
 
-select results_eq(
-  $$select action from public.audit_events order by id$$,
-  array['company.created']::text[],
-  'tenant A sees only its own audit events'
-);
+select case when coalesce(
+  (select array_agg(action order by id) from public.audit_events),
+  array[]::text[]
+) = array['company.created']::text[]
+  then 'ok 10 - tenant A sees only its own audit events'
+  else 'not ok 10 - tenant A sees only its own audit events' end;
 
-select ok(
-  public.current_user_has_company_role(
-    '00000000-0000-0000-0000-0000000000a2',
-    array['owner']::public.company_membership_role[]
-  ),
-  'tenant A owner role resolves for tenant A'
-);
+select case when public.current_user_has_company_role(
+  '00000000-0000-0000-0000-0000000000a2',
+  array['owner']::public.company_membership_role[]
+)
+  then 'ok 11 - tenant A owner role resolves for tenant A'
+  else 'not ok 11 - tenant A owner role resolves for tenant A' end;
 
-select ok(
-  not public.current_user_has_company_role(
-    '00000000-0000-0000-0000-0000000000b2',
-    array['owner', 'admin']::public.company_membership_role[]
-  ),
-  'tenant A has no role in tenant B'
-);
+select case when not public.current_user_has_company_role(
+  '00000000-0000-0000-0000-0000000000b2',
+  array['owner', 'admin']::public.company_membership_role[]
+)
+  then 'ok 12 - tenant A has no role in tenant B'
+  else 'not ok 12 - tenant A has no role in tenant B' end;
 
-select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000b1', true);
+set local "request.jwt.claim.sub" = '00000000-0000-0000-0000-0000000000b1';
 
-select results_eq(
-  $$select id::text from public.companies order by id$$,
-  array['00000000-0000-0000-0000-0000000000b2']::text[],
-  'tenant B sees only its own company'
-);
+select case when coalesce(
+  (select array_agg(id::text order by id) from public.companies),
+  array[]::text[]
+) = array['00000000-0000-0000-0000-0000000000b2']::text[]
+  then 'ok 13 - tenant B sees only its own company'
+  else 'not ok 13 - tenant B sees only its own company' end;
 
 reset role;
-select * from finish();
 rollback;

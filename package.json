@@ -21,7 +21,8 @@
     "supabase:stop": "supabase stop",
     "supabase:reset": "supabase db reset --local --no-seed",
     "test:rls": "supabase test db supabase/tests/cross_tenant_rls_harness.sql --local",
-    "test:auth:postgres": "MAELK_TEST_DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres npm --workspace @maelk/api run test:postgres",
+    "test:rls:hosted": "supabase test db supabase/tests/hosted_auth_tenant_smoke.sql --linked",
+    "test:auth:postgres": "node scripts/run-postgres-session-test.mjs",
     "test:security:local": "npm run supabase:reset && npm run test:rls && npm run test:auth:postgres"
   },
   "devDependencies": {
