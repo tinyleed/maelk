@@ -1,5 +1,6 @@
 import pg from "pg";
 
+import type { SessionDatabaseConnection } from "./session-database.js";
 import type { ApplicationSessionStore, StoredApplicationSession } from "./session-store.js";
 
 const { Pool } = pg;
@@ -19,8 +20,8 @@ type PostgresSessionRow = {
 export class PostgresApplicationSessionStore implements ApplicationSessionStore {
   private readonly pool: pg.Pool;
 
-  constructor(options: { databaseUrl: string }) {
-    this.pool = new Pool({ connectionString: options.databaseUrl });
+  constructor(options: { databaseUrl: string } | { databaseConnection: SessionDatabaseConnection }) {
+    this.pool = new Pool({ connectionString: resolveConnectionString(options) });
   }
 
   async create(session: StoredApplicationSession): Promise<void> {
@@ -149,4 +150,11 @@ export class PostgresApplicationSessionStore implements ApplicationSessionStore 
       client.release();
     }
   }
+}
+
+function resolveConnectionString(options: { databaseUrl: string } | { databaseConnection: SessionDatabaseConnection }): string {
+  if ("databaseConnection" in options) {
+    return options.databaseConnection.getConnectionString();
+  }
+  return options.databaseUrl;
 }

@@ -36,7 +36,7 @@ for (const [script, needle] of [
   ["typecheck", "--workspaces"],
   ["lint", "--workspaces"],
   ["test:worker-preview", "wrangler deploy --dry-run"],
-  ["supabase:start:test", "--exclude"],
+  ["supabase:start:test", "start-local-supabase-test.mjs"],
   ["supabase:reset", "db reset --local"],
   ["test:rls", "cross_tenant_rls_harness.sql"],
   ["test:rls:hosted", "hosted_auth_tenant_smoke.sql --linked"],
@@ -94,6 +94,8 @@ requireFile("supabase/tests/cross_tenant_rls_harness.sql");
 requireFile("supabase/tests/hosted_auth_tenant_smoke.sql");
 requireFile("scripts/check-worker-preview.mjs");
 requireFile("scripts/run-postgres-session-test.mjs");
+requireFile("scripts/start-local-supabase-test.mjs");
+requireFile("scripts/start-local-supabase-test.test.mjs");
 requireFile("wrangler.jsonc");
 
 const postgresTestRunner = readText("scripts/run-postgres-session-test.mjs");
@@ -101,6 +103,11 @@ for (const needle of ["supabase", "status", "--output", "json", "DB_URL", "MAELK
   requireIncludes(postgresTestRunner, needle, "run-postgres-session-test.mjs");
 }
 requireNotIncludes(rootPackage.scripts?.["test:auth:postgres"] ?? "", "postgresql://", "root script test:auth:postgres");
+
+const supabaseStartRunner = readText("scripts/start-local-supabase-test.mjs");
+for (const needle of ["supabase", "start", "--exclude", "redactSupabaseStartOutput", "[REDACTED]"]) {
+  requireIncludes(supabaseStartRunner, needle, "start-local-supabase-test.mjs");
+}
 
 const workerSource = readText("apps/api/src/worker.ts");
 for (const needle of ["httpServerHandler", "createServer", "createApiApp", "server.listen(8080)"]) {

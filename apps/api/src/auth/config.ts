@@ -20,6 +20,11 @@ export type AuthConfig = {
   databaseUrl: string;
 };
 
+export type LoadAuthConfigOptions = {
+  sessionDatabaseConfigured?: boolean;
+  sessionDatabaseRequiredName?: string;
+};
+
 export const DEFAULT_LOCAL_ALLOWED_ORIGINS = [
   "http://localhost:3000",
   "http://localhost:3001",
@@ -40,12 +45,16 @@ export const REQUIRED_PRODUCTION_AUTH_ENV = [
   "DATABASE_URL",
 ] as const;
 
+const REQUIRED_PRODUCTION_AUTH_ENV_EXCEPT_DATABASE = REQUIRED_PRODUCTION_AUTH_ENV.filter(
+  (key) => key !== "DATABASE_URL",
+);
+
 const DEFAULT_SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 const DEFAULT_REFRESH_SKEW_SECONDS = 60;
 const DEFAULT_JWT_ALGORITHMS = ["RS256", "ES256"];
 const ALLOWED_ASYMMETRIC_JWT_ALGORITHMS = new Set(DEFAULT_JWT_ALGORITHMS);
 
-export function loadAuthConfig(env: NodeJS.ProcessEnv = process.env): AuthConfig {
+export function loadAuthConfig(env: NodeJS.ProcessEnv = process.env, options: LoadAuthConfigOptions = {}): AuthConfig {
   const environment = normalizeEnvironment(env.NODE_ENV);
   const isProduction = environment === "production";
   const allowedOrigins = parseAllowedOrigins(env.MAELK_AUTH_ALLOWED_ORIGINS);
@@ -67,7 +76,10 @@ export function loadAuthConfig(env: NodeJS.ProcessEnv = process.env): AuthConfig
     DATABASE_URL: readEnv(env, "DATABASE_URL"),
   };
 
-  const missingConfiguration: string[] = REQUIRED_PRODUCTION_AUTH_ENV.filter((key) => !values[key]);
+  const missingConfiguration: string[] = REQUIRED_PRODUCTION_AUTH_ENV_EXCEPT_DATABASE.filter((key) => !values[key]);
+  if (!values.DATABASE_URL && !options.sessionDatabaseConfigured) {
+    missingConfiguration.push(options.sessionDatabaseRequiredName?.trim() || "DATABASE_URL");
+  }
 
   if (values.MAELK_SESSION_ENCRYPTION_KEY) {
     try {
