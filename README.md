@@ -23,6 +23,7 @@ Current product direction:
 Architecture entrypoint:
 
 - [`architecture/maelk-erp-platform-goal-v1.md`](architecture/maelk-erp-platform-goal-v1.md)
+- [`docs/maelk-development-working-plan-v1.md`](docs/maelk-development-working-plan-v1.md) — phased delivery-system and product roadmap
 - Historical context: [`architecture/maelk-operating-system-architecture-v0.md`](architecture/maelk-operating-system-architecture-v0.md)
 - [`AGENTS.md`](AGENTS.md)
 - [`.claude/rules/conventions-index.md`](.claude/rules/conventions-index.md)
