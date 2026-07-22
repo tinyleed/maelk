@@ -2,6 +2,7 @@ import { createSessionDatabaseConnection, type SessionDatabaseConnection } from 
 import type { AuthRuntimeOptions } from "./auth/index.js";
 
 export const MAELK_SESSION_HYPERDRIVE_BINDING = "MAELK_SESSION_HYPERDRIVE";
+export const WORKER_AUTH_ENV_REQUEST_HEADER = "x-maelk-worker-auth-env-request-id";
 
 export type HyperdriveConnectionBinding = {
   connectionString?: unknown;
@@ -37,6 +38,29 @@ const WORKER_AUTH_TEXT_ENV_KEYS: WorkerAuthTextEnvKey[] = [
   "MAELK_SESSION_REFRESH_SKEW_SECONDS",
   "MAELK_AUTH_COOKIE_SECURE",
 ];
+
+const workerAuthEnvsByRequestId = new Map<string, MaelkWorkerEnv>();
+
+export function bindWorkerAuthEnvToRequest(request: Request, env: MaelkWorkerEnv): Request {
+  const requestId = crypto.randomUUID();
+  workerAuthEnvsByRequestId.set(requestId, env);
+
+  const headers = new Headers(request.headers);
+  headers.set(WORKER_AUTH_ENV_REQUEST_HEADER, requestId);
+  return new Request(request, { headers });
+}
+
+export function releaseWorkerAuthEnvForRequest(request: Request): void {
+  const requestId = request.headers.get(WORKER_AUTH_ENV_REQUEST_HEADER);
+  if (requestId) {
+    workerAuthEnvsByRequestId.delete(requestId);
+  }
+}
+
+export function createWorkerAuthRuntimeOptionsForRequestId(requestId: string | null | undefined): AuthRuntimeOptions {
+  const env = typeof requestId === "string" ? workerAuthEnvsByRequestId.get(requestId) : undefined;
+  return createWorkerAuthRuntimeOptions(env ?? {});
+}
 
 export function createWorkerAuthRuntimeOptions(env: MaelkWorkerEnv): AuthRuntimeOptions {
   return {

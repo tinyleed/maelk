@@ -15,15 +15,25 @@ declare global {
   namespace Express {
     interface Request {
       auth?: Awaited<ReturnType<typeof getAuthenticatedContext>>;
+      authRuntime?: AuthRuntime;
     }
   }
 }
 
-export function createAuthRouter(runtime: AuthRuntime): express.Router {
+export type AuthRuntimeResolver = (request: Request, response: Response) => AuthRuntime;
+
+export function createAuthRouter(runtimeSource: AuthRuntime | AuthRuntimeResolver): express.Router {
+  const resolveRuntime = typeof runtimeSource === "function" ? runtimeSource : () => runtimeSource;
   const router = express.Router();
+
+  router.use((request: Request, response: Response, next: NextFunction) => {
+    request.authRuntime = resolveRuntime(request, response);
+    next();
+  });
 
   router.get("/auth/session", async (request: Request, response: Response, next: NextFunction) => {
     try {
+      const runtime = getRequestAuthRuntime(request);
       if (!runtime.config.authConfigured || !runtime.sessionService) {
         sendAuthUnavailable(response, runtime);
         return;
@@ -53,6 +63,7 @@ export function createAuthRouter(runtime: AuthRuntime): express.Router {
 
   router.post("/auth/otp/start", async (request: Request, response: Response, next: NextFunction) => {
     try {
+      const runtime = getRequestAuthRuntime(request);
       if (!runtime.config.authConfigured || !runtime.provider) {
         sendAuthUnavailable(response, runtime);
         return;
@@ -81,6 +92,7 @@ export function createAuthRouter(runtime: AuthRuntime): express.Router {
 
   router.post("/auth/otp/verify", async (request: Request, response: Response, next: NextFunction) => {
     try {
+      const runtime = getRequestAuthRuntime(request);
       if (!runtime.config.authConfigured || !runtime.provider || !runtime.jwtVerifier || !runtime.sessionService) {
         sendAuthUnavailable(response, runtime);
         return;
@@ -130,6 +142,7 @@ export function createAuthRouter(runtime: AuthRuntime): express.Router {
 
   router.post("/auth/session/refresh", async (request: Request, response: Response, next: NextFunction) => {
     try {
+      const runtime = getRequestAuthRuntime(request);
       if (!runtime.config.authConfigured || !runtime.provider || !runtime.jwtVerifier || !runtime.sessionService) {
         sendAuthUnavailable(response, runtime);
         return;
@@ -184,6 +197,7 @@ export function createAuthRouter(runtime: AuthRuntime): express.Router {
 
   router.post("/auth/logout", async (request: Request, response: Response, next: NextFunction) => {
     try {
+      const runtime = getRequestAuthRuntime(request);
       if (!runtime.config.authConfigured || !runtime.sessionService) {
         sendAuthUnavailable(response, runtime);
         return;
@@ -211,7 +225,7 @@ export function createAuthRouter(runtime: AuthRuntime): express.Router {
     }
   });
 
-  router.get("/me", requireAuthentication(runtime), (request: Request, response: Response) => {
+  router.get("/me", requireAuthentication(), (request: Request, response: Response) => {
     response.json({
       user: request.auth?.user,
       session: {
@@ -223,9 +237,17 @@ export function createAuthRouter(runtime: AuthRuntime): express.Router {
   return router;
 }
 
-function requireAuthentication(runtime: AuthRuntime) {
+function getRequestAuthRuntime(request: Request): AuthRuntime {
+  if (!request.authRuntime) {
+    throw new Error("auth_runtime_unavailable");
+  }
+  return request.authRuntime;
+}
+
+function requireAuthentication() {
   return async (request: Request, response: Response, next: NextFunction) => {
     try {
+      const runtime = getRequestAuthRuntime(request);
       if (!runtime.config.authConfigured) {
         sendAuthUnavailable(response, runtime);
         return;

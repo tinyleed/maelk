@@ -7,11 +7,24 @@ import { join, resolve } from "node:path";
 import test from "node:test";
 
 import { createApp } from "../dist/app.js";
+import { createApiApp } from "../dist/api-app.js";
 import { createAuthRuntime, PostgresApplicationSessionStore } from "../dist/auth/index.js";
-import { MAELK_SESSION_HYPERDRIVE_BINDING, createWorkerAuthRuntimeOptions } from "../dist/worker-auth-env.js";
+import {
+  MAELK_SESSION_HYPERDRIVE_BINDING,
+  WORKER_AUTH_ENV_REQUEST_HEADER,
+  bindWorkerAuthEnvToRequest,
+  createWorkerAuthRuntimeOptions,
+  createWorkerAuthRuntimeOptionsForRequestId,
+  releaseWorkerAuthEnvForRequest,
+} from "../dist/worker-auth-env.js";
 
 const ALLOWED_ORIGIN = "https://app.xn--mlk-yla.com";
 const HYPERDRIVE_CONNECTION_FIXTURE = ["postgresql://", "worker-hyperdrive.example.invalid", "/maelk?sslmode=require"].join("");
+const CHANGED_HYPERDRIVE_CONNECTION_FIXTURE = [
+  "postgresql://",
+  "worker-hyperdrive-rotated.example.invalid",
+  "/maelk?sslmode=require",
+].join("");
 const NODE_DATABASE_URL_FIXTURE = ["postgresql://", "node-database.example.invalid", "/postgres"].join("");
 const repoRoot = resolve(import.meta.dirname, "../../..");
 
@@ -39,6 +52,15 @@ async function startServer(app) {
       await new Promise((resolve, reject) => server.close((error) => (error ? reject(error) : resolve())));
     },
   };
+}
+
+async function fetchWithWorkerEnv(server, path, env) {
+  const request = bindWorkerAuthEnvToRequest(new Request(`${server.baseUrl}${path}`), env);
+  try {
+    return await fetch(request);
+  } finally {
+    releaseWorkerAuthEnvForRequest(request);
+  }
 }
 
 function applyOverrides(base, overrides) {
@@ -146,6 +168,70 @@ test("incomplete production Worker auth config returns sanitized unavailable JSO
     missingConfiguration: [],
     message: "Authentication is temporarily unavailable.",
   });
+});
+
+test("request-scoped Worker auth recovers when the first request is missing the Hyperdrive binding", async (t) => {
+  const observedConnectionStrings = [];
+  const server = await startServer(
+    createApiApp({
+      auth: (request) => {
+        const options = createWorkerAuthRuntimeOptionsForRequestId(request.get(WORKER_AUTH_ENV_REQUEST_HEADER));
+        observedConnectionStrings.push(options.sessionDatabaseConnection?.getConnectionString() ?? null);
+        return options;
+      },
+    }),
+  );
+  t.after(server.close);
+
+  const firstResponse = await fetchWithWorkerEnv(
+    server,
+    "/api/auth/session",
+    createWorkerEnv({
+      [MAELK_SESSION_HYPERDRIVE_BINDING]: undefined,
+    }),
+  );
+  assert.equal(firstResponse.status, 503);
+  assert.deepEqual(await firstResponse.json(), {
+    authConfigured: false,
+    authenticated: false,
+    missingConfiguration: [],
+    message: "Authentication is temporarily unavailable.",
+  });
+
+  const recoveredResponse = await fetchWithWorkerEnv(server, "/api/auth/session", createWorkerEnv());
+  assert.equal(recoveredResponse.status, 401);
+  assert.deepEqual(await recoveredResponse.json(), {
+    authConfigured: true,
+    authenticated: false,
+  });
+  assert.deepEqual(observedConnectionStrings, [null, HYPERDRIVE_CONNECTION_FIXTURE]);
+});
+
+test("request-scoped Worker auth observes later Hyperdrive binding changes", async (t) => {
+  const observedConnectionStrings = [];
+  const server = await startServer(
+    createApiApp({
+      auth: (request) => {
+        const options = createWorkerAuthRuntimeOptionsForRequestId(request.get(WORKER_AUTH_ENV_REQUEST_HEADER));
+        observedConnectionStrings.push(options.sessionDatabaseConnection?.getConnectionString() ?? null);
+        return options;
+      },
+    }),
+  );
+  t.after(server.close);
+
+  const firstResponse = await fetchWithWorkerEnv(server, "/api/auth/session", createWorkerEnv());
+  const changedResponse = await fetchWithWorkerEnv(
+    server,
+    "/api/auth/session",
+    createWorkerEnv({
+      [MAELK_SESSION_HYPERDRIVE_BINDING]: { connectionString: CHANGED_HYPERDRIVE_CONNECTION_FIXTURE },
+    }),
+  );
+
+  assert.equal(firstResponse.status, 401);
+  assert.equal(changedResponse.status, 401);
+  assert.deepEqual(observedConnectionStrings, [HYPERDRIVE_CONNECTION_FIXTURE, CHANGED_HYPERDRIVE_CONNECTION_FIXTURE]);
 });
 
 test("adapter and browser/API build outputs do not expose the fixture connection string", async () => {
