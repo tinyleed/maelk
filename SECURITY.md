@@ -4,14 +4,22 @@ Mælk is an early-stage public project for a Denmark-first, open-source, AI-nati
 
 ## Reporting a vulnerability
 
-If you believe you found a security issue, do not open a public issue with exploit details or secrets.
+Report suspected vulnerabilities through GitHub Private Vulnerability Reporting:
 
-Instead:
+<https://github.com/tinyleed/maelk/security/advisories/new>
 
-1. Open a minimal GitHub issue that says a private security report is needed, without sensitive details; or
-2. Contact the maintainers through the private channel Mads/ANANKE has approved for the project.
+Do not open a public issue, discussion, or pull request with exploit details, secrets, private data, or reproduction material.
 
-A maintainer will acknowledge the report, decide the private handling path, and coordinate any public disclosure after a fix is ready.
+Include, when available:
+
+- a concise description and potential impact;
+- the affected commit, version, route, package, or configuration;
+- safe reproduction steps or a minimal proof of concept;
+- whether credentials, tenant boundaries, sessions, accounting data, or live integrations may be affected;
+- suggested remediation or disclosure constraints;
+- a private contact path for follow-up.
+
+A maintainer will acknowledge the private report, coordinate validation and remediation, and decide when any public disclosure is safe.
 
 ## What not to include publicly
 

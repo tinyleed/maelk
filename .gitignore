@@ -14,3 +14,4 @@ build/
 !.claude/scratch/research/
 !.claude/scratch/tasks/
 !.claude/scratch/**/.gitkeep
+/.worktrees/
