@@ -27,7 +27,7 @@ If a proposed change touches a boundary, open an issue first and wait for mainta
 1. Open or find an issue before starting meaningful work.
 2. Keep the PR small enough to review in one sitting.
 3. Branch from `main` unless a maintainer asks otherwise.
-4. Follow `AGENTS.md`, `architecture/`, and `.claude/rules/` before inventing new conventions.
+4. Follow `AGENTS.md`, [`architecture/agent-loop-governance-v0.md`](architecture/agent-loop-governance-v0.md), and `.claude/rules/` before inventing new conventions.
 5. Make the smallest coherent change that satisfies the issue acceptance criteria.
 6. Run the harness before requesting review:
 
@@ -37,6 +37,10 @@ If a proposed change touches a boundary, open an issue first and wait for mainta
    ```
 
 7. Paste relevant verification output into the PR body.
+
+Maintainer- and agent-assigned tasks use an isolated worktree with one named writer. The task brief locks the exact base SHA, branch, absolute worktree, expected files, and side-effect boundaries. Do not edit another writer's worktree or prune one without explicit authorization and repository-state readback.
+
+For reviewed PRs, record Exact base SHA, Current PR head SHA, Themis reviewed SHA, and CI SHA. Technical acceptance requires the current PR head, reviewed head, and CI head to be identical. Any push, rebase, or amend invalidates prior exact-head review and requires fresh CI and review evidence.
 
 ## Human approval gates
 
@@ -50,6 +54,8 @@ Contributors and agents may draft, analyze, test, and prepare changes. Maintaine
 
 Do not attempt to bypass these gates in code, docs, automation, or PR process.
 
+Technical acceptance, merge approval, and release/deploy approval are separate decisions. ANANKE may record technical acceptance; Mads must explicitly approve merge; an authorized human must separately approve release/deploy. A green check or Themis Pass implies none of the later gates, and AI/agents do not grant them.
+
 The repository is public under its existing license, but the long-term full-OSS vs open-core product model remains undecided; do not make licensing or packaging commitments in drive-by contributions.
 
 ## PR expectations
@@ -62,6 +68,7 @@ A good PR includes:
 - verification output from the harness and any relevant tests;
 - screenshots, logs, or browser notes when the change affects user-facing behavior;
 - an explicit safety checklist for secrets, live integrations, hosting/deploy, production data, shop-floor scope, and merge/release boundaries.
+- mechanically fillable exact-base/current-head/reviewed-head/CI identity and the three approval-gate states.
 
 ## Local verification
 

@@ -37,10 +37,11 @@ ANANKE may edit repo files directly for small tasks, but substantial app work sh
 Role:
 
 - implements one scoped Mælk task at a time;
-- works in `/Users/tiny-agent-ai/Projects/maelk`;
+- works only in the absolute worktree assigned by the task brief;
 - follows repo `AGENTS.md`, architecture docs, and `.claude/rules`;
 - runs harness checks before claiming completion;
-- does not push, merge, deploy, mutate live services, or change profiles/config unless explicitly authorized.
+- is the single writer for that worktree while the task is active;
+- does not push, merge, release, deploy, mutate live services, or change profiles/config unless the applicable human gate explicitly authorizes it.
 
 ### `themis`
 
@@ -60,9 +61,52 @@ Role:
 4. maelk-builder runs harness
 5. ANANKE inspects diff/output
 6. Themis reviews if meaningful/risky
-7. ANANKE accepts, rejects, or sends back
-8. Accepted work is committed/pushed by ANANKE only
+7. ANANKE records technical acceptance, rejection, or sends back
+8. A separately authorized actor may commit/push; every new PR head requires fresh exact-head evidence
+9. Mads decides whether to approve merge
+10. Release/deploy requires its own human approval
 ```
+
+## Delivery contract and worktree lifecycle
+
+Every meaningful task brief locks the tracking issue, Exact base SHA, branch, absolute worktree path, and Single writer before editing starts. It also names expected files, observable behavior/invariants, checks, side-effect boundaries, and stop conditions. A mismatch in any locked identity is a block, not an invitation to repair state by assumption.
+
+The lifecycle is explicit:
+
+1. **Create:** an authorized controller creates the branch/worktree from the exact base and records both in the task brief.
+2. **Own:** exactly one writer owns the assigned worktree. Other agents and maintainers remain read-only there until handoff.
+3. **Freeze:** after implementation and checks, the writer stops editing and reports the current head, diff, status, and evidence. Review applies only to that frozen identity.
+4. **Prune:** cleanup happens only after merge/abandonment authorization and readback of registered worktrees and branch state. Never prune or delete from memory or assumption.
+
+Before cleanup, read back repository state from the repository and target worktree:
+
+```bash
+git worktree list --porcelain
+git -C <worktree> branch --show-current
+git -C <worktree> rev-parse HEAD
+git -C <worktree> status --short
+git branch --contains <head-sha>
+git merge-base --is-ancestor <head-sha> origin/main
+gh pr view <pr-number> --json state,mergedAt,headRefOid,mergeCommit
+```
+
+Confirm the exact target, owner, dirty state, branch retention need, and merge/abandonment decision before cleanup. An ancestry check can be false after a squash merge, so verify the actual PR state instead of assuming that a non-ancestor branch is unmerged. Do not delete or prune an active, unknown, dirty, or mismatched worktree. These are readback commands, not cleanup authorization.
+
+## Exact-head review identity
+
+Technical acceptance is valid only when **Current PR head SHA = Themis reviewed SHA = CI SHA**. Record the task, Exact base SHA, exact current head SHA, PR identity, CI run, CI SHA, UTC timestamp, and reviewer in the review evidence.
+
+Any push, rebase, or amend changes the PR head and invalidates prior exact-head CI and Themis review. Fresh CI and fresh Themis review are required for the new head; source-text similarity is not sufficient evidence.
+
+## Separate approval gates
+
+These gates are independent and must not be collapsed:
+
+1. **Technical acceptance:** ANANKE confirms scope, invariants, checks, and exact-head review evidence.
+2. **Merge approval:** Mads explicitly approves merging the identified current PR head.
+3. **Release/deploy approval:** a human explicitly approves the identified release or deployment action.
+
+A Themis Pass or technical acceptance does not authorize merge, release, or deploy. AI systems and agents never grant those human approvals.
 
 ## Definition of Done
 
@@ -77,7 +121,9 @@ A Mælk task is not done until all required items are true:
 - `./scripts/maelk-harness-check.sh` passes;
 - relevant tests/builds pass once the app has package scripts;
 - Themis verdict is Pass/Pass with caveats for meaningful implementation slices;
-- ANANKE has accepted the result.
+- current PR head SHA, Themis reviewed SHA, and CI SHA are identical when PR/CI evidence is required;
+- ANANKE has recorded technical acceptance;
+- merge approval and release/deploy approval remain separately recorded human gates and are not implied by Done.
 
 ## Action lanes
 
@@ -97,12 +143,13 @@ A Mælk task is not done until all required items are true:
 - introduce database schema/migrations;
 - change public landing page copy;
 - create branches/PRs;
-- push commits;
+- authorize or perform pushes outside the writer/push boundary locked by the task brief;
 - invoke external coding agents;
 - create or unblock Kanban tasks that will dispatch automatically.
 
 ### Red — Mads approval required
 
+- merge, release, deploy, and go-live;
 - profile/config changes;
 - credentials/API keys/auth;
 - DNS/hosting/payment changes;

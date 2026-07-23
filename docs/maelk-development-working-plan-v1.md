@@ -1,6 +1,6 @@
 # Mælk development working plan v1
 
-Status: proposed planning baseline; execution remains phase- and approval-gated
+Status: active planning baseline; execution remains phase- and approval-gated
 Created: 2026-07-22
 Baseline: `main` at `d3adb4089c52286cb73ff074bd11e42e83e8fdf4`
 Canonical product goal: [`architecture/maelk-erp-platform-goal-v1.md`](../architecture/maelk-erp-platform-goal-v1.md)

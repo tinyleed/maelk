@@ -95,11 +95,16 @@ ANANKE → task brief → maelk-builder → harness → Themis review → ANANKE
 ## Work style
 
 - Plan non-trivial changes before editing.
-- Keep changes small and verifiable.
+- Verify the task premise and the actual runtime/user path before changing anything; do not implement against an assumed path.
+- Use the smallest permanent-footprint ladder that can produce the required result: reuse an existing pattern, then adjust configuration/content, then add a local abstraction, and only then add a new convention or system.
+- Define one observable result for each slice and keep the change small enough to verify directly.
+- Do not create parallel conventions or broad rewrites when an existing pattern can satisfy the task.
+- Verify behavior and invariants, not merely the presence or absence of source text.
 - For architecture work, update the relevant `.claude/rules` file in the same change.
 - For user-facing behavior, run a real verification: test, lint/build, browser check, or explicit manual proof.
 - Do not declare completion without fresh verification output.
 - Do not edit secrets, credentials, payment details, or production data.
+- AI systems and agents may prepare and technically review work, but they do not approve merge, release, or deploy. Those remain separate human gates.
 
 ## Retired root static site
 
